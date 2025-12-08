@@ -7,8 +7,8 @@ module.exports = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   trailingSlash: false,
-  organizationName: 'zoyaafzal', // GitHub organization name
-  projectName: 'humanoid_robotics_book', // GitHub repository name
+  organizationName: 'ZoyaAfzal', // GitHub organization name
+  projectName: 'humanoid_robotic_book', // GitHub repository name
   presets: [
     [
       '@docusaurus/preset-classic',
