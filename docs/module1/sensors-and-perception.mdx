@@ -1,0 +1,62 @@
+---
+sidebar_label: 'Sensors and Perception'
+sidebar_position: 3
+---
+
+# Sensors and Perception in Humanoid Robots
+
+Humanoid robots rely on various sensors to perceive their environment and understand their own state. This perception system is fundamental to their ability to interact safely and effectively with the world around them.
+
+## Types of Sensors
+
+Humanoid robots employ multiple sensor types categorized into two main groups:
+
+### Proprioceptive Sensors
+These sensors measure the robot's internal state:
+
+- **Joint encoders**: Measure joint angles and positions
+- **Inertial Measurement Units (IMUs)**: Detect orientation, velocity, and gravitational forces
+- **Force/Torque sensors**: Measure forces applied to joints and limbs
+- **Current sensors**: Monitor motor current to estimate load
+
+### Exteroceptive Sensors
+These sensors perceive the external environment:
+
+- **Cameras**: Visual information for object recognition and navigation
+- **LIDAR**: Distance measurement for 3D mapping
+- **Tactile sensors**: Touch and pressure detection
+- **Microphones**: Audio input for speech recognition and environmental sounds
+
+## Sensor Fusion
+
+Sensor fusion combines data from multiple sensors to create a more accurate and reliable understanding of the environment. Techniques include:
+
+- **Kalman filters**: Optimal estimation combining noisy measurements
+- **Particle filters**: Probabilistic approach for non-linear systems
+- **Deep learning**: Neural networks processing multi-modal sensor data
+
+## Computer Vision
+
+Computer vision enables humanoid robots to interpret visual information:
+
+- **Object detection**: Identifying and locating objects in the environment
+- **Face recognition**: Identifying and tracking human faces
+- **Gesture recognition**: Understanding human gestures and movements
+- **SLAM (Simultaneous Localization and Mapping)**: Building maps while navigating
+
+## Auditory Processing
+
+Auditory systems allow robots to process sound information:
+
+- **Speech recognition**: Converting spoken language to text
+- **Sound localization**: Determining the direction of sound sources
+- **Noise filtering**: Isolating relevant audio from environmental noise
+- **Speaker identification**: Recognizing different speakers
+
+## Integration with Control Systems
+
+Sensor data must be processed in real-time to support robot control:
+
+- **Low-latency processing**: Critical for maintaining balance and safety
+- **Robust algorithms**: Handling sensor failures and noisy data
+- **Predictive modeling**: Anticipating environmental changes
