@@ -4,8 +4,8 @@
   <ShortName>Humanoid Robotics Book</ShortName>
   <Description>Search Humanoid Robotics Book</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://zoyaafzal.github.io/humanoid_robotic_book/img/favicon.ico</Image>
-  <Url type="text/html" method="get" template="https://zoyaafzal.github.io/humanoid_robotic_book/search?q={searchTerms}"/>
-  <Url type="application/opensearchdescription+xml" rel="self" template="https://zoyaafzal.github.io/humanoid_robotic_book/opensearch.xml" />
-  <moz:SearchForm>https://zoyaafzal.github.io/humanoid_robotic_book/</moz:SearchForm>
+  <Image width="16" height="16" type="image/x-icon">https://ZoyaAfzal.github.io/humanoid_robotic_book/img/favicon.ico</Image>
+  <Url type="text/html" method="get" template="https://ZoyaAfzal.github.io/humanoid_robotic_book/search?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://ZoyaAfzal.github.io/humanoid_robotic_book/opensearch.xml" />
+  <moz:SearchForm>https://ZoyaAfzal.github.io/humanoid_robotic_book/</moz:SearchForm>
 </OpenSearchDescription>
