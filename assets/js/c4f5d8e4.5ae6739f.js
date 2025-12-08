@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkrobotics_book=globalThis.webpackChunkrobotics_book||[]).push([[634],{192:(o,b,c)=>{c.r(b),c.d(b,{default:()=>s});c(6540);var i=c(4848);function s(){return(0,i.jsx)("h1",{children:"Welcome to Humanoid Robotics Book!"})}}}]);
