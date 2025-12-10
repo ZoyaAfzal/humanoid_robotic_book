@@ -1,0 +1,59 @@
+.context7Container {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border: 2px solid #4285f4;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+
+.context7Header {
+  margin-bottom: 1.5rem;
+}
+
+.context7Header h3 {
+  color: #1a73e8;
+  margin-bottom: 0.5rem;
+}
+
+.feedbackForm {
+  margin: 1.5rem 0;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.googleForm {
+  background: white;
+}
+
+.feedbackGuidance {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.feedbackGuidance h4 {
+  margin-bottom: 0.75rem;
+  color: #5f6368;
+}
+
+.feedbackGuidance ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.feedbackGuidance li {
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .context7Container {
+    padding: 1rem;
+  }
+
+  .googleForm {
+    height: 600px;
+  }
+}

@@ -1,0 +1,853 @@
+/**
+ * Custom CSS for Humanoid Robotics Book
+ * Implements ADR 005 - Full Theming Customization
+ */
+
+/* Enhanced color palette for the Humanoid Robotics theme */
+:root {
+  /* Primary colors */
+  --ifm-color-primary: #1a5fb4;
+  --ifm-color-primary-dark: #1754a1;
+  --ifm-color-primary-darker: #154e92;
+  --ifm-color-primary-darkest: #113f75;
+  --ifm-color-primary-light: #2a70c2;
+  --ifm-color-primary-lighter: #3a81d0;
+  --ifm-color-primary-lightest: #5a9ae4;
+
+  /* Secondary colors */
+  --ifm-color-secondary: #6c757d;
+  --ifm-color-secondary-dark: #5a6268;
+  --ifm-color-secondary-darker: #545b62;
+  --ifm-color-secondary-darkest: #3d4449;
+  --ifm-color-secondary-light: #868e96;
+  --ifm-color-secondary-lighter: #adb5bd;
+  --ifm-color-secondary-lightest: #e9ecef;
+
+  /* Success, warning, danger colors for better accessibility */
+  --ifm-color-success: #28a745;
+  --ifm-color-success-dark: #218838;
+  --ifm-color-warning: #ffc107;
+  --ifm-color-warning-dark: #e0a800;
+  --ifm-color-danger: #dc3545;
+  --ifm-color-danger-dark: #c82333;
+
+  /* Typography */
+  --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --ifm-font-size-base: 16px;
+  --ifm-line-height-base: 1.7;
+  --ifm-code-font-size: 95%;
+
+  /* Spacing */
+  --ifm-spacing-horizontal: 1.5rem;
+  --ifm-spacing-horizontal-page: 2rem;
+
+  /* Borders */
+  --ifm-border-radius: 8px;
+  --ifm-global-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --ifm-global-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+  /* Backgrounds */
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f8f9fa;
+
+  /* Code block colors */
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.07);
+  --ifm-code-background: #f6f7f8;
+  --ifm-code-color: #393a34;
+
+  /* Emphasis colors */
+  --ifm-color-emphasis-0: #000000;
+  --ifm-color-emphasis-100: rgba(0, 0, 0, 0.05);
+  --ifm-color-emphasis-200: rgba(0, 0, 0, 0.1);
+  --ifm-color-emphasis-300: rgba(0, 0, 0, 0.2);
+  --ifm-color-emphasis-400: rgba(0, 0, 0, 0.4);
+  --ifm-color-emphasis-500: rgba(0, 0, 0, 0.6);
+  --ifm-color-emphasis-600: rgba(0, 0, 0, 0.7);
+  --ifm-color-emphasis-700: rgba(0, 0, 0, 0.85);
+  --ifm-color-emphasis-800: rgba(0, 0, 0, 0.95);
+  --ifm-color-emphasis-900: #ffffff;
+  --ifm-color-emphasis-1000: #ffffff;
+}
+
+/* Enhanced dark theme colors */
+[data-theme='dark'] {
+  /* Primary colors */
+  --ifm-color-primary: #3a81d0;
+  --ifm-color-primary-dark: #2a70c2;
+  --ifm-color-primary-darker: #1a5fb4;
+  --ifm-color-primary-darkest: #154e92;
+  --ifm-color-primary-light: #5a9ae4;
+  --ifm-color-primary-lighter: #7ab8f0;
+  --ifm-color-primary-lightest: #a0d0f7;
+
+  /* Secondary colors */
+  --ifm-color-secondary: #6c757d;
+  --ifm-color-secondary-dark: #5a6268;
+  --ifm-color-secondary-darker: #545b62;
+  --ifm-color-secondary-darkest: #3d4449;
+  --ifm-color-secondary-light: #868e96;
+  --ifm-color-secondary-lighter: #adb5bd;
+  --ifm-color-secondary-lightest: #495057;
+
+  /* Success, warning, danger colors for dark mode */
+  --ifm-color-success: #20c997;
+  --ifm-color-success-dark: #1da57d;
+  --ifm-color-warning: #ffc107;
+  --ifm-color-warning-dark: #e0a800;
+  --ifm-color-danger: #e74c3c;
+  --ifm-color-danger-dark: #c0392b;
+
+  /* Backgrounds */
+  --ifm-background-color: #121212;
+  --ifm-background-surface-color: #1e1e1e;
+
+  /* Code block colors */
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
+  --ifm-code-background: #2d2d2d;
+  --ifm-code-color: #f8f8f2;
+
+  /* Emphasis colors */
+  --ifm-color-emphasis-0: #ffffff;
+  --ifm-color-emphasis-100: rgba(255, 255, 255, 0.05);
+  --ifm-color-emphasis-200: rgba(255, 255, 255, 0.1);
+  --ifm-color-emphasis-300: rgba(255, 255, 255, 0.2);
+  --ifm-color-emphasis-400: rgba(255, 255, 255, 0.4);
+  --ifm-color-emphasis-500: rgba(255, 255, 255, 0.6);
+  --ifm-color-emphasis-600: rgba(255, 255, 255, 0.7);
+  --ifm-color-emphasis-700: rgba(255, 255, 255, 0.85);
+  --ifm-color-emphasis-800: rgba(255, 255, 255, 0.95);
+  --ifm-color-emphasis-900: #000000;
+  --ifm-color-emphasis-1000: #000000;
+}
+
+/* Typography improvements */
+html {
+  font-family: var(--ifm-font-family-base);
+  font-size: var(--ifm-font-size-base);
+  line-height: var(--ifm-line-height-base);
+}
+
+/* Better font rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Enhanced header and navigation styling */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  padding: 0.75rem 0;
+}
+
+[data-theme='dark'] .navbar {
+  background-color: rgba(30, 30, 30, 0.95);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.navbar__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--ifm-spacing-horizontal-page);
+}
+
+/* Enhanced hero banner styling */
+.hero {
+  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-darker) 100%);
+  color: white;
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.3;
+}
+
+[data-theme='dark'] .hero {
+  background: linear-gradient(135deg, var(--ifm-color-primary-darker) 0%, var(--ifm-color-primary-darkest) 100%);
+}
+
+.hero__title {
+  color: white;
+  font-weight: 700;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.hero__subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .hero__title {
+    font-size: 2.5rem;
+  }
+
+  .hero__subtitle {
+    font-size: 1.25rem;
+  }
+}
+
+
+/* Enhanced card styling for documentation */
+.card {
+  border: none;
+  box-shadow: var(--ifm-global-shadow);
+  transition: all 0.3s ease;
+  border-radius: var(--ifm-border-radius);
+  overflow: hidden;
+  background-color: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.card:hover {
+  box-shadow: var(--ifm-global-shadow-hover);
+  transform: translateY(-2px);
+}
+
+[data-theme='dark'] .card {
+  background-color: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* Enhanced button styling */
+.button {
+  border-radius: var(--ifm-border-radius);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  line-height: 1.5;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-decoration: none;
+  color: inherit;
+}
+
+.button--primary {
+  background-color: var(--ifm-color-primary);
+  color: white;
+  border-color: var(--ifm-color-primary);
+}
+
+.button--primary:hover {
+  background-color: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
+  color: white;
+}
+
+.button--secondary {
+  background-color: var(--ifm-color-secondary);
+  color: white;
+  border-color: var(--ifm-color-secondary);
+}
+
+.button--secondary:hover {
+  background-color: var(--ifm-color-secondary-dark);
+  border-color: var(--ifm-color-secondary-dark);
+  color: white;
+}
+
+.button--success {
+  background-color: var(--ifm-color-success);
+  color: white;
+  border-color: var(--ifm-color-success);
+}
+
+.button--success:hover {
+  background-color: var(--ifm-color-success-dark);
+  color: white;
+}
+
+.button--danger {
+  background-color: var(--ifm-color-danger);
+  color: white;
+  border-color: var(--ifm-color-danger);
+}
+
+.button--danger:hover {
+  background-color: var(--ifm-color-danger-dark);
+  color: white;
+}
+
+/* Enhanced documentation content styling */
+.markdown {
+  font-size: 1.1rem;
+  line-height: var(--ifm-line-height-base);
+  color: var(--ifm-font-color-base);
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.markdown h1 {
+  font-size: 2.5rem;
+  border-bottom: 2px solid var(--ifm-color-primary-light);
+  padding-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+.markdown h2 {
+  font-size: 2rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  padding-bottom: 0.3rem;
+}
+
+.markdown h3 {
+  font-size: 1.5rem;
+}
+
+.markdown h4 {
+  font-size: 1.25rem;
+}
+
+.markdown h5 {
+  font-size: 1.1rem;
+}
+
+.markdown h6 {
+  font-size: 1rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+[data-theme='dark'] .markdown h6 {
+  color: var(--ifm-color-emphasis-300);
+}
+
+/* Enhanced code block styling */
+.codeBlockContainer_node_modules-\@docusaurus-theme-classic-lib-next-theme-CodeBlock-styles-module {
+  border-radius: var(--ifm-border-radius);
+  margin: 1.5rem 0;
+  box-shadow: var(--ifm-global-shadow);
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.prism-code {
+  background-color: var(--ifm-code-background) !important;
+  color: var(--ifm-code-color) !important;
+  font-size: 0.9rem;
+  padding: 1.25rem !important;
+  border-radius: var(--ifm-border-radius);
+}
+
+/* Enhanced sidebar improvements */
+.menu {
+  font-size: 0.9rem;
+}
+
+.menu__list-item {
+  margin-bottom: 0.25rem;
+}
+
+.menu__link {
+  border-radius: var(--ifm-border-radius);
+  padding: 0.5rem var(--ifm-menu-link-padding-horizontal);
+  margin: 0.125rem 0;
+  transition: all 0.2s ease;
+}
+
+.menu__link:hover {
+  background-color: var(--ifm-color-emphasis-100);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .menu__link:hover {
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+.menu__link--active {
+  background-color: var(--ifm-color-emphasis-200);
+  border-left: 3px solid var(--ifm-color-primary);
+  padding-left: calc(var(--ifm-menu-link-padding-horizontal) - 3px);
+  font-weight: 600;
+}
+
+[data-theme='dark'] .menu__link--active {
+  background-color: var(--ifm-color-emphasis-300);
+}
+
+/* Enhanced footer styling */
+.footer {
+  background-color: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  padding: 3rem 0 2rem;
+  margin-top: 4rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.footer__title {
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--ifm-font-color-base);
+}
+
+.footer__link-item {
+  color: var(--ifm-color-emphasis-700);
+  transition: color 0.2s ease;
+  display: block;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+}
+
+[data-theme='dark'] .footer__link-item {
+  color: var(--ifm-color-emphasis-300);
+}
+
+.footer__link-item:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+/* Enhanced accessibility improvements */
+/* Focus indicators for keyboard navigation - WCAG AA compliant */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+details:focus,
+summary:focus {
+  outline: 3px solid var(--ifm-color-primary-light) !important;
+  outline-offset: 2px !important;
+  border-radius: var(--ifm-border-radius);
+}
+
+/* Better focus styles for high contrast mode */
+@media (prefers-contrast: high) {
+  a:focus,
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: 4px solid var(--ifm-color-primary) !important;
+    outline-offset: 2px !important;
+  }
+}
+
+/* Better contrast for links */
+a {
+  text-decoration-thickness: 2px;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+a:hover {
+  text-decoration-thickness: 3px;
+}
+
+/* Enhanced responsive design improvements */
+@media (max-width: 996px) {
+  .hero {
+    padding: 3rem 0;
+  }
+
+  .navbar-sidebar__backdrop {
+    backdrop-filter: blur(5px);
+  }
+
+  .hero__title {
+    font-size: 2.25rem;
+  }
+
+  .hero__subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+/* Enhanced table styling with better accessibility */
+.markdown table {
+  display: table;
+  table-layout: auto;
+  width: 100%;
+  max-width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-border-radius);
+  overflow: hidden;
+  box-shadow: var(--ifm-global-shadow);
+}
+
+.markdown table th,
+.markdown table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  text-align: left;
+}
+
+.markdown table th {
+  background-color: var(--ifm-color-emphasis-100);
+  font-weight: 600;
+  vertical-align: bottom;
+}
+
+[data-theme='dark'] .markdown table th {
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+/* Enhanced blockquote styling */
+.markdown blockquote {
+  border-left: 4px solid var(--ifm-color-primary);
+  background-color: var(--ifm-color-emphasis-100);
+  padding: 1.25rem 1.5rem;
+  margin: 1.75rem 0;
+  border-radius: 0 var(--ifm-border-radius) var(--ifm-border-radius) 0;
+  font-style: italic;
+  position: relative;
+  overflow: hidden;
+}
+
+.markdown blockquote::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ifm-color-primary), transparent);
+}
+
+[data-theme='dark'] .markdown blockquote {
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+/* Enhanced admonitions with WCAG AA compliant colors */
+.admonition {
+  border-radius: var(--ifm-border-radius);
+  margin: 1.75rem 0;
+  padding: 1.25rem;
+  border-left: 4px solid;
+  box-shadow: var(--ifm-global-shadow);
+}
+
+.admonition--note {
+  border-left-color: var(--ifm-color-primary);
+  background-color: color-mix(in srgb, var(--ifm-color-primary), transparent 95%);
+}
+
+.admonition--tip {
+  border-left-color: var(--ifm-color-success);
+  background-color: color-mix(in srgb, var(--ifm-color-success), transparent 95%);
+}
+
+.admonition--caution {
+  border-left-color: var(--ifm-color-warning);
+  background-color: color-mix(in srgb, var(--ifm-color-warning), transparent 95%);
+}
+
+.admonition--danger {
+  border-left-color: var(--ifm-color-danger);
+  background-color: color-mix(in srgb, var(--ifm-color-danger), transparent 95%);
+}
+
+.admonition__icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
+.admonition__content {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Custom components styling */
+.context7-container {
+  background: linear-gradient(135deg, var(--ifm-color-emphasis-100) 0%, var(--ifm-color-emphasis-200) 100%);
+  padding: 2rem;
+  border-radius: var(--ifm-border-radius);
+  margin: 1.75rem 0;
+  border-left: 4px solid var(--ifm-color-primary);
+  box-shadow: var(--ifm-global-shadow);
+}
+
+[data-theme='dark'] .context7-container {
+  background: linear-gradient(135deg, var(--ifm-color-emphasis-300) 0%, var(--ifm-color-emphasis-400) 100%);
+}
+
+/* Enhanced search styling */
+.navbar__search-input {
+  border-radius: var(--ifm-border-radius);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  padding: 0.625rem 1rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  min-width: 200px;
+}
+
+.navbar__search-input:focus {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ifm-color-primary), transparent 80%);
+  outline: none;
+}
+
+/* Better mobile navigation */
+.navbar-sidebar {
+  background-color: var(--ifm-background-color);
+}
+
+[data-theme='dark'] .navbar-sidebar {
+  background-color: var(--ifm-background-color);
+}
+
+/* Enhanced pagination */
+.pagination-nav__link {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-border-radius);
+  transition: all 0.2s ease;
+  padding: 1.25rem;
+  display: block;
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--ifm-color-primary);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: var(--ifm-global-shadow-hover);
+}
+
+.pagination-nav__sublabel {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.pagination-nav__label {
+  font-weight: 600;
+  color: var(--ifm-font-color-base);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Enhanced image styling with lazy loading support */
+img {
+  loading: lazy;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--ifm-border-radius);
+  box-shadow: var(--ifm-global-shadow);
+  transition: opacity 0.3s ease;
+}
+
+img[loading="lazy"] {
+  opacity: 0;
+}
+
+img[loading="lazy"][data-loaded="true"] {
+  opacity: 1;
+}
+
+/* Specific styling for documentation images */
+.markdown img {
+  margin: 1.5rem 0;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* Loading animation for images */
+@keyframes imageLoading {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+img.loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: imageLoading 1.5s infinite;
+}
+
+/* Enhanced accessibility for screen readers */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Skip to content link for accessibility */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--ifm-color-primary);
+  color: white;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 0 0 var(--ifm-border-radius) var(--ifm-border-radius);
+  z-index: 1000;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.skip-to-content:focus {
+  top: 6px;
+}
+
+/* Enhanced contrast for WCAG AA compliance */
+.table-of-contents__link,
+.table-of-contents__link:hover,
+.table-of-contents__link--active,
+.table-of-contents__link--active:hover {
+  color: var(--ifm-color-emphasis-800);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--ifm-border-radius);
+  transition: all 0.2s ease;
+}
+
+.table-of-contents__link:hover {
+  background-color: var(--ifm-color-emphasis-100);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .table-of-contents__link,
+[data-theme='dark'] .table-of-contents__link:hover,
+[data-theme='dark'] .table-of-contents__link--active,
+[data-theme='dark'] .table-of-contents__link--active:hover {
+  color: var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] .table-of-contents__link:hover {
+  background-color: var(--ifm-color-emphasis-300);
+}
+
+/* Enhanced color contrast for better accessibility */
+.hero__title {
+  color: white;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero__subtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Better contrast for sidebar active links */
+.menu__link--active:not(.menu__link--sublist) {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+  background-color: color-mix(in srgb, var(--ifm-color-primary), transparent 90%);
+}
+
+/* Enhanced code copy button */
+.code-block-copy-button {
+  background: var(--ifm-color-emphasis-200) !important;
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  border-radius: var(--ifm-border-radius) !important;
+}
+
+.code-block-copy-button:hover {
+  background: var(--ifm-color-emphasis-300) !important;
+}
+
+/* Better contrast for inline code */
+.markdown :not(pre) > code {
+  background-color: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+
+[data-theme='dark'] .markdown :not(pre) > code {
+  background-color: var(--ifm-color-emphasis-200);
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+/* Enhanced list styling */
+.markdown ul,
+.markdown ol {
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.markdown li {
+  margin-bottom: 0.5rem;
+}
+
+.markdown li > p {
+  margin-bottom: 0.5rem;
+}
+
+/* Better contrast for horizontal rules */
+hr {
+  border: none;
+  height: 1px;
+  background: var(--ifm-color-emphasis-300);
+  margin: 2rem 0;
+}
+
+/* Enhanced dark mode specific adjustments */
+[data-theme='dark'] hr {
+  background: var(--ifm-color-emphasis-300);
+}
+
+/* Better focus management for interactive elements */
+details summary {
+  cursor: pointer;
+  user-select: none;
+}
+
+details summary:focus {
+  outline: 3px solid var(--ifm-color-primary-light) !important;
+  outline-offset: 2px !important;
+  border-radius: var(--ifm-border-radius);
+}
+
+/* Enhanced contrast for form elements */
+.form-control {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-border-radius);
+  padding: 0.5rem 0.75rem;
+}
+
+.form-control:focus {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ifm-color-primary), transparent 80%);
+  outline: none;
+}
