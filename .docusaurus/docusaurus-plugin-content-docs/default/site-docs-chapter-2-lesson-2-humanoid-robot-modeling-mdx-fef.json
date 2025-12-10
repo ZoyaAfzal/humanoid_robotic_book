@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter2/lesson2/humanoid-robot-modeling",
+  "id": "chapter2/lesson2/humanoid-robot-modeling",
+  "title": "humanoid-robot-modeling",
+  "description": "In this comprehensive lesson, you'll learn how to create accurate 3D models of humanoid robots using Unified Robot Description Format (URDF). Proper robot modeling is fundamental to simulation, control, and visualization in humanoid robotics.",
+  "source": "@site/docs/chapter2/lesson2/humanoid-robot-modeling.mdx",
+  "sourceDirName": "chapter2/lesson2",
+  "slug": "/chapter2/lesson2/humanoid-robot-modeling",
+  "permalink": "/docs/chapter2/lesson2/humanoid-robot-modeling",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "ros2-architecture",
+    "permalink": "/docs/chapter2/lesson1/ros2-architecture"
+  },
+  "next": {
+    "title": "bridging-ai-agents",
+    "permalink": "/docs/chapter2/lesson3/bridging-ai-agents"
+  }
+}

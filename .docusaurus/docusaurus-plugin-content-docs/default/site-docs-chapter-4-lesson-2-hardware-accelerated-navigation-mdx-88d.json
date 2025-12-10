@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter4/lesson2/hardware-accelerated-navigation",
+  "id": "chapter4/lesson2/hardware-accelerated-navigation",
+  "title": "hardware-accelerated-navigation",
+  "description": "In this comprehensive lesson, you'll explore NVIDIA Isaac ROS, a collection of hardware-accelerated perception and navigation packages designed specifically for robotics applications. Isaac ROS leverages NVIDIA's GPU computing capabilities to accelerate critical navigation tasks for humanoid robots, enabling real-time performance for complex algorithms.",
+  "source": "@site/docs/chapter4/lesson2/hardware-accelerated-navigation.mdx",
+  "sourceDirName": "chapter4/lesson2",
+  "slug": "/chapter4/lesson2/hardware-accelerated-navigation",
+  "permalink": "/docs/chapter4/lesson2/hardware-accelerated-navigation",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "isaac-sim-synthetic-data",
+    "permalink": "/docs/chapter4/lesson1/isaac-sim-synthetic-data"
+  },
+  "next": {
+    "title": "bipedal-path-planning",
+    "permalink": "/docs/chapter4/lesson3/bipedal-path-planning"
+  }
+}

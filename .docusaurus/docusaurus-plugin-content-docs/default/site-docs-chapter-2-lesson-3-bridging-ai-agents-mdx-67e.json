@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter2/lesson3/bridging-ai-agents",
+  "id": "chapter2/lesson3/bridging-ai-agents",
+  "title": "bridging-ai-agents",
+  "description": "In this comprehensive lesson, you'll explore how to integrate AI agents with ROS 2 using Python (rclpy), creating intelligent humanoid robots that can perceive, reason, and act in complex environments. This integration is fundamental to creating autonomous humanoid robots with advanced cognitive capabilities.",
+  "source": "@site/docs/chapter2/lesson3/bridging-ai-agents.mdx",
+  "sourceDirName": "chapter2/lesson3",
+  "slug": "/chapter2/lesson3/bridging-ai-agents",
+  "permalink": "/docs/chapter2/lesson3/bridging-ai-agents",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "humanoid-robot-modeling",
+    "permalink": "/docs/chapter2/lesson2/humanoid-robot-modeling"
+  },
+  "next": {
+    "title": "gazebo-environment-setup",
+    "permalink": "/docs/chapter3/lesson1/gazebo-environment-setup"
+  }
+}

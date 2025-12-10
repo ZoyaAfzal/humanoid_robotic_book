@@ -1,0 +1,18 @@
+{
+  "unversionedId": "module1/kinematics-and-dynamics",
+  "id": "module1/kinematics-and-dynamics",
+  "title": "Kinematics and Dynamics of Humanoid Robots",
+  "description": "Understanding the kinematics and dynamics of humanoid robots is crucial for their control and movement. This section covers the mathematical foundations that describe how these robots move through space.",
+  "source": "@site/docs/module1/kinematics-and-dynamics.mdx",
+  "sourceDirName": "module1",
+  "slug": "/module1/kinematics-and-dynamics",
+  "permalink": "/docs/module1/kinematics-and-dynamics",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_label": "Kinematics and Dynamics",
+    "sidebar_position": 2
+  }
+}

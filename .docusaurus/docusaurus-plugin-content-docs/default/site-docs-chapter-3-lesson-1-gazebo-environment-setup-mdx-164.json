@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter3/lesson1/gazebo-environment-setup",
+  "id": "chapter3/lesson1/gazebo-environment-setup",
+  "title": "gazebo-environment-setup",
+  "description": "In this comprehensive lesson, you'll learn how to set up and configure Gazebo, the premier 3D robotics simulation environment. Gazebo provides realistic physics simulation, high-quality graphics, and sensor simulation capabilities essential for humanoid robot development and testing.",
+  "source": "@site/docs/chapter3/lesson1/gazebo-environment-setup.mdx",
+  "sourceDirName": "chapter3/lesson1",
+  "slug": "/chapter3/lesson1/gazebo-environment-setup",
+  "permalink": "/docs/chapter3/lesson1/gazebo-environment-setup",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "bridging-ai-agents",
+    "permalink": "/docs/chapter2/lesson3/bridging-ai-agents"
+  },
+  "next": {
+    "title": "simulating-physics-collisions",
+    "permalink": "/docs/chapter3/lesson2/simulating-physics-collisions"
+  }
+}

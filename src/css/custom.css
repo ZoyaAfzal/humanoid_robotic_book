@@ -154,14 +154,14 @@ body {
   padding: 0 var(--ifm-spacing-horizontal-page);
 }
 
-/* Enhanced hero banner styling */
+/* Enhanced hero banner styling - compact version */
 .hero {
   background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-darker) 100%);
   color: white;
-  padding: 5rem 0;
+  padding: 3rem 0; /* Reduced padding for compact layout */
   position: relative;
   overflow: hidden;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem; /* Reduced margin */
 }
 
 .hero::before {
@@ -182,14 +182,14 @@ body {
 .hero__title {
   color: white;
   font-weight: 700;
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
+  font-size: 2.5rem; /* Reduced font size for compact layout */
+  margin-bottom: 0.5rem; /* Reduced margin */
   text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .hero__subtitle {
   color: rgba(255, 255, 255, 0.9);
-  font-size: 1.5rem;
+  font-size: 1.2rem; /* Reduced font size */
   font-weight: 400;
 }
 
@@ -204,7 +204,7 @@ body {
 }
 
 
-/* Enhanced card styling for documentation */
+/* Enhanced card styling for documentation - compact version */
 .card {
   border: none;
   box-shadow: var(--ifm-global-shadow);
@@ -213,16 +213,30 @@ body {
   overflow: hidden;
   background-color: var(--ifm-background-surface-color);
   border: 1px solid var(--ifm-color-emphasis-200);
+  margin-bottom: 1rem; /* Reduced margin for compact layout */
 }
 
 .card:hover {
   box-shadow: var(--ifm-global-shadow-hover);
-  transform: translateY(-2px);
+  transform: translateY(-1px); /* Reduced transform for compact feel */
 }
 
 [data-theme='dark'] .card {
   background-color: var(--ifm-background-surface-color);
   border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* Compact card content */
+.card__header {
+  padding: 0.75rem 1rem;
+}
+
+.card__body {
+  padding: 0.75rem 1rem;
+}
+
+.card__footer {
+  padding: 0.5rem 1rem;
 }
 
 /* Enhanced button styling */
@@ -311,38 +325,38 @@ body {
 .markdown h5,
 .markdown h6 {
   font-weight: 600;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-top: 1.5rem; /* Reduced margin for compact layout */
+  margin-bottom: 0.75rem; /* Reduced margin for compact layout */
   line-height: 1.3;
 }
 
 .markdown h1 {
-  font-size: 2.5rem;
+  font-size: 2rem; /* Reduced size for compact layout */
   border-bottom: 2px solid var(--ifm-color-primary-light);
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.3rem; /* Reduced padding */
   margin-top: 0;
 }
 
 .markdown h2 {
-  font-size: 2rem;
+  font-size: 1.75rem; /* Reduced size for compact layout */
   border-bottom: 1px solid var(--ifm-color-emphasis-300);
-  padding-bottom: 0.3rem;
+  padding-bottom: 0.2rem; /* Reduced padding */
 }
 
 .markdown h3 {
-  font-size: 1.5rem;
+  font-size: 1.35rem; /* Reduced size for compact layout */
 }
 
 .markdown h4 {
-  font-size: 1.25rem;
+  font-size: 1.15rem; /* Reduced size for compact layout */
 }
 
 .markdown h5 {
-  font-size: 1.1rem;
+  font-size: 1.05rem; /* Reduced size for compact layout */
 }
 
 .markdown h6 {
-  font-size: 1rem;
+  font-size: 0.95rem; /* Reduced size for compact layout */
   color: var(--ifm-color-emphasis-700);
 }
 
@@ -350,10 +364,10 @@ body {
   color: var(--ifm-color-emphasis-300);
 }
 
-/* Enhanced code block styling */
+/* Enhanced code block styling - compact version */
 .codeBlockContainer_node_modules-\@docusaurus-theme-classic-lib-next-theme-CodeBlock-styles-module {
   border-radius: var(--ifm-border-radius);
-  margin: 1.5rem 0;
+  margin: 1rem 0; /* Reduced margin for compact layout */
   box-shadow: var(--ifm-global-shadow);
   border: 1px solid var(--ifm-color-emphasis-200);
 }
@@ -361,8 +375,8 @@ body {
 .prism-code {
   background-color: var(--ifm-code-background) !important;
   color: var(--ifm-code-color) !important;
-  font-size: 0.9rem;
-  padding: 1.25rem !important;
+  font-size: 0.85rem; /* Slightly smaller font for compact layout */
+  padding: 0.75rem !important; /* Reduced padding for compact layout */
   border-radius: var(--ifm-border-radius);
 }
 
@@ -521,12 +535,12 @@ a:hover {
   background-color: var(--ifm-color-emphasis-200);
 }
 
-/* Enhanced blockquote styling */
+/* Enhanced blockquote styling - compact version */
 .markdown blockquote {
   border-left: 4px solid var(--ifm-color-primary);
   background-color: var(--ifm-color-emphasis-100);
-  padding: 1.25rem 1.5rem;
-  margin: 1.75rem 0;
+  padding: 0.75rem 1rem; /* Reduced padding for compact layout */
+  margin: 1.25rem 0; /* Reduced margin for compact layout */
   border-radius: 0 var(--ifm-border-radius) var(--ifm-border-radius) 0;
   font-style: italic;
   position: relative;
@@ -547,11 +561,11 @@ a:hover {
   background-color: var(--ifm-color-emphasis-200);
 }
 
-/* Enhanced admonitions with WCAG AA compliant colors */
+/* Enhanced admonitions with WCAG AA compliant colors - compact version */
 .admonition {
   border-radius: var(--ifm-border-radius);
-  margin: 1.75rem 0;
-  padding: 1.25rem;
+  margin: 1.25rem 0; /* Reduced margin for compact layout */
+  padding: 0.75rem; /* Reduced padding for compact layout */
   border-left: 4px solid;
   box-shadow: var(--ifm-global-shadow);
 }
@@ -799,19 +813,19 @@ img.loading {
   border: 1px solid var(--ifm-color-emphasis-300);
 }
 
-/* Enhanced list styling */
+/* Enhanced list styling - compact version */
 .markdown ul,
 .markdown ol {
-  margin: 1.5rem 0;
-  padding-left: 1.5rem;
+  margin: 1rem 0; /* Reduced margin for compact layout */
+  padding-left: 1.25rem; /* Slightly reduced padding */
 }
 
 .markdown li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem; /* Reduced margin for compact layout */
 }
 
 .markdown li > p {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem; /* Reduced margin for compact layout */
 }
 
 /* Better contrast for horizontal rules */

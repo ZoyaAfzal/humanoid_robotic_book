@@ -1,15 +1,10 @@
 module.exports = {
   title: 'Humanoid Robotics Book',
   tagline: 'Learn Humanoid Robotics Step by Step',
-  url: 'https://ZoyaAfzal.github.io', // Base URL for GitHub Pages deployment
-  baseUrl: '/humanoid_robotic_book/', // Repository name for GitHub Pages
+  url: 'http://localhost:3000', // Base URL for local development
+  baseUrl: '/', // Root base URL for local development
   onBrokenLinks: 'warn',
-  //onBrokenMarkdownLinks: 'warn',
-  markdown: {
-    hooks: {
-      onBrokenMarkdownLinks: 'warn',
-    },
-  },
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   trailingSlash: false,
   organizationName: 'ZoyaAfzal', // GitHub organization name

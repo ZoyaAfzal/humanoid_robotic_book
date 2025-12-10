@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter2/lesson1/ros2-architecture",
+  "id": "chapter2/lesson1/ros2-architecture",
+  "title": "ros2-architecture",
+  "description": "In this comprehensive lesson, you'll dive deep into the Robot Operating System 2 (ROS 2) architecture, which forms the nervous system of humanoid robots. ROS 2 provides the middleware framework that enables different components of your robot to communicate effectively.",
+  "source": "@site/docs/chapter2/lesson1/ros2-architecture.mdx",
+  "sourceDirName": "chapter2/lesson1",
+  "slug": "/chapter2/lesson1/ros2-architecture",
+  "permalink": "/docs/chapter2/lesson1/ros2-architecture",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "development-environment-setup",
+    "permalink": "/docs/chapter1/lesson3/development-environment-setup"
+  },
+  "next": {
+    "title": "humanoid-robot-modeling",
+    "permalink": "/docs/chapter2/lesson2/humanoid-robot-modeling"
+  }
+}

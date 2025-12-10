@@ -1,0 +1,23 @@
+{
+  "unversionedId": "adr/adr-004",
+  "id": "adr/adr-004",
+  "title": "ADR 004: Context 7 Feedback Integration",
+  "description": "Status",
+  "source": "@site/docs/adr/adr-004.md",
+  "sourceDirName": "adr",
+  "slug": "/adr/adr-004",
+  "permalink": "/docs/adr/adr-004",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_label": "ADR 004: Context 7 Feedback Integration",
+    "sidebar_position": 4
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "capstone-project-execution",
+    "permalink": "/docs/chapter5/lesson3/capstone-project-execution"
+  }
+}

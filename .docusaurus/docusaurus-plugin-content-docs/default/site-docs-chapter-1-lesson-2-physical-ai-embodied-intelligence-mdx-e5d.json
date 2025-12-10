@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter1/lesson2/physical-ai-embodied-intelligence",
+  "id": "chapter1/lesson2/physical-ai-embodied-intelligence",
+  "title": "physical-ai-embodied-intelligence",
+  "description": "In this lesson, you'll explore the fundamental concepts of Physical AI and Embodied Intelligence, which are crucial for creating intelligent humanoid robots that can interact with the physical world effectively.",
+  "source": "@site/docs/chapter1/lesson2/physical-ai-embodied-intelligence.mdx",
+  "sourceDirName": "chapter1/lesson2",
+  "slug": "/chapter1/lesson2/physical-ai-embodied-intelligence",
+  "permalink": "/docs/chapter1/lesson2/physical-ai-embodied-intelligence",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "spec-kit-plus-workflow",
+    "permalink": "/docs/chapter1/lesson1/spec-kit-plus-workflow"
+  },
+  "next": {
+    "title": "development-environment-setup",
+    "permalink": "/docs/chapter1/lesson3/development-environment-setup"
+  }
+}

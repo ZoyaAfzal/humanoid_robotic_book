@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter5/lesson3/capstone-project-execution",
+  "id": "chapter5/lesson3/capstone-project-execution",
+  "title": "capstone-project-execution",
+  "description": "In this comprehensive capstone lesson, you'll integrate all the concepts learned throughout the course to execute a complete humanoid robotics project. This lesson brings together perception, planning, control, AI integration, and system orchestration to create a functional, intelligent humanoid robot system.",
+  "source": "@site/docs/chapter5/lesson3/capstone-project-execution.mdx",
+  "sourceDirName": "chapter5/lesson3",
+  "slug": "/chapter5/lesson3/capstone-project-execution",
+  "permalink": "/docs/chapter5/lesson3/capstone-project-execution",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "cognitive-planning",
+    "permalink": "/docs/chapter5/lesson2/cognitive-planning"
+  },
+  "next": {
+    "title": "ADR 004: Context 7 Feedback Integration",
+    "permalink": "/docs/adr/adr-004"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter5/lesson2/cognitive-planning",
+  "id": "chapter5/lesson2/cognitive-planning",
+  "title": "cognitive-planning",
+  "description": "In this comprehensive lesson, you'll explore cognitive planning systems that leverage Large Language Models (LLMs) to generate complex action sequences for humanoid robots. Cognitive planning bridges high-level human instructions with low-level robot actions through intelligent reasoning and planning capabilities.",
+  "source": "@site/docs/chapter5/lesson2/cognitive-planning.mdx",
+  "sourceDirName": "chapter5/lesson2",
+  "slug": "/chapter5/lesson2/cognitive-planning",
+  "permalink": "/docs/chapter5/lesson2/cognitive-planning",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "voice-to-action",
+    "permalink": "/docs/chapter5/lesson1/voice-to-action"
+  },
+  "next": {
+    "title": "capstone-project-execution",
+    "permalink": "/docs/chapter5/lesson3/capstone-project-execution"
+  }
+}

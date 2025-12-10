@@ -1,0 +1,14 @@
+{
+  "unversionedId": "COMPLETION_SUMMARY",
+  "id": "COMPLETION_SUMMARY",
+  "title": "Humanoid Robotics Book - Project Completion Summary",
+  "description": "Overview",
+  "source": "@site/docs/COMPLETION_SUMMARY.md",
+  "sourceDirName": ".",
+  "slug": "/COMPLETION_SUMMARY",
+  "permalink": "/docs/COMPLETION_SUMMARY",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

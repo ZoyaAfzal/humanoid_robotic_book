@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter3/lesson2/simulating-physics-collisions",
+  "id": "chapter3/lesson2/simulating-physics-collisions",
+  "title": "simulating-physics-collisions",
+  "description": "In this comprehensive lesson, you'll explore the physics simulation and collision detection systems that are crucial for realistic humanoid robot behavior in Gazebo. Understanding physics and collisions is essential for creating stable, responsive, and safe humanoid robots that can interact properly with their environment.",
+  "source": "@site/docs/chapter3/lesson2/simulating-physics-collisions.mdx",
+  "sourceDirName": "chapter3/lesson2",
+  "slug": "/chapter3/lesson2/simulating-physics-collisions",
+  "permalink": "/docs/chapter3/lesson2/simulating-physics-collisions",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "gazebo-environment-setup",
+    "permalink": "/docs/chapter3/lesson1/gazebo-environment-setup"
+  },
+  "next": {
+    "title": "sensor-simulation",
+    "permalink": "/docs/chapter3/lesson3/sensor-simulation"
+  }
+}

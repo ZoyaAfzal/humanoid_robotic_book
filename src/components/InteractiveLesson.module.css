@@ -1,0 +1,28 @@
+.interactiveLessonContainer {
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.lessonHeader {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.lessonHeader h1 {
+  margin: 0 0 0.25rem 0;
+  color: #1a73e8;
+  font-size: 1.25rem;
+}
+
+.lessonMeta {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.lessonContent {
+  margin-top: 0.5rem;
+}

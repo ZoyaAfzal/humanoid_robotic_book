@@ -1,0 +1,155 @@
+{
+  "/__docusaurus/debug-b36": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---docusaurus-debug-6-e-2-65c"
+    }
+  },
+  "/__docusaurus/debug/config-4f6": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---docusaurus-debug-6-e-2-65c"
+    }
+  },
+  "/__docusaurus/debug/content-6e3": {
+    "__comp": "__comp---theme-debug-contentba-8-ce7",
+    "__context": {
+      "plugin": "plugin---docusaurus-debug-6-e-2-65c"
+    },
+    "allContent": "allContent---docusaurus-debug-content-246-9aa"
+  },
+  "/__docusaurus/debug/globalData-558": {
+    "__comp": "__comp---theme-debug-global-dataede-0fa",
+    "__context": {
+      "plugin": "plugin---docusaurus-debug-6-e-2-65c"
+    }
+  },
+  "/__docusaurus/debug/metadata-4bd": {
+    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
+    "__context": {
+      "plugin": "plugin---docusaurus-debug-6-e-2-65c"
+    }
+  },
+  "/__docusaurus/debug/registry-75a": {
+    "__comp": "__comp---theme-debug-registry-679-501",
+    "__context": {
+      "plugin": "plugin---docusaurus-debug-6-e-2-65c"
+    }
+  },
+  "/__docusaurus/debug/routes-64a": {
+    "__comp": "__comp---theme-debug-routes-946-699",
+    "__context": {
+      "plugin": "plugin---docusaurus-debug-6-e-2-65c"
+    }
+  },
+  "/docs-f17": {
+    "__comp": "__comp---theme-doc-page-1-be-9be",
+    "__context": {
+      "plugin": "plugin---docs-3-b-5-a09"
+    },
+    "versionMetadata": "versionMetadata---docs-935-398"
+  },
+  "/docs/adr/adr-004-4fb": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-adr-adr-0045-d-0-5f0"
+  },
+  "/docs/chapter1/lesson1/spec-kit-plus-workflow-a8b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-1-lesson-1-spec-kit-plus-workflow-061-73a"
+  },
+  "/docs/chapter1/lesson2/physical-ai-embodied-intelligence-e1e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-1-lesson-2-physical-ai-embodied-intelligencee-5-d-b1f"
+  },
+  "/docs/chapter1/lesson3/development-environment-setup-7a0": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-1-lesson-3-development-environment-setup-9-e-0-b82"
+  },
+  "/docs/chapter2/lesson1/ros2-architecture-cc7": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-2-lesson-1-ros-2-architecture-59-b-a6b"
+  },
+  "/docs/chapter2/lesson2/humanoid-robot-modeling-878": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-2-lesson-2-humanoid-robot-modelingfef-38b"
+  },
+  "/docs/chapter2/lesson3/bridging-ai-agents-a74": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-2-lesson-3-bridging-ai-agents-67-e-94c"
+  },
+  "/docs/chapter3/lesson1/gazebo-environment-setup-37c": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-3-lesson-1-gazebo-environment-setup-164-40f"
+  },
+  "/docs/chapter3/lesson2/simulating-physics-collisions-e51": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-3-lesson-2-simulating-physics-collisions-818-a16"
+  },
+  "/docs/chapter3/lesson3/sensor-simulation-d6d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-3-lesson-3-sensor-simulation-66-e-74f"
+  },
+  "/docs/chapter4/lesson1/isaac-sim-synthetic-data-188": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-4-lesson-1-isaac-sim-synthetic-data-386-bf3"
+  },
+  "/docs/chapter4/lesson2/hardware-accelerated-navigation-9d0": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-4-lesson-2-hardware-accelerated-navigation-88-d-067"
+  },
+  "/docs/chapter4/lesson3/bipedal-path-planning-d42": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-4-lesson-3-bipedal-path-planning-286-308"
+  },
+  "/docs/chapter5/lesson1/voice-to-action-25c": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-5-lesson-1-voice-to-action-088-583"
+  },
+  "/docs/chapter5/lesson2/cognitive-planning-ecc": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-5-lesson-2-cognitive-planning-634-3d6"
+  },
+  "/docs/chapter5/lesson3/capstone-project-execution-353": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-5-lesson-3-capstone-project-execution-3-d-0-47c"
+  },
+  "/docs/COMPLETION_SUMMARY-f27": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-completion-summar-yf-5-e-2d8"
+  },
+  "/docs/COURSE_COMPLETION_CERTIFICATE-69f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-course-completion-certificat-ee-2-e-22d"
+  },
+  "/docs/intro-0c0": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-intro-0-e-3-be1"
+  },
+  "/docs/module1/introduction-to-humanoid-robotics-076": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-module-1-introduction-to-humanoid-robotics-91-a-6d6"
+  },
+  "/docs/module1/kinematics-and-dynamics-f11": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-module-1-kinematics-and-dynamicsf-5-e-90a"
+  },
+  "/docs/module1/sensors-and-perception-709": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-module-1-sensors-and-perception-75-b-037"
+  },
+  "/docs/module1/summary-386": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-module-1-summary-51-a-0df"
+  },
+  "/docs/test-route-87d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-test-route-30-f-cab"
+  },
+  "/-754": {
+    "__comp": "__comp---site-src-pages-index-jsc-4-f-f99",
+    "__context": {
+      "plugin": "plugin---4-ae-d60"
+    },
+    "config": "config---5-e-9-4f3"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "unversionedId": "module1/sensors-and-perception",
+  "id": "module1/sensors-and-perception",
+  "title": "Sensors and Perception in Humanoid Robots",
+  "description": "Humanoid robots rely on various sensors to perceive their environment and understand their own state. This perception system is fundamental to their ability to interact safely and effectively with the world around them.",
+  "source": "@site/docs/module1/sensors-and-perception.mdx",
+  "sourceDirName": "module1",
+  "slug": "/module1/sensors-and-perception",
+  "permalink": "/docs/module1/sensors-and-perception",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_label": "Sensors and Perception",
+    "sidebar_position": 3
+  }
+}

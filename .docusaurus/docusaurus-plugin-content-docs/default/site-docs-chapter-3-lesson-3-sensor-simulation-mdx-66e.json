@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter3/lesson3/sensor-simulation",
+  "id": "chapter3/lesson3/sensor-simulation",
+  "title": "sensor-simulation",
+  "description": "In this comprehensive lesson, you'll explore how to simulate various sensors in Gazebo for humanoid robots, focusing on LiDAR, IMU, cameras, and other essential sensors. Accurate sensor simulation is crucial for developing robust perception and control systems that can transfer from simulation to real robots.",
+  "source": "@site/docs/chapter3/lesson3/sensor-simulation.mdx",
+  "sourceDirName": "chapter3/lesson3",
+  "slug": "/chapter3/lesson3/sensor-simulation",
+  "permalink": "/docs/chapter3/lesson3/sensor-simulation",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "simulating-physics-collisions",
+    "permalink": "/docs/chapter3/lesson2/simulating-physics-collisions"
+  },
+  "next": {
+    "title": "isaac-sim-synthetic-data",
+    "permalink": "/docs/chapter4/lesson1/isaac-sim-synthetic-data"
+  }
+}

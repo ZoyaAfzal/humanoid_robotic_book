@@ -1,0 +1,18 @@
+{
+  "unversionedId": "module1/introduction-to-humanoid-robotics",
+  "id": "module1/introduction-to-humanoid-robotics",
+  "title": "Introduction to Humanoid Robotics",
+  "description": "Humanoid robotics is a fascinating field that combines mechanical engineering, electronics, computer science, and artificial intelligence to create robots that resemble and mimic human behavior. These robots are designed with human-like characteristics, including a torso, head, two arms, and two legs.",
+  "source": "@site/docs/module1/introduction-to-humanoid-robotics.mdx",
+  "sourceDirName": "module1",
+  "slug": "/module1/introduction-to-humanoid-robotics",
+  "permalink": "/docs/module1/introduction-to-humanoid-robotics",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_label": "Introduction to Humanoid Robotics",
+    "sidebar_position": 1
+  }
+}

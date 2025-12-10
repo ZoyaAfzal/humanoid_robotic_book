@@ -1,0 +1,14 @@
+{
+  "unversionedId": "COURSE_COMPLETION_CERTIFICATE",
+  "id": "COURSE_COMPLETION_CERTIFICATE",
+  "title": "🏆 HUMANOID ROBOTICS TEXTBOOK COMPLETION CERTIFICATE",
+  "description": "Course: Complete Interactive Textbook for Humanoid Robot Development",
+  "source": "@site/docs/COURSE_COMPLETION_CERTIFICATE.md",
+  "sourceDirName": ".",
+  "slug": "/COURSE_COMPLETION_CERTIFICATE",
+  "permalink": "/docs/COURSE_COMPLETION_CERTIFICATE",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

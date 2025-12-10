@@ -1,5 +1,4 @@
 node_modules/
-_temp_backup_docusaurus_init/
 build/
 .DS_Store
 .env
