@@ -1,0 +1,42 @@
+---
+sidebar_label: 'Kinematics and Dynamics'
+sidebar_position: 2
+---
+
+# Kinematics and Dynamics of Humanoid Robots
+
+Understanding the kinematics and dynamics of humanoid robots is crucial for their control and movement. This section covers the mathematical foundations that describe how these robots move through space.
+
+## Kinematics
+
+Kinematics is the study of motion without considering the forces that cause it. In humanoid robotics, we focus on two main types:
+
+### Forward Kinematics
+Forward kinematics calculates the position and orientation of the robot's end-effector (such as a hand) based on the joint angles. This is essential for determining where the robot's limbs are in space.
+
+### Inverse Kinematics
+Inverse kinematics solves the opposite problem: given a desired position and orientation of the end-effector, it calculates the required joint angles. This is critical for motion planning and task execution.
+
+## Dynamics
+
+Dynamics considers the forces and torques that cause motion. For humanoid robots, this includes:
+
+- **Centrifugal and Coriolis forces**: Due to the robot's motion
+- **Gravitational forces**: Always acting on the robot's mass
+- **External forces**: From interactions with the environment
+
+## Balance and Stability
+
+Maintaining balance is one of the most challenging aspects of humanoid robotics. Key concepts include:
+
+- **Center of Mass (CoM)**: The average location of the robot's mass
+- **Zero Moment Point (ZMP)**: A point where the sum of all moments caused by ground reaction forces equals zero
+- **Capture Point**: A location where the robot can step to stop its motion
+
+## Control Strategies
+
+Various control strategies are used to manage the complex dynamics of humanoid robots:
+
+- **PID Control**: Proportional-Integral-Derivative control for joint position
+- **Model Predictive Control**: Advanced control that predicts future states
+- **Whole-Body Control**: Simultaneous control of multiple tasks

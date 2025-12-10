@@ -1,0 +1,662 @@
+---
+sidebar_position: 1
+---
+
+import InteractiveLesson from '@site/src/components/InteractiveLesson';
+
+<InteractiveLesson title="Isaac Sim & Synthetic Data" chapter={4} lesson={1}>
+
+# Isaac Sim & Synthetic Data
+
+In this comprehensive lesson, you'll explore NVIDIA Isaac Sim, a powerful robotics simulation platform built on NVIDIA Omniverse. Isaac Sim provides photorealistic rendering, advanced physics simulation, and synthetic data generation capabilities essential for training AI models for humanoid robots.
+
+## Introduction to NVIDIA Isaac Sim
+
+NVIDIA Isaac Sim is a comprehensive robotics simulation environment that provides:
+
+- **Photorealistic Rendering**: RTX-powered rendering for realistic sensor simulation
+- **Advanced Physics**: PhysX engine for accurate collision and contact simulation
+- **Synthetic Data Generation**: Tools for creating labeled training data for AI models
+- **ROS/ROS 2 Integration**: Seamless integration with ROS and ROS 2 ecosystems
+- **AI Training Environment**: Framework for reinforcement learning and computer vision training
+
+### Key Features of Isaac Sim
+
+1. **High-Fidelity Graphics**: NVIDIA RTX technology for photorealistic rendering
+2. **Realistic Physics**: NVIDIA PhysX for accurate dynamics simulation
+3. **Sensor Simulation**: Advanced camera, LiDAR, IMU, and other sensor models
+4. **Domain Randomization**: Tools for generating diverse training data
+5. **Reinforcement Learning**: Integration with RL training frameworks
+6. **Digital Twin Creation**: Accurate replicas of real robots and environments
+
+## Installing and Setting Up Isaac Sim
+
+### System Requirements
+
+Before installing Isaac Sim, ensure your system meets these requirements:
+
+- **GPU**: NVIDIA RTX 2080 Ti or better (RTX 3080/4080+ recommended)
+- **VRAM**: 11GB+ (24GB+ recommended for complex scenes)
+- **CPU**: Multi-core processor (Intel i7 or AMD Ryzen 7+)
+- **RAM**: 32GB+ (64GB recommended for large scenes)
+- **OS**: Ubuntu 20.04/22.04 LTS or Windows 10/11
+- **CUDA**: CUDA 11.8+ with compatible drivers
+
+### Installation Process
+
+Isaac Sim can be installed in several ways:
+
+#### Method 1: Omniverse Launcher (Recommended)
+
+```bash
+# Download and install Omniverse Launcher from NVIDIA Developer website
+# Launch Isaac Sim through the Omniverse Launcher
+# The launcher handles all dependencies automatically
+```
+
+#### Method 2: Docker Installation
+
+```bash
+# Pull the Isaac Sim Docker image
+docker pull nvcr.io/nvidia/isaac-sim:latest
+
+# Run Isaac Sim container
+docker run --gpus all -it --rm \
+  --network=host \
+  --env "DISPLAY" \
+  --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+  --volume="/home/$USER/.Xauthority:/root/.Xauthority:rw" \
+  --volume="/home/$USER/isaac_sim_data:/isaac_sim_data" \
+  --privileged \
+  nvcr.io/nvidia/isaac-sim:latest
+```
+
+#### Method 3: Standalone Installation
+
+```bash
+# Download Isaac Sim from NVIDIA Developer website
+# Extract and run the installer
+chmod +x install_isaac_sim.sh
+./install_isaac_sim.sh --accept-license
+
+# Launch Isaac Sim
+./isaac-sim.sh
+```
+
+## Isaac Sim Architecture
+
+### Core Components
+
+Isaac Sim consists of several key components:
+
+1. **Omniverse Nucleus**: Central server for asset management and collaboration
+2. **USD (Universal Scene Description)**: Scene representation format
+3. **Kit Framework**: Extensible application framework
+4. **PhysX Integration**: Advanced physics simulation
+5. **RTX Renderer**: Photorealistic rendering engine
+6. **ROS/ROS 2 Bridge**: Communication with ROS ecosystems
+
+### USD (Universal Scene Description)
+
+USD is the foundation of Isaac Sim's scene representation:
+
+```python
+# Example of creating a USD stage programmatically
+import omni
+from pxr import Usd, UsdGeom, Gf
+
+# Create a new USD stage
+stage = Usd.Stage.CreateNew("/path/to/robot_scene.usd")
+
+# Add a robot to the scene
+robot_prim = stage.DefinePrim("/World/Robot", "Xform")
+robot_prim.GetReferences().AddReference("/path/to/robot.usd")
+
+# Add lighting
+light_prim = stage.DefinePrim("/World/Light", "DistantLight")
+light_prim.GetAttribute("inputs:intensity").Set(3000)
+
+# Add camera
+camera_prim = stage.DefinePrim("/World/Camera", "Camera")
+camera_prim.GetAttribute("inputs:clippingRange").Set((0.1, 1000.0))
+
+# Save the stage
+stage.GetRootLayer().Save()
+```
+
+## Creating Humanoid Robot Models in Isaac Sim
+
+### Robot Import and Setup
+
+```python
+# Example of importing and setting up a humanoid robot in Isaac Sim
+import omni
+from omni.isaac.core import World
+from omni.isaac.core.utils.nucleus import get_assets_root_path
+from omni.isaac.core.utils.stage import add_reference_to_stage
+from omni.isaac.core.utils.prims import get_prim_at_path
+import numpy as np
+
+# Initialize the world
+world = World(stage_units_in_meters=1.0)
+
+# Import humanoid robot
+assets_root_path = get_assets_root_path()
+robot_path = assets_root_path + "/Isaac/Robots/Humanoid/humanoid.usd"
+add_reference_to_stage(usd_path=robot_path, prim_path="/World/HumanoidRobot")
+
+# Configure robot properties
+robot_prim = get_prim_at_path("/World/HumanoidRobot")
+# Set up articulation and drive properties for joints
+```
+
+### Advanced Robot Configuration
+
+```python
+# Configure humanoid robot with detailed properties
+from omni.isaac.core.articulations import Articulation
+from omni.isaac.core.utils.stage import add_reference_to_stage
+from omni.isaac.core.utils.prims import set_targets
+from omni.isaac.core.utils.semantics import add_semantics
+
+class HumanoidRobot:
+    def __init__(self, prim_path: str, name: str):
+        self._prim_path = prim_path
+        self._name = name
+
+        # Add robot to stage
+        add_reference_to_stage(
+            usd_path="/path/to/humanoid_robot.usd",
+            prim_path=prim_path
+        )
+
+        # Create articulation
+        self.articulation = Articulation(prim_path=prim_path)
+
+        # Set up semantic labels for synthetic data
+        self.setup_semantics()
+
+    def setup_semantics(self):
+        # Add semantic labels to different parts of the robot
+        body_parts = [
+            ("/World/HumanoidRobot/torso", "torso"),
+            ("/World/HumanoidRobot/head", "head"),
+            ("/World/HumanoidRobot/left_arm", "left_arm"),
+            ("/World/HumanoidRobot/right_arm", "right_arm"),
+            ("/World/HumanoidRobot/left_leg", "left_leg"),
+            ("/World/HumanoidRobot/right_leg", "right_leg")
+        ]
+
+        for prim_path, label in body_parts:
+            add_semantics(prim_path, "class", label)
+```
+
+## Synthetic Data Generation
+
+### Domain Randomization
+
+Domain randomization is crucial for creating robust AI models:
+
+```python
+import omni
+import numpy as np
+from omni.isaac.core.utils.prims import get_prim_at_path
+from omni.isaac.core.utils.stage import get_current_stage
+from pxr import Gf, UsdLux, UsdGeom
+
+class DomainRandomizer:
+    def __init__(self):
+        self.stage = get_current_stage()
+
+    def randomize_lighting(self):
+        """Randomize lighting conditions for synthetic data"""
+        # Get all lights in the scene
+        light_prims = [prim for prim in self.stage.Traverse()
+                      if prim.GetTypeName() == "DistantLight"]
+
+        for light_prim in light_prims:
+            # Randomize light intensity
+            intensity = np.random.uniform(500, 5000)
+            light_prim.GetAttribute("inputs:intensity").Set(intensity)
+
+            # Randomize light direction
+            azimuth = np.random.uniform(0, 2*np.pi)
+            elevation = np.random.uniform(-np.pi/4, np.pi/4)
+
+            # Convert to world coordinates
+            direction = Gf.Vec3f(
+                np.cos(elevation) * np.cos(azimuth),
+                np.cos(elevation) * np.sin(azimuth),
+                np.sin(elevation)
+            )
+            light_prim.GetAttribute("inputs:direction").Set(direction)
+
+    def randomize_materials(self):
+        """Randomize surface materials"""
+        # This would involve changing material properties like
+        # albedo, roughness, metallic properties, etc.
+        pass
+
+    def randomize_camera_parameters(self):
+        """Randomize camera intrinsics and extrinsics"""
+        # Randomize focal length, sensor size, distortion parameters
+        pass
+```
+
+### Synthetic Dataset Generation
+
+```python
+import omni
+from omni.isaac.synthetic_utils import SyntheticDataHelper
+from omni.isaac.core import World
+import numpy as np
+import cv2
+import json
+from pathlib import Path
+
+class SyntheticDatasetGenerator:
+    def __init__(self, output_dir: str):
+        self.output_dir = Path(output_dir)
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+
+        # Initialize synthetic data helper
+        self.sd_helper = SyntheticDataHelper()
+
+        # Create subdirectories for different data types
+        (self.output_dir / "images").mkdir(exist_ok=True)
+        (self.output_dir / "labels").mkdir(exist_ok=True)
+        (self.output_dir / "depth").mkdir(exist_ok=True)
+        (self.output_dir / "seg").mkdir(exist_ok=True)
+
+    def capture_synthetic_data(self, frame_id: int):
+        """Capture synthetic data for training"""
+        # Capture RGB image
+        rgb_data = self.sd_helper.get_rgb()
+        rgb_image = rgb_data.get("rgba")[:, :, :3]
+
+        # Capture segmentation mask
+        seg_data = self.sd_helper.get_semantic_segmentation()
+        seg_mask = seg_data.get("data")
+
+        # Capture depth image
+        depth_data = self.sd_helper.get_depth()
+        depth_image = depth_data.get("depth")
+
+        # Capture pose information
+        pose_data = self.sd_helper.get_pose()
+
+        # Save data
+        cv2.imwrite(f"{self.output_dir}/images/frame_{frame_id:06d}.png",
+                   cv2.cvtColor(rgb_image, cv2.COLOR_RGB2BGR))
+        cv2.imwrite(f"{self.output_dir}/seg/frame_{frame_id:06d}.png", seg_mask)
+        np.save(f"{self.output_dir}/depth/frame_{frame_id:06d}.npy", depth_image)
+
+        # Save annotations
+        annotations = {
+            "frame_id": frame_id,
+            "pose": pose_data.tolist() if pose_data is not None else None,
+            "timestamp": omni.timeline.get_timeline().get_current_time(),
+            "objects": self.get_scene_objects()
+        }
+
+        with open(f"{self.output_dir}/labels/frame_{frame_id:06d}.json", 'w') as f:
+            json.dump(annotations, f)
+
+    def get_scene_objects(self):
+        """Get list of objects in the scene with their properties"""
+        # This would return information about all objects in the scene
+        # including their semantic labels, positions, etc.
+        pass
+
+    def generate_dataset(self, num_frames: int, randomize_scene: bool = True):
+        """Generate a complete synthetic dataset"""
+        for frame_id in range(num_frames):
+            if randomize_scene:
+                # Randomize scene before each capture
+                self.randomize_scene()
+
+            # Capture data
+            self.capture_synthetic_data(frame_id)
+
+            # Step simulation
+            World.instance().step(render=True)
+
+    def randomize_scene(self):
+        """Randomize scene parameters for domain randomization"""
+        # This would call the domain randomization methods
+        pass
+```
+
+## Sensor Simulation in Isaac Sim
+
+### Advanced Camera Simulation
+
+```python
+from omni.isaac.sensor import Camera
+import carb
+import numpy as np
+
+class AdvancedCameraSim:
+    def __init__(self, prim_path: str, resolution: tuple = (640, 480)):
+        self.camera = Camera(
+            prim_path=prim_path,
+            frequency=30,
+            resolution=resolution
+        )
+
+        # Configure camera properties
+        self.configure_camera_properties()
+
+    def configure_camera_properties(self):
+        """Configure advanced camera properties"""
+        # Set focal length
+        self.camera.focal_length = 24.0  # mm
+
+        # Set horizontal aperture
+        self.camera.horizontal_aperture = 36.0  # mm
+
+        # Add noise models
+        self.add_noise_models()
+
+    def add_noise_models(self):
+        """Add realistic noise models to camera"""
+        # This would add various noise models like:
+        # - Photon noise
+        # - Read noise
+        # - Fixed pattern noise
+        # - Thermal noise
+        pass
+
+    def capture_with_distortion(self):
+        """Capture images with realistic lens distortion"""
+        # This would simulate lens distortion effects
+        pass
+```
+
+### LiDAR Simulation
+
+```python
+from omni.isaac.sensor import LidarRtx
+import numpy as np
+
+class HumanoidLidarSim:
+    def __init__(self, prim_path: str):
+        # Create a 360-degree LiDAR sensor
+        self.lidar = LidarRtx(
+            prim_path=prim_path,
+            translation=np.array([0.0, 0.0, 1.0]),  # Position at head height
+            orientation=np.array([1.0, 0.0, 0.0, 0.0]),  # No rotation
+            config="Example_Rotary_Mechanical_Lidar",
+            rpm=60,  # 60 rotations per minute
+            fov="15x3",
+            horizontal_resolution=0.18,  # 0.18 degree horizontal resolution
+            vertical_resolution=2.0,  # 2.0 degree vertical resolution
+            high_lod=True
+        )
+
+        # Configure noise characteristics
+        self.configure_noise()
+
+    def configure_noise(self):
+        """Configure realistic LiDAR noise"""
+        # Add range noise, intensity noise, etc.
+        pass
+
+    def get_point_cloud(self):
+        """Get point cloud data from LiDAR"""
+        return self.lidar.get_point_cloud_data()
+```
+
+## Integration with AI Training Workflows
+
+### Computer Vision Training Data
+
+```python
+import torch
+import torchvision.transforms as transforms
+from torch.utils.data import Dataset, DataLoader
+import cv2
+import numpy as np
+from pathlib import Path
+
+class IsaacSimVisionDataset(Dataset):
+    def __init__(self, data_dir: str, transform=None):
+        self.data_dir = Path(data_dir)
+        self.transform = transform
+
+        # Get list of all image files
+        self.image_files = list((self.data_dir / "images").glob("*.png"))
+
+    def __len__(self):
+        return len(self.image_files)
+
+    def __getitem__(self, idx):
+        # Load image
+        img_path = self.image_files[idx]
+        image = cv2.imread(str(img_path))
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        # Load corresponding segmentation mask
+        seg_path = self.data_dir / "seg" / img_path.name
+        if seg_path.exists():
+            seg_mask = cv2.imread(str(seg_path), cv2.IMREAD_GRAYSCALE)
+        else:
+            seg_mask = np.zeros((image.shape[0], image.shape[1]), dtype=np.uint8)
+
+        # Load depth data
+        depth_path = self.data_dir / "depth" / f"{img_path.stem}.npy"
+        if depth_path.exists():
+            depth = np.load(str(depth_path))
+        else:
+            depth = np.zeros((image.shape[0], image.shape[1]), dtype=np.float32)
+
+        if self.transform:
+            image = self.transform(image)
+
+        sample = {
+            'image': image,
+            'segmentation': seg_mask,
+            'depth': depth,
+            'filename': img_path.name
+        }
+
+        return sample
+
+# Example training loop using Isaac Sim data
+def train_model_with_synthetic_data():
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                           std=[0.229, 0.224, 0.225])
+    ])
+
+    dataset = IsaacSimVisionDataset(
+        data_dir="/path/to/synthetic/data",
+        transform=transform
+    )
+
+    dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
+
+    # Train your model using the synthetic data
+    for epoch in range(10):  # Example training loop
+        for batch_idx, batch in enumerate(dataloader):
+            images = batch['image']
+            segmentation = batch['segmentation']
+
+            # Your training code here
+            pass
+```
+
+### Reinforcement Learning Integration
+
+```python
+import gym
+from gym import spaces
+import numpy as np
+from omni.isaac.core import World
+from omni.isaac.core.utils.stage import add_reference_to_stage
+
+class IsaacSimHumanoidEnv(gym.Env):
+    def __init__(self):
+        super().__init__()
+
+        # Define action and observation spaces
+        self.action_space = spaces.Box(
+            low=-1.0, high=1.0, shape=(24,), dtype=np.float32  # 24 DOF humanoid
+        )
+
+        self.observation_space = spaces.Box(
+            low=-np.inf, high=np.inf, shape=(60,), dtype=np.float32  # Example state
+        )
+
+        # Initialize Isaac Sim world
+        self.world = World(stage_units_in_meters=1.0)
+        self.setup_environment()
+
+    def setup_environment(self):
+        """Setup the simulation environment"""
+        # Add humanoid robot
+        add_reference_to_stage(
+            usd_path="/path/to/humanoid.usd",
+            prim_path="/World/Humanoid"
+        )
+
+        # Add ground plane, obstacles, etc.
+
+    def reset(self):
+        """Reset the environment"""
+        # Reset robot to initial position
+        # Reset simulation
+        self.world.reset()
+
+        # Return initial observation
+        return self.get_observation()
+
+    def step(self, action):
+        """Execute one step in the environment"""
+        # Apply action to robot
+        self.apply_action(action)
+
+        # Step simulation
+        self.world.step(render=True)
+
+        # Get observation
+        observation = self.get_observation()
+
+        # Calculate reward
+        reward = self.calculate_reward()
+
+        # Check if episode is done
+        done = self.is_done()
+
+        info = {}
+
+        return observation, reward, done, info
+
+    def get_observation(self):
+        """Get current observation from the environment"""
+        # This would include robot state, sensor data, etc.
+        pass
+
+    def apply_action(self, action):
+        """Apply action to the robot"""
+        # Convert normalized action to joint commands
+        pass
+
+    def calculate_reward(self):
+        """Calculate reward based on current state"""
+        # Implement reward function for humanoid tasks
+        pass
+
+    def is_done(self):
+        """Check if episode is done"""
+        # Check for termination conditions
+        pass
+```
+
+## Performance Optimization
+
+### Efficient Scene Management
+
+```python
+class EfficientSceneManager:
+    def __init__(self):
+        self.active_objects = set()
+        self.object_pool = {}
+
+    def optimize_rendering(self):
+        """Optimize rendering for better performance"""
+        # Use level-of-detail (LOD) for distant objects
+        # Implement occlusion culling
+        # Use efficient lighting models
+        pass
+
+    def batch_operations(self):
+        """Batch operations for better performance"""
+        # Batch similar operations together
+        # Use multi-threading where possible
+        # Optimize USD operations
+        pass
+```
+
+## Best Practices for Isaac Sim
+
+### 1. Asset Optimization
+- Use efficient mesh representations
+- Optimize textures and materials
+- Implement level-of-detail (LOD) systems
+- Use proxy geometries for complex objects
+
+### 2. Synthetic Data Quality
+- Validate synthetic data against real data
+- Use appropriate domain randomization
+- Include realistic noise models
+- Verify sensor simulation accuracy
+
+### 3. Performance Management
+- Monitor GPU and CPU usage
+- Optimize scene complexity
+- Use appropriate simulation stepping
+- Implement efficient data capture pipelines
+
+### 4. Validation and Verification
+- Compare simulation results with real robots
+- Validate sensor models with real hardware
+- Test control algorithms in both simulation and reality
+- Document simulation limitations
+
+## Troubleshooting Common Issues
+
+### 1. GPU Memory Issues
+- Reduce scene complexity
+- Use lower resolution textures
+- Implement object pooling
+- Optimize USD file sizes
+
+### 2. Physics Instability
+- Adjust solver parameters
+- Verify mass and inertia properties
+- Check joint limits and dynamics
+- Reduce simulation timestep
+
+### 3. Rendering Performance
+- Use appropriate quality settings
+- Implement frustum culling
+- Optimize lighting calculations
+- Use efficient material models
+
+## Hands-on Exercise
+
+1. Install Isaac Sim and verify the installation
+2. Import a humanoid robot model into Isaac Sim
+3. Configure basic sensors (camera, LiDAR)
+4. Generate a small synthetic dataset with domain randomization
+5. Validate the synthetic data quality
+
+## Quiz Questions
+
+1. What are the key components of NVIDIA Isaac Sim architecture?
+2. How does domain randomization improve synthetic data quality?
+3. What are the best practices for optimizing Isaac Sim performance?
+
+</InteractiveLesson>

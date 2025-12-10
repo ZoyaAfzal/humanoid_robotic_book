@@ -1,0 +1,235 @@
+---
+sidebar_position: 1
+---
+
+import InteractiveLesson from '@site/src/components/InteractiveLesson';
+
+<InteractiveLesson title="ROS 2 Architecture (Nodes, Topics, Services)" chapter={2} lesson={1}>
+
+# ROS 2 Architecture (Nodes, Topics, Services)
+
+In this comprehensive lesson, you'll dive deep into the Robot Operating System 2 (ROS 2) architecture, which forms the nervous system of humanoid robots. ROS 2 provides the middleware framework that enables different components of your robot to communicate effectively.
+
+## Introduction to ROS 2
+
+ROS 2 is the next-generation Robot Operating System that addresses the limitations of ROS 1, particularly in terms of security, real-time performance, and multi-robot systems. It's built on Data Distribution Service (DDS), which provides a publish-subscribe communication pattern ideal for distributed robotic systems.
+
+### Key Improvements in ROS 2
+
+1. **Security**: Built-in security features for protecting robot systems
+2. **Real-time Support**: Deterministic behavior for time-critical applications
+3. **Multi-robot Systems**: Native support for complex multi-robot coordination
+4. **Cross-platform Compatibility**: Runs on various operating systems including Linux, Windows, and macOS
+5. **Container Support**: Better integration with Docker and other container technologies
+
+## Core Architecture Components
+
+### Nodes
+
+Nodes are the fundamental building blocks of a ROS 2 system. Each node represents a single process that performs specific computation. In humanoid robots, different nodes might handle:
+
+- **Sensor Processing**: Nodes that process data from cameras, IMUs, LiDARs, etc.
+- **Motion Control**: Nodes that handle joint control and trajectory planning
+- **Perception**: Nodes that perform object detection, SLAM, and scene understanding
+- **Planning**: Nodes that handle path planning and task scheduling
+- **Communication**: Nodes that handle external communication and user interfaces
+
+#### Creating a Node in Python
+
+```python
+import rclpy
+from rclpy.node import Node
+
+class HumanoidRobotNode(Node):
+    def __init__(self):
+        super().__init__('humanoid_robot_node')
+        self.get_logger().info('Humanoid Robot Node initialized')
+
+    def shutdown(self):
+        self.get_logger().info('Shutting down Humanoid Robot Node')
+
+def main(args=None):
+    rclpy.init(args=args)
+    robot_node = HumanoidRobotNode()
+
+    try:
+        rclpy.spin(robot_node)
+    except KeyboardInterrupt:
+        robot_node.get_logger().info('Interrupted by user')
+    finally:
+        robot_node.shutdown()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+### Topics
+
+Topics enable asynchronous communication between nodes using a publish-subscribe pattern. Data flows from publishers to subscribers through topics, allowing for loose coupling between different parts of the robot system.
+
+#### Topic Communication in Humanoid Robots
+
+- **Sensor Data**: IMU readings, camera images, and LiDAR scans published to topics
+- **Control Commands**: Joint position, velocity, and effort commands sent via topics
+- **State Information**: Robot pose, joint states, and battery status published regularly
+- **Event Notifications**: System status changes, error conditions, and warnings
+
+#### Example: Publishing Joint States
+
+```python
+from sensor_msgs.msg import JointState
+import rclpy
+from rclpy.node import Node
+
+class JointStatePublisher(Node):
+    def __init__(self):
+        super().__init__('joint_state_publisher')
+        self.publisher = self.create_publisher(JointState, 'joint_states', 10)
+        self.timer = self.create_timer(0.1, self.publish_joint_states)
+
+    def publish_joint_states(self):
+        msg = JointState()
+        msg.name = ['left_hip', 'left_knee', 'right_hip', 'right_knee']
+        msg.position = [0.1, 0.2, 0.15, 0.25]
+        msg.header.stamp = self.get_clock().now().to_msg()
+        self.publisher.publish(msg)
+
+def main(args=None):
+    rclpy.init(args=args)
+    publisher = JointStatePublisher()
+    rclpy.spin(publisher)
+    publisher.destroy_node()
+    rclpy.shutdown()
+```
+
+### Services
+
+Services provide synchronous request-response communication between nodes. Unlike topics, services block the calling node until a response is received, making them suitable for operations that require immediate feedback.
+
+#### Service Communication in Humanoid Robots
+
+- **Calibration**: Requesting sensor calibration and receiving confirmation
+- **Initialization**: Service calls to initialize different subsystems
+- **Emergency Stop**: Service calls to immediately stop robot motion
+- **Configuration**: Changing robot parameters and receiving status
+
+#### Example: Creating a Service Server
+
+```python
+from humanoid_robot_msgs.srv import RobotCalibration
+import rclpy
+from rclpy.node import Node
+
+class CalibrationService(Node):
+    def __init__(self):
+        super().__init__('calibration_service')
+        self.srv = self.create_service(
+            RobotCalibration,
+            'robot_calibration',
+            self.calibrate_robot_callback
+        )
+
+    def calibrate_robot_callback(self, request, response):
+        self.get_logger().info(f'Calibrating robot with mode: {request.mode}')
+        # Perform calibration logic here
+        response.success = True
+        response.message = 'Calibration completed successfully'
+        return response
+
+def main(args=None):
+    rclpy.init(args=args)
+    service = CalibrationService()
+    rclpy.spin(service)
+    service.destroy_node()
+    rclpy.shutdown()
+```
+
+## Advanced ROS 2 Concepts
+
+### Actions
+
+Actions are goal-oriented communication patterns that are perfect for long-running tasks like navigation or manipulation. They provide feedback during execution and can be preempted if needed.
+
+#### Action Example for Humanoid Robot Walking
+
+```python
+from rclpy.action import ActionServer
+from humanoid_robot_msgs.action import WalkToGoal
+import rclpy
+from rclpy.node import Node
+
+class WalkActionServer(Node):
+    def __init__(self):
+        super().__init__('walk_action_server')
+        self._action_server = ActionServer(
+            self,
+            WalkToGoal,
+            'walk_to_goal',
+            self.execute_callback
+        )
+
+    def execute_callback(self, goal_handle):
+        feedback_msg = WalkToGoal.Feedback()
+        result = WalkToGoal.Result()
+
+        # Execute walking logic here
+        for i in range(0, 100):
+            if goal_handle.is_cancel_requested:
+                goal_handle.canceled()
+                result.success = False
+                return result
+
+            feedback_msg.progress = i
+            goal_handle.publish_feedback(feedback_msg)
+
+        goal_handle.succeed()
+        result.success = True
+        return result
+```
+
+### Parameters
+
+Parameters allow runtime configuration of nodes and can be changed without restarting the system. This is crucial for humanoid robots that need to adapt to different environments or tasks.
+
+### Lifecycle Nodes
+
+Lifecycle nodes provide a structured way to manage the state of complex robot systems, with defined transitions between unconfigured, inactive, active, and finalized states.
+
+## Best Practices for ROS 2 in Humanoid Robotics
+
+### 1. Message Design
+- Use appropriate message types for your data
+- Design custom messages for complex data structures
+- Consider bandwidth and real-time constraints
+
+### 2. Node Architecture
+- Keep nodes focused on single responsibilities
+- Use composition for complex systems
+- Implement proper error handling and recovery
+
+### 3. Performance Optimization
+- Use appropriate QoS settings for different data types
+- Optimize message frequency based on application needs
+- Consider using intra-process communication for high-frequency data
+
+### 4. Security Considerations
+- Enable ROS 2 security features for production systems
+- Use appropriate authentication and encryption
+- Implement network segmentation for critical systems
+
+## Hands-on Exercise
+
+1. Create a simple ROS 2 package for your humanoid robot
+2. Implement a node that publishes joint states
+3. Create a subscriber node that receives and processes these states
+4. Add a service that allows changing the robot's operational mode
+5. Test your nodes using `ros2 run` and `ros2 topic` commands
+
+## Quiz Questions
+
+1. What is the difference between topics and services in ROS 2?
+2. Why is DDS important for ROS 2 architecture?
+3. What are the advantages of using actions over topics for navigation tasks?
+
+</InteractiveLesson>

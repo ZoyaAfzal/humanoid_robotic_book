@@ -1,0 +1,1173 @@
+---
+sidebar_position: 1
+---
+
+import InteractiveLesson from '@site/src/components/InteractiveLesson';
+
+<InteractiveLesson title="Cognitive Planning (LLM to ROS Action Sequence)" chapter={5} lesson={2}>
+
+# Cognitive Planning (LLM to ROS Action Sequence)
+
+In this comprehensive lesson, you'll explore cognitive planning systems that leverage Large Language Models (LLMs) to generate complex action sequences for humanoid robots. Cognitive planning bridges high-level human instructions with low-level robot actions through intelligent reasoning and planning capabilities.
+
+## Introduction to Cognitive Planning
+
+Cognitive planning for humanoid robots involves:
+
+- **High-level Reasoning**: Understanding complex, abstract commands
+- **Task Decomposition**: Breaking down complex tasks into executable actions
+- **Context Awareness**: Adapting plans based on environment and state
+- **Learning and Adaptation**: Improving planning based on experience
+- **Multi-modal Integration**: Combining language, perception, and action
+
+### Key Components of Cognitive Planning Systems
+
+1. **Language Understanding**: Interpreting natural language commands
+2. **World Modeling**: Maintaining representation of environment and robot state
+3. **Plan Generation**: Creating sequences of executable actions
+4. **Plan Execution**: Coordinating with robot control systems
+5. **Feedback Integration**: Learning from execution outcomes
+
+## Large Language Model Integration
+
+### LLM Selection and Configuration
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from humanoid_robot_msgs.msg import TaskPlan
+import openai
+import json
+import asyncio
+from typing import Dict, List, Any
+
+class LLMPlanner(Node):
+    def __init__(self):
+        super().__init__('llm_planner')
+
+        # Initialize LLM client
+        self.setup_llm_client()
+
+        # Publishers and subscribers
+        self.task_sub = self.create_subscription(
+            String, '/high_level_task', self.task_callback, 10)
+        self.plan_pub = self.create_publisher(
+            TaskPlan, '/generated_plan', 10)
+
+        # Robot state and environment context
+        self.robot_state = {}
+        self.environment_context = {}
+
+        self.get_logger().info('LLM-based cognitive planner initialized')
+
+    def setup_llm_client(self):
+        """Setup LLM client for planning"""
+        # Using OpenAI API as an example
+        # In practice, you might use local models like Llama, Mistral, etc.
+        self.client = openai.OpenAI(
+            api_key=self.get_parameter_or('openai_api_key', 'your-api-key')
+        )
+
+        # Model configuration
+        self.model_name = "gpt-4-turbo"  # Or other suitable model
+        self.temperature = 0.1  # Lower temperature for more consistent planning
+
+    def task_callback(self, msg):
+        """Process high-level task request"""
+        task_description = msg.data
+        self.get_logger().info(f'Received task: {task_description}')
+
+        # Generate plan using LLM
+        plan = self.generate_plan(task_description)
+
+        if plan:
+            # Publish the generated plan
+            plan_msg = TaskPlan()
+            plan_msg.plan = json.dumps(plan)
+            plan_msg.timestamp = self.get_clock().now().to_msg()
+            self.plan_pub.publish(plan_msg)
+
+            self.get_logger().info(f'Generated plan with {len(plan)} steps')
+
+    def generate_plan(self, task_description: str) -> List[Dict[str, Any]]:
+        """Generate action plan using LLM"""
+        try:
+            # Create a detailed prompt for the LLM
+            prompt = self.create_planning_prompt(task_description)
+
+            response = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "system", "content": self.get_system_prompt()},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=self.temperature,
+                response_format={"type": "json_object"}  # Expect JSON response
+            )
+
+            # Parse the response
+            plan_json = json.loads(response.choices[0].message.content)
+            return plan_json.get('action_sequence', [])
+
+        except Exception as e:
+            self.get_logger().error(f'Error generating plan: {e}')
+            return []
+
+    def create_planning_prompt(self, task_description: str) -> str:
+        """Create detailed prompt for planning"""
+        return f"""
+        Task: {task_description}
+
+        Current Robot State: {json.dumps(self.robot_state)}
+        Environment Context: {json.dumps(self.environment_context)}
+
+        Available Actions:
+        - navigate_to(location)
+        - pick_up(object)
+        - place_down(object, location)
+        - open_door(door_name)
+        - close_door(door_name)
+        - speak(text)
+        - wait(duration_seconds)
+        - detect_object(object_type)
+        - follow_person(person_name)
+        - avoid_obstacle(obstacle)
+
+        Generate a detailed action sequence to complete the task.
+        Return as JSON with the following structure:
+        {{
+            "action_sequence": [
+                {{
+                    "action": "action_name",
+                    "parameters": {{"param1": "value1", "param2": "value2"}},
+                    "description": "Brief description of what this action does",
+                    "expected_outcome": "What should happen after this action"
+                }}
+            ],
+            "reasoning": "Brief explanation of the planning logic"
+        }}
+
+        Be specific with locations and objects. Consider robot capabilities and environment constraints.
+        """
+
+    def get_system_prompt(self) -> str:
+        """Get system prompt for consistent behavior"""
+        return """
+        You are an expert robot task planner. Your job is to break down high-level human commands
+        into detailed, executable action sequences for a humanoid robot.
+
+        Guidelines:
+        1. Be specific about locations, objects, and parameters
+        2. Consider the robot's current state and environment
+        3. Generate safe, executable actions
+        4. Include error handling considerations
+        5. Return structured JSON response
+        6. Ensure each action is feasible with the robot's capabilities
+        """
+
+def main(args=None):
+    rclpy.init(args=args)
+    planner = LLMPlanner()
+
+    try:
+        rclpy.spin(planner)
+    except KeyboardInterrupt:
+        planner.get_logger().info('Shutting down LLM planner')
+    finally:
+        planner.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Context-Aware Planning
+
+### World State Management
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from sensor_msgs.msg import LaserScan, Image
+from geometry_msgs.msg import PoseStamped
+from nav_msgs.msg import OccupancyGrid
+import json
+from dataclasses import dataclass
+from typing import Dict, List, Optional
+
+@dataclass
+class ObjectInstance:
+    name: str
+    type: str
+    pose: PoseStamped
+    confidence: float
+    properties: Dict[str, str]
+
+@dataclass
+class Location:
+    name: str
+    pose: PoseStamped
+    type: str  # room, door, furniture, etc.
+    properties: Dict[str, str]
+
+@dataclass
+class RobotState:
+    pose: PoseStamped
+    battery_level: float
+    current_task: str
+    available_actions: List[str]
+    equipment_status: Dict[str, bool]
+
+class WorldStateManager(Node):
+    def __init__(self):
+        super().__init__('world_state_manager')
+
+        # Initialize world state
+        self.robot_state = RobotState(
+            pose=PoseStamped(),
+            battery_level=1.0,
+            current_task="",
+            available_actions=[],
+            equipment_status={}
+        )
+        self.objects = {}
+        self.locations = {}
+        self.environment_map = None
+
+        # Subscriptions for state updates
+        self.pose_sub = self.create_subscription(
+            PoseStamped, '/robot_pose', self.pose_callback, 10)
+        self.object_sub = self.create_subscription(
+            String, '/detected_objects', self.object_callback, 10)
+        self.map_sub = self.create_subscription(
+            OccupancyGrid, '/map', self.map_callback, 10)
+        self.battery_sub = self.create_subscription(
+            String, '/battery_status', self.battery_callback, 10)
+
+        # Timer for state updates
+        self.state_update_timer = self.create_timer(1.0, self.update_context)
+
+    def pose_callback(self, msg):
+        """Update robot pose"""
+        self.robot_state.pose = msg
+
+    def object_callback(self, msg):
+        """Update detected objects"""
+        try:
+            objects_data = json.loads(msg.data)
+            for obj_data in objects_data:
+                obj = ObjectInstance(
+                    name=obj_data['name'],
+                    type=obj_data['type'],
+                    pose=obj_data['pose'],
+                    confidence=obj_data['confidence'],
+                    properties=obj_data.get('properties', {})
+                )
+                self.objects[obj.name] = obj
+        except Exception as e:
+            self.get_logger().error(f'Error parsing object data: {e}')
+
+    def map_callback(self, msg):
+        """Update environment map"""
+        self.environment_map = msg
+
+    def battery_callback(self, msg):
+        """Update battery status"""
+        try:
+            battery_data = json.loads(msg.data)
+            self.robot_state.battery_level = battery_data['level']
+        except Exception as e:
+            self.get_logger().error(f'Error parsing battery data: {e}')
+
+    def update_context(self):
+        """Update planning context with current state"""
+        # This method is called periodically to ensure context is current
+        # for planning decisions
+        pass
+
+    def get_context_for_planning(self) -> Dict[str, Any]:
+        """Get current context for planning"""
+        return {
+            'robot_state': {
+                'position': {
+                    'x': self.robot_state.pose.pose.position.x,
+                    'y': self.robot_state.pose.pose.position.y,
+                    'z': self.robot_state.pose.pose.position.z
+                },
+                'battery_level': self.robot_state.battery_level,
+                'available_actions': self.robot_state.available_actions
+            },
+            'objects': [
+                {
+                    'name': obj.name,
+                    'type': obj.type,
+                    'position': {
+                        'x': obj.pose.pose.position.x,
+                        'y': obj.pose.pose.position.y,
+                        'z': obj.pose.pose.position.z
+                    },
+                    'confidence': obj.confidence
+                } for obj in self.objects.values()
+            ],
+            'locations': [
+                {
+                    'name': loc.name,
+                    'type': loc.type,
+                    'position': {
+                        'x': loc.pose.pose.position.x,
+                        'y': loc.pose.pose.position.y,
+                        'z': loc.pose.pose.position.z
+                    }
+                } for loc in self.locations.values()
+            ],
+            'environment_map_available': self.environment_map is not None
+        }
+
+    def get_relevant_objects(self, object_type: str) -> List[ObjectInstance]:
+        """Get objects of specific type near robot"""
+        relevant_objects = []
+        robot_pos = self.robot_state.pose.pose.position
+
+        for obj in self.objects.values():
+            if obj.type == object_type:
+                # Calculate distance to robot
+                dist = ((obj.pose.pose.position.x - robot_pos.x) ** 2 +
+                       (obj.pose.pose.position.y - robot_pos.y) ** 2) ** 0.5
+
+                if dist < 5.0:  # Within 5 meters
+                    relevant_objects.append(obj)
+
+        return sorted(relevant_objects, key=lambda x:
+                     ((x.pose.pose.position.x - robot_pos.x) ** 2 +
+                      (x.pose.pose.position.y - robot_pos.y) ** 2) ** 0.5)
+```
+
+## Advanced Planning Algorithms
+
+### Hierarchical Task Network (HTN) Planning
+
+```python
+from dataclasses import dataclass
+from typing import List, Dict, Any, Callable
+import json
+
+@dataclass
+class Task:
+    name: str
+    parameters: Dict[str, Any]
+    preconditions: List[str]
+    effects: List[str]
+
+@dataclass
+class Method:
+    name: str
+    task: str
+    subtasks: List['Task']
+    conditions: List[str]
+
+class HTNPlanner:
+    def __init__(self):
+        self.tasks = {}
+        self.methods = {}
+        self.state = set()
+
+        # Define basic methods
+        self.define_methods()
+
+    def define_methods(self):
+        """Define hierarchical planning methods"""
+        # Example: Deliver object method
+        deliver_method = Method(
+            name="deliver_object_method",
+            task="DELIVER_OBJECT",
+            subtasks=[
+                Task("NAVIGATE_TO", {"location": "source"}, [], ["at_location(source)"]),
+                Task("PICK_UP", {"object": "target_object"}, ["at_location(source)"], ["holding(target_object)"]),
+                Task("NAVIGATE_TO", {"location": "destination"}, ["holding(target_object)"], ["at_location(destination)"]),
+                Task("PLACE_DOWN", {"object": "target_object", "location": "destination"},
+                     ["at_location(destination)", "holding(target_object)"], ["placed(target_object)"])
+            ],
+            conditions=["object_available(target_object)", "location_accessible(destination)"]
+        )
+
+        self.methods["DELIVER_OBJECT"] = [deliver_method]
+
+        # Example: Clean room method
+        clean_room_method = Method(
+            name="clean_room_method",
+            task="CLEAN_ROOM",
+            subtasks=[
+                Task("NAVIGATE_TO", {"location": "room_entrance"}, [], ["at_location(room_entrance)"]),
+                Task("DETECT_DIRT"),  # Custom task to find dirty spots
+                Task("NAVIGATE_TO", {"location": "dirt_location"}, ["dirt_detected"], ["at_location(dirt_location)"]),
+                Task("CLEAN_AREA", {"location": "dirt_location"}, ["at_location(dirt_location)"], ["area_clean(dirt_location)"]),
+                Task("NAVIGATE_TO", {"location": "room_exit"}, [], ["at_location(room_exit)"])
+            ],
+            conditions=["room_accessible", "cleaning_equipment_available"]
+        )
+
+        self.methods["CLEAN_ROOM"] = [clean_room_method]
+
+    def plan(self, task: Task) -> List[Task]:
+        """Generate plan for high-level task"""
+        return self.decompose_task(task, self.state)
+
+    def decompose_task(self, task: Task, state: set) -> List[Task]:
+        """Decompose task into subtasks using HTN methods"""
+        # Check if task is primitive (can be executed directly)
+        if self.is_primitive_task(task):
+            return [task]
+
+        # Find applicable methods for this task
+        applicable_methods = self.get_applicable_methods(task, state)
+
+        for method in applicable_methods:
+            # Check if method conditions are satisfied
+            if self.check_conditions(method.conditions, state):
+                # Recursively decompose subtasks
+                plan = []
+                for subtask in method.subtasks:
+                    subplan = self.decompose_task(subtask, state)
+                    plan.extend(subplan)
+                    # Update state with effects of completed subtasks
+                    state.update(self.get_effects(subtask))
+
+                return plan
+
+        # If no method applies, return empty plan
+        return []
+
+    def is_primitive_task(self, task: Task) -> bool:
+        """Check if task is primitive (can be executed directly)"""
+        primitive_tasks = {
+            "NAVIGATE_TO", "PICK_UP", "PLACE_DOWN", "SPEAK",
+            "OPEN_DOOR", "CLOSE_DOOR", "WAIT", "DETECT_OBJECT"
+        }
+        return task.name in primitive_tasks
+
+    def get_applicable_methods(self, task: Task, state: set) -> List[Method]:
+        """Get methods applicable to the given task"""
+        return self.methods.get(task.name, [])
+
+    def check_conditions(self, conditions: List[str], state: set) -> bool:
+        """Check if all conditions are satisfied in current state"""
+        for condition in conditions:
+            if condition not in state:
+                return False
+        return True
+
+    def get_effects(self, task: Task) -> List[str]:
+        """Get effects of executing a task"""
+        return task.effects
+```
+
+## LLM-Enhanced Planning Pipeline
+
+### Complete Cognitive Planning System
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from humanoid_robot_msgs.msg import TaskPlan, ActionSequence
+from geometry_msgs.msg import PoseStamped
+import json
+import asyncio
+import openai
+from typing import Dict, List, Any, Optional
+
+class CognitivePlanningSystem(Node):
+    def __init__(self):
+        super().__init__('cognitive_planning_system')
+
+        # Initialize components
+        self.world_state_manager = WorldStateManager(self)
+        self.hierarchical_planner = HTNPlanner()
+
+        # Setup LLM client
+        self.setup_llm_client()
+
+        # Publishers and subscribers
+        self.high_level_task_sub = self.create_subscription(
+            String, '/high_level_task', self.high_level_task_callback, 10)
+        self.action_plan_pub = self.create_publisher(
+            ActionSequence, '/action_sequence', 10)
+
+        # State tracking
+        self.current_plan = None
+        self.plan_execution_status = "idle"
+
+        self.get_logger().info('Cognitive planning system initialized')
+
+    def setup_llm_client(self):
+        """Setup LLM client for cognitive planning"""
+        try:
+            self.client = openai.OpenAI(
+                api_key=self.get_parameter_or('openai_api_key', 'your-api-key')
+            )
+            self.model_name = "gpt-4-turbo"
+            self.get_logger().info('LLM client initialized successfully')
+        except Exception as e:
+            self.get_logger().error(f'Failed to initialize LLM client: {e}')
+            self.client = None
+
+    def high_level_task_callback(self, msg):
+        """Process high-level cognitive task"""
+        task_description = msg.data
+        self.get_logger().info(f'Received cognitive task: {task_description}')
+
+        # Get current world context
+        context = self.world_state_manager.get_context_for_planning()
+
+        # Generate cognitive plan using LLM
+        cognitive_plan = self.generate_cognitive_plan(task_description, context)
+
+        if cognitive_plan:
+            # Convert to executable action sequence
+            action_sequence = self.convert_to_action_sequence(cognitive_plan)
+
+            # Publish the action sequence
+            action_msg = ActionSequence()
+            action_msg.sequence = json.dumps(action_sequence)
+            action_msg.task_description = task_description
+            action_msg.timestamp = self.get_clock().now().to_msg()
+            self.action_plan_pub.publish(action_msg)
+
+            self.current_plan = action_sequence
+            self.get_logger().info(f'Published action sequence with {len(action_sequence)} actions')
+
+    def generate_cognitive_plan(self, task_description: str, context: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Generate cognitive plan using LLM"""
+        if not self.client:
+            self.get_logger().error('LLM client not available')
+            return []
+
+        try:
+            # Create comprehensive prompt
+            prompt = self.create_cognitive_planning_prompt(task_description, context)
+
+            response = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "system", "content": self.get_cognitive_system_prompt()},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.1,
+                response_format={"type": "json_object"}
+            )
+
+            result = json.loads(response.choices[0].message.content)
+            return result.get('action_sequence', [])
+
+        except Exception as e:
+            self.get_logger().error(f'Error in cognitive planning: {e}')
+            return []
+
+    def create_cognitive_planning_prompt(self, task_description: str, context: Dict[str, Any]) -> str:
+        """Create prompt for cognitive planning"""
+        return f"""
+        Task: {task_description}
+
+        Robot Capabilities:
+        - Navigation: Can move to specified locations
+        - Manipulation: Can pick up and place objects (weight < 5kg)
+        - Perception: Can detect objects, people, obstacles
+        - Communication: Can speak and listen to voice commands
+        - Interaction: Can open/close doors, operate switches
+
+        Current Context:
+        {json.dumps(context, indent=2)}
+
+        Available Actions:
+        - navigate_to(location_name, x, y, z)
+        - pick_up(object_name)
+        - place_down(object_name, location_name)
+        - speak(text_message)
+        - detect_object(object_type)
+        - open_door(door_name)
+        - close_door(door_name)
+        - wait(seconds)
+        - follow_person(person_name)
+        - ask_for_help()
+
+        Generate a detailed cognitive action plan that:
+        1. Breaks down the high-level task into concrete steps
+        2. Considers the current robot state and environment
+        3. Handles potential failures and contingencies
+        4. Ensures safety and efficiency
+
+        Return as JSON:
+        {{
+            "action_sequence": [
+                {{
+                    "action": "action_name",
+                    "parameters": {{"param1": "value1"}},
+                    "description": "What this action does",
+                    "reasoning": "Why this action is needed",
+                    "expected_outcome": "What should happen",
+                    "failure_recovery": "What to do if action fails"
+                }}
+            ],
+            "overall_strategy": "High-level approach",
+            "safety_considerations": ["list", "of", "safety", "factors"],
+            "success_criteria": "How to know task is complete"
+        }}
+        """
+
+    def get_cognitive_system_prompt(self) -> str:
+        """System prompt for cognitive planning"""
+        return """
+        You are an expert cognitive planning system for humanoid robots.
+        Your role is to decompose high-level human commands into detailed,
+        executable action sequences considering the robot's capabilities,
+        current state, and environment.
+
+        Requirements:
+        1. Generate safe, executable actions
+        2. Include error handling and recovery strategies
+        3. Consider robot limitations and environment constraints
+        4. Provide clear reasoning for each action
+        5. Ensure the plan is complete and coherent
+        """
+
+    def convert_to_action_sequence(self, cognitive_plan: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Convert cognitive plan to executable action sequence"""
+        action_sequence = []
+
+        for plan_step in cognitive_plan:
+            action = {
+                'action': plan_step.get('action', ''),
+                'parameters': plan_step.get('parameters', {}),
+                'description': plan_step.get('description', ''),
+                'reasoning': plan_step.get('reasoning', ''),
+                'expected_outcome': plan_step.get('expected_outcome', ''),
+                'failure_recovery': plan_step.get('failure_recovery', ''),
+                'priority': 1,  # Default priority
+                'timeout': 30.0  # Default timeout in seconds
+            }
+            action_sequence.append(action)
+
+        return action_sequence
+
+    def execute_plan_step(self, step: Dict[str, Any]) -> bool:
+        """Execute a single plan step"""
+        # This would interface with the robot's action execution system
+        # For now, we'll just log the action
+        self.get_logger().info(f'Executing action: {step["action"]} with params: {step["parameters"]}')
+
+        # In a real implementation, this would:
+        # 1. Send action to appropriate ROS action server
+        # 2. Monitor execution status
+        # 3. Handle failures and timeouts
+        # 4. Update world state based on results
+
+        return True  # Simulate successful execution
+
+    def execute_plan(self, plan: List[Dict[str, Any]]) -> bool:
+        """Execute the complete action plan"""
+        self.plan_execution_status = "executing"
+
+        for i, step in enumerate(plan):
+            self.get_logger().info(f'Executing step {i+1}/{len(plan)}: {step["action"]}')
+
+            success = self.execute_plan_step(step)
+
+            if not success:
+                self.get_logger().error(f'Failed to execute step {i+1}: {step["action"]}')
+
+                # Try recovery action
+                recovery_action = step.get('failure_recovery')
+                if recovery_action:
+                    self.get_logger().info(f'Trying recovery: {recovery_action}')
+                    # Execute recovery logic here
+
+                self.plan_execution_status = "failed"
+                return False
+
+        self.plan_execution_status = "completed"
+        self.get_logger().info('Plan execution completed successfully')
+        return True
+
+def main(args=None):
+    rclpy.init(args=args)
+    cognitive_planner = CognitivePlanningSystem()
+
+    try:
+        rclpy.spin(cognitive_planner)
+    except KeyboardInterrupt:
+        cognitive_planner.get_logger().info('Shutting down cognitive planning system')
+    finally:
+        cognitive_planner.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Context Learning and Adaptation
+
+### Learning from Execution Feedback
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from humanoid_robot_msgs.msg import TaskResult
+import json
+import numpy as np
+from typing import Dict, List, Tuple
+
+class ContextLearner(Node):
+    def __init__(self):
+        super().__init__('context_learner')
+
+        # Learning data structures
+        self.execution_history = []  # Store past execution results
+        self.success_patterns = {}   # Patterns that lead to success
+        self.failure_patterns = {}   # Patterns that lead to failure
+        self.adaptation_rules = {}   # Rules for adapting plans
+
+        # Subscriptions
+        self.result_sub = self.create_subscription(
+            TaskResult, '/task_result', self.result_callback, 10)
+
+        # Learning timer
+        self.learning_timer = self.create_timer(10.0, self.perform_learning)
+
+        self.get_logger().info('Context learner initialized')
+
+    def result_callback(self, msg):
+        """Process task execution results"""
+        result_data = {
+            'task_description': msg.task_description,
+            'action_sequence': json.loads(msg.action_sequence),
+            'outcome': msg.outcome,
+            'execution_time': msg.execution_time,
+            'failures': msg.failures,
+            'context': json.loads(msg.context),
+            'timestamp': msg.timestamp.sec
+        }
+
+        self.execution_history.append(result_data)
+
+        # Update success/failure patterns
+        self.update_patterns(result_data)
+
+        self.get_logger().info(f'Task result recorded: {msg.outcome}')
+
+    def update_patterns(self, result: Dict):
+        """Update success and failure patterns"""
+        context_key = self.extract_context_key(result['context'])
+        action_sequence = result['action_sequence']
+        outcome = result['outcome']
+
+        if outcome == 'SUCCESS':
+            if context_key not in self.success_patterns:
+                self.success_patterns[context_key] = []
+            self.success_patterns[context_key].append(action_sequence)
+        else:
+            if context_key not in self.failure_patterns:
+                self.failure_patterns[context_key] = []
+            self.failure_patterns[context_key].append(action_sequence)
+
+    def extract_context_key(self, context: Dict) -> str:
+        """Extract key context features for pattern matching"""
+        # Extract relevant context features
+        features = []
+
+        # Robot state features
+        robot_state = context.get('robot_state', {})
+        features.append(f"battery_{int(robot_state.get('battery_level', 1.0) * 10)}")
+
+        # Object features
+        objects = context.get('objects', [])
+        object_types = [obj['type'] for obj in objects]
+        features.extend([f"obj_{t}" for t in sorted(set(object_types))])
+
+        # Location features
+        locations = context.get('locations', [])
+        location_types = [loc['type'] for loc in locations]
+        features.extend([f"loc_{t}" for t in sorted(set(location_types))])
+
+        return "_".join(features)
+
+    def get_adaptation_suggestions(self, current_context: Dict, action_sequence: List[Dict]) -> List[Dict]:
+        """Get adaptation suggestions based on learned patterns"""
+        suggestions = []
+
+        # Find similar contexts
+        current_key = self.extract_context_key(current_context)
+
+        # Check for failure patterns in similar contexts
+        if current_key in self.failure_patterns:
+            recent_failures = self.failure_patterns[current_key][-5:]  # Last 5 failures
+            for failure_seq in recent_failures:
+                # Compare with current sequence to identify problematic patterns
+                problematic_actions = self.compare_sequences(action_sequence, failure_seq)
+                for action_idx, action in problematic_actions:
+                    suggestions.append({
+                        'type': 'avoid',
+                        'action_index': action_idx,
+                        'action': action,
+                        'reason': 'Historical failure pattern detected'
+                    })
+
+        # Check for success patterns
+        if current_key in self.success_patterns:
+            recent_successes = self.success_patterns[current_key][-3:]  # Last 3 successes
+            for success_seq in recent_successes:
+                # Identify successful patterns to replicate
+                successful_actions = self.identify_successful_patterns(action_sequence, success_seq)
+                for action_idx, action in successful_actions:
+                    suggestions.append({
+                        'type': 'emphasize',
+                        'action_index': action_idx,
+                        'action': action,
+                        'reason': 'Historically successful pattern'
+                    })
+
+        return suggestions
+
+    def compare_sequences(self, seq1: List[Dict], seq2: List[Dict]) -> List[Tuple[int, Dict]]:
+        """Compare two action sequences to identify differences"""
+        differences = []
+
+        min_len = min(len(seq1), len(seq2))
+        for i in range(min_len):
+            if seq1[i]['action'] != seq2[i]['action']:
+                differences.append((i, seq1[i]))
+
+        # Add extra actions from longer sequence
+        if len(seq1) > len(seq2):
+            for i in range(min_len, len(seq1)):
+                differences.append((i, seq1[i]))
+
+        return differences
+
+    def identify_successful_patterns(self, current_seq: List[Dict], successful_seq: List[Dict]) -> List[Tuple[int, Dict]]:
+        """Identify patterns from successful sequences to apply to current"""
+        matches = []
+
+        # Simple pattern matching - find similar action sequences
+        for i, action in enumerate(current_seq):
+            for j, success_action in enumerate(successful_seq):
+                if (action['action'] == success_action['action'] and
+                    self.actions_are_similar(action, success_action)):
+                    matches.append((i, action))
+
+        return matches
+
+    def actions_are_similar(self, action1: Dict, action2: Dict) -> bool:
+        """Check if two actions are similar enough to be considered a pattern"""
+        if action1['action'] != action2['action']:
+            return False
+
+        # Compare parameters (simplified)
+        params1 = set(action1.get('parameters', {}).keys())
+        params2 = set(action2.get('parameters', {}).keys())
+
+        # Consider actions similar if they share at least 50% of parameter types
+        common_params = params1.intersection(params2)
+        total_params = params1.union(params2)
+
+        if total_params:
+            return len(common_params) / len(total_params) >= 0.5
+
+        return True
+
+    def perform_learning(self):
+        """Perform periodic learning and adaptation"""
+        if len(self.execution_history) < 10:
+            return  # Need more data for meaningful learning
+
+        # Analyze recent execution patterns
+        recent_results = self.execution_history[-20:]  # Last 20 tasks
+
+        # Calculate success rates for different context types
+        context_success_rates = {}
+        for result in recent_results:
+            ctx_key = self.extract_context_key(result['context'])
+            if ctx_key not in context_success_rates:
+                context_success_rates[ctx_key] = {'success': 0, 'total': 0}
+
+            if result['outcome'] == 'SUCCESS':
+                context_success_rates[ctx_key]['success'] += 1
+            context_success_rates[ctx_key]['total'] += 1
+
+        # Identify problematic contexts
+        for ctx_key, stats in context_success_rates.items():
+            success_rate = stats['success'] / stats['total'] if stats['total'] > 0 else 0
+            if success_rate < 0.6:  # Less than 60% success rate
+                self.get_logger().warn(f'Low success rate in context {ctx_key}: {success_rate:.2f}')
+
+        self.get_logger().info(f'Learning performed with {len(self.execution_history)} total examples')
+
+class AdaptiveCognitivePlanner(CognitivePlanningSystem):
+    def __init__(self):
+        super().__init__()
+
+        # Initialize context learner
+        self.context_learner = ContextLearner(self)
+
+    def generate_cognitive_plan(self, task_description: str, context: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Generate cognitive plan with adaptation based on learned patterns"""
+        # First, generate the base plan using LLM
+        base_plan = super().generate_cognitive_plan(task_description, context)
+
+        # Get adaptation suggestions from learned patterns
+        adaptations = self.context_learner.get_adaptation_suggestions(context, base_plan)
+
+        # Apply adaptations to the plan
+        adapted_plan = self.apply_adaptations(base_plan, adaptations)
+
+        return adapted_plan
+
+    def apply_adaptations(self, base_plan: List[Dict], adaptations: List[Dict]) -> List[Dict]:
+        """Apply learned adaptations to the base plan"""
+        adapted_plan = base_plan.copy()
+
+        for adaptation in adaptations:
+            action_idx = adaptation['action_index']
+            adaptation_type = adaptation['type']
+            reason = adaptation['reason']
+
+            if 0 <= action_idx < len(adapted_plan):
+                action = adapted_plan[action_idx]
+
+                if adaptation_type == 'avoid':
+                    # Modify or replace problematic action
+                    self.get_logger().info(f'Adapting action to avoid failure: {reason}')
+                    # Apply appropriate modification based on context
+                    pass
+                elif adaptation_type == 'emphasize':
+                    # Enhance successful action
+                    self.get_logger().info(f'Emphasizing successful action: {reason}')
+                    # Apply appropriate enhancement
+                    pass
+
+        return adapted_plan
+```
+
+## Planning Validation and Safety
+
+### Safety-Constrained Planning
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from humanoid_robot_msgs.msg import SafetyConstraints
+import json
+from typing import Dict, List, Any
+
+class SafetyValidator:
+    def __init__(self, node: Node):
+        self.node = node
+        self.safety_constraints = {
+            'max_velocity': 0.5,  # m/s
+            'max_acceleration': 1.0,  # m/s²
+            'min_obstacle_distance': 0.3,  # meters
+            'max_payload': 5.0,  # kg
+            'joint_limits': {
+                'hip_pitch': (-1.57, 1.57),  # radians
+                'knee_pitch': (-2.0, 0.5),
+                'ankle_pitch': (-0.5, 0.5),
+                'ankle_roll': (-0.3, 0.3)
+            },
+            'balance_constraints': {
+                'max_zmp_deviation': 0.05,  # meters
+                'com_height_range': (0.7, 1.2)  # meters
+            }
+        }
+
+    def validate_action(self, action: Dict[str, Any], current_state: Dict[str, Any]) -> Tuple[bool, List[str]]:
+        """Validate a single action against safety constraints"""
+        violations = []
+
+        action_type = action['action']
+        params = action.get('parameters', {})
+
+        # Check navigation safety
+        if action_type == 'navigate_to':
+            target_pos = params.get('position', {})
+            if target_pos:
+                # Check if target is safe (not too close to obstacles)
+                obstacles = current_state.get('obstacles', [])
+                for obstacle in obstacles:
+                    dist = self.calculate_distance(target_pos, obstacle)
+                    if dist < self.safety_constraints['min_obstacle_distance']:
+                        violations.append(f'Target too close to obstacle: {dist:.2f}m')
+
+        # Check manipulation safety
+        elif action_type == 'pick_up':
+            object_weight = params.get('weight', 0)
+            if object_weight > self.safety_constraints['max_payload']:
+                violations.append(f'Object too heavy: {object_weight}kg > {self.safety_constraints["max_payload"]}kg')
+
+        # Check joint limit safety
+        elif action_type == 'move_joints':
+            joint_positions = params.get('positions', {})
+            for joint_name, position in joint_positions.items():
+                limits = self.safety_constraints['joint_limits'].get(joint_name)
+                if limits:
+                    min_limit, max_limit = limits
+                    if not (min_limit <= position <= max_limit):
+                        violations.append(f'Joint {joint_name} limit violation: {position} rad not in [{min_limit}, {max_limit}]')
+
+        # Check balance constraints
+        elif action_type in ['step', 'move_com']:
+            com_position = current_state.get('center_of_mass', {})
+            zmp_position = current_state.get('zero_moment_point', {})
+
+            # Calculate ZMP deviation
+            if com_position and zmp_position:
+                zmp_dev = self.calculate_zmp_deviation(com_position, zmp_position)
+                if zmp_dev > self.safety_constraints['max_zmp_deviation']:
+                    violations.append(f'ZMP deviation too large: {zmp_dev:.3f}m > {self.safety_constraints["max_zmp_deviation"]}m')
+
+        return len(violations) == 0, violations
+
+    def validate_plan(self, action_sequence: List[Dict[str, Any]], initial_state: Dict[str, Any]) -> Tuple[bool, List[str]]:
+        """Validate entire action sequence"""
+        all_violations = []
+        current_state = initial_state.copy()
+
+        for i, action in enumerate(action_sequence):
+            is_valid, violations = self.validate_action(action, current_state)
+
+            if not is_valid:
+                for violation in violations:
+                    all_violations.append(f'Step {i}: {violation}')
+
+            # Update state for next action validation
+            current_state = self.update_state(current_state, action)
+
+        return len(all_violations) == 0, all_violations
+
+    def calculate_distance(self, pos1: Dict[str, float], pos2: Dict[str, float]) -> float:
+        """Calculate Euclidean distance between two positions"""
+        dx = pos1.get('x', 0) - pos2.get('x', 0)
+        dy = pos1.get('y', 0) - pos2.get('y', 0)
+        dz = pos1.get('z', 0) - pos2.get('z', 0)
+        return (dx*dx + dy*dy + dz*dz)**0.5
+
+    def calculate_zmp_deviation(self, com: Dict[str, float], zmp: Dict[str, float]) -> float:
+        """Calculate deviation between center of mass and zero moment point"""
+        dx = com.get('x', 0) - zmp.get('x', 0)
+        dy = com.get('y', 0) - zmp.get('y', 0)
+        return (dx*dx + dy*dy)**0.5
+
+    def update_state(self, current_state: Dict[str, Any], action: Dict[str, Any]) -> Dict[str, Any]:
+        """Update state after action execution (simplified)"""
+        new_state = current_state.copy()
+
+        # This would be more complex in a real implementation
+        # Update based on action effects
+        if action['action'] == 'navigate_to':
+            new_state['robot_position'] = action['parameters'].get('position', new_state.get('robot_position', {}))
+
+        return new_state
+
+class SafeCognitivePlanner(AdaptiveCognitivePlanner):
+    def __init__(self):
+        super().__init__()
+        self.safety_validator = SafetyValidator(self)
+
+    def generate_cognitive_plan(self, task_description: str, context: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Generate cognitive plan with safety validation"""
+        # Generate initial plan
+        plan = super().generate_cognitive_plan(task_description, context)
+
+        # Validate the plan
+        is_safe, violations = self.safety_validator.validate_plan(plan, context)
+
+        if not is_safe:
+            self.get_logger().warn(f'Plan has safety violations: {violations}')
+
+            # Attempt to fix the plan
+            safe_plan = self.revise_plan_for_safety(plan, context, violations)
+            return safe_plan
+
+        return plan
+
+    def revise_plan_for_safety(self, plan: List[Dict], context: Dict, violations: List[str]) -> List[Dict]:
+        """Revise plan to address safety violations"""
+        # This would implement plan revision algorithms
+        # For now, return the original plan (in practice, you'd modify it)
+        self.get_logger().info('Revising plan for safety...')
+
+        # Example: If navigation is unsafe, find alternative route
+        for i, action in enumerate(plan):
+            if action['action'] == 'navigate_to':
+                # Check if this action is related to a violation
+                if any('navigate_to' in violation for violation in violations):
+                    # Modify the navigation action to be safer
+                    self.get_logger().info(f'Modifying navigation action {i} for safety')
+                    # Add safety checks, alternative routes, etc.
+
+        return plan
+```
+
+## Best Practices for Cognitive Planning
+
+### 1. Robustness and Error Handling
+- Implement multiple planning strategies for different scenarios
+- Design graceful degradation when LLM fails
+- Include fallback behaviors for common failure modes
+- Validate plans before execution
+
+### 2. Performance Optimization
+- Cache frequently used plans and patterns
+- Use hierarchical planning to reduce complexity
+- Implement plan refinement rather than complete replanning
+- Optimize LLM calls with proper prompting
+
+### 3. Safety and Reliability
+- Implement comprehensive safety validation
+- Use multiple validation layers (kinematic, dynamic, environmental)
+- Design for human oversight and intervention
+- Include uncertainty quantification
+
+### 4. Learning and Adaptation
+- Continuously update models based on execution results
+- Learn from both successes and failures
+- Adapt to changing environments and requirements
+- Maintain explainability for learned behaviors
+
+## Troubleshooting Common Issues
+
+### 1. LLM Hallucination
+- Use structured outputs (JSON format)
+- Implement result validation
+- Cross-reference with known facts
+- Use multiple LLMs for critical decisions
+
+### 2. Planning Inconsistency
+- Maintain consistent world state representation
+- Use proper state synchronization
+- Implement plan monitoring and correction
+- Design for partial observability
+
+### 3. Computational Performance
+- Use local models for real-time planning
+- Implement plan caching and reuse
+- Optimize LLM context windows
+- Consider hierarchical decomposition
+
+## Hands-on Exercise
+
+1. Implement an LLM-based planner using OpenAI or a local model
+2. Integrate with ROS 2 message passing for task coordination
+3. Add context awareness with world state management
+4. Implement safety validation for generated plans
+5. Test with various task scenarios and evaluate performance
+
+## Quiz Questions
+
+1. What are the key components of a cognitive planning system for humanoid robots?
+2. How does hierarchical task network (HTN) planning improve cognitive reasoning?
+3. What safety considerations are essential when using LLMs for robot planning?
+
+</InteractiveLesson>

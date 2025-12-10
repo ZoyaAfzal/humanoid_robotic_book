@@ -1,0 +1,944 @@
+---
+sidebar_position: 1
+---
+
+import InteractiveLesson from '@site/src/components/InteractiveLesson';
+
+<InteractiveLesson title="Bipedal Path Planning (Nav2)" chapter={4} lesson={3}>
+
+# Bipedal Path Planning (Nav2)
+
+In this comprehensive lesson, you'll explore specialized path planning techniques for bipedal humanoid robots using the Navigation2 (Nav2) framework. Unlike wheeled robots, humanoid robots have unique locomotion constraints that require specialized planning algorithms to ensure stable, efficient, and safe navigation.
+
+## Introduction to Bipedal Path Planning
+
+Bipedal path planning presents unique challenges compared to traditional mobile robots:
+
+- **Dynamic Stability**: Maintaining balance during locomotion
+- **Footstep Planning**: Planning where and how to place each foot
+- **Center of Mass Management**: Controlling the robot's balance point
+- **Terrain Adaptability**: Navigating various surfaces and obstacles
+- **Human-like Movement**: Achieving natural walking patterns
+
+### Key Differences from Wheeled Navigation
+
+1. **Discrete Contact Points**: Feet rather than continuous contact
+2. **Balance Constraints**: Must maintain center of mass over support polygon
+3. **Step-by-Step Motion**: Discrete step planning vs continuous motion
+4. **Dynamic Stability**: Requires active balance control during movement
+5. **Terrain Sensitivity**: More affected by ground irregularities
+
+## Navigation2 Architecture for Humanoid Robots
+
+### Nav2 Core Components
+
+Navigation2 provides a flexible, behavior-tree-based architecture that can be adapted for humanoid navigation:
+
+```python
+import rclpy
+from rclpy.node import Node
+from nav2_behavior_tree.bt_controller import BehaviorTreeController
+from nav2_msgs.action import NavigateToPose
+from geometry_msgs.msg import PoseStamped
+import math
+
+class HumanoidNav2Node(Node):
+    def __init__(self):
+        super().__init__('humanoid_nav2_node')
+
+        # Initialize Nav2 components
+        self.setup_nav2_components()
+
+        # Initialize humanoid-specific components
+        self.setup_bipedal_components()
+
+        # Create action client for navigation
+        self.nav_client = self.create_client(
+            NavigateToPose, 'navigate_to_pose')
+
+        # Footstep planner
+        self.footstep_planner = FootstepPlanner()
+
+        # Balance controller
+        self.balance_controller = BalanceController()
+
+    def setup_nav2_components(self):
+        """Initialize standard Nav2 components"""
+        # Costmap for obstacle avoidance
+        # Global and local planners
+        # Controller for trajectory following
+        pass
+
+    def setup_bipedal_components(self):
+        """Initialize humanoid-specific navigation components"""
+        # Footstep planner
+        # Balance controller
+        # Walking pattern generator
+        # ZMP (Zero Moment Point) controller
+        pass
+
+    def plan_bipedal_path(self, start_pose, goal_pose):
+        """Plan a path considering bipedal constraints"""
+        # Use Nav2 global planner for high-level path
+        nav2_path = self.get_global_plan(start_pose, goal_pose)
+
+        # Convert to footstep plan
+        footstep_plan = self.footstep_planner.plan_footsteps(nav2_path)
+
+        # Validate balance constraints
+        balanced_plan = self.balance_controller.validate_balance(footstep_plan)
+
+        return balanced_plan
+
+    def execute_bipedal_navigation(self, goal_pose):
+        """Execute navigation with bipedal-specific control"""
+        # Plan footstep sequence
+        footstep_plan = self.plan_bipedal_path(self.get_robot_pose(), goal_pose)
+
+        # Execute step-by-step with balance control
+        for step in footstep_plan:
+            self.execute_footstep(step)
+            self.maintain_balance()
+
+            # Check for safety and adjust if needed
+            if not self.is_safe_to_continue():
+                return False
+
+        return True
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = HumanoidNav2Node()
+
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        node.get_logger().info('Shutting down')
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Footstep Planning Algorithms
+
+### A* for Footstep Planning
+
+```python
+import numpy as np
+from scipy.spatial import KDTree
+import heapq
+
+class FootstepPlanner:
+    def __init__(self, step_size=0.3, max_step_width=0.4):
+        self.step_size = step_size  # Distance between consecutive steps
+        self.max_step_width = max_step_width  # Maximum lateral step width
+        self.costmap = None
+
+    def plan_footsteps(self, global_path):
+        """Plan footstep sequence from global path"""
+        if len(global_path) < 2:
+            return []
+
+        # Start with current robot position
+        footsteps = [global_path[0]]
+
+        # Plan footstep sequence
+        current_pos = global_path[0]
+        path_idx = 1
+
+        while path_idx < len(global_path):
+            # Find next valid footstep position
+            next_step = self.find_next_footstep(
+                current_pos, global_path[path_idx:], footsteps)
+
+            if next_step is None:
+                break  # Cannot find valid step
+
+            footsteps.append(next_step)
+            current_pos = next_step
+            path_idx = self.find_closest_path_index(current_pos, global_path, path_idx)
+
+        return footsteps
+
+    def find_next_footstep(self, current_pos, remaining_path, previous_steps):
+        """Find the next valid footstep position"""
+        # Search for valid step positions around the path
+        search_radius = self.step_size * 1.5
+
+        # Generate potential step positions
+        potential_steps = self.generate_potential_steps(current_pos, remaining_path[0])
+
+        # Evaluate each potential step
+        best_step = None
+        best_score = float('inf')
+
+        for step in potential_steps:
+            if self.is_valid_footstep(step, previous_steps):
+                score = self.evaluate_footstep(step, remaining_path[0])
+                if score < best_score:
+                    best_score = score
+                    best_step = step
+
+        return best_step
+
+    def generate_potential_steps(self, current_pos, target_pos):
+        """Generate potential footstep positions around target"""
+        potential_steps = []
+
+        # Calculate direction toward target
+        dx = target_pos.pose.position.x - current_pos.pose.position.x
+        dy = target_pos.pose.position.y - current_pos.pose.position.y
+        distance = math.sqrt(dx*dx + dy*dy)
+
+        if distance == 0:
+            return potential_steps
+
+        # Normalize direction
+        dir_x = dx / distance
+        dir_y = dy / distance
+
+        # Generate steps in various directions
+        for step_dist in [self.step_size * 0.8, self.step_size, self.step_size * 1.2]:
+            for angle_offset in [-0.5, -0.25, 0, 0.25, 0.5]:  # Lateral variations
+                # Calculate step position
+                step_x = current_pos.pose.position.x + dir_x * step_dist
+                step_y = current_pos.pose.position.y + dir_y * step_dist
+
+                # Apply lateral offset
+                offset_x = -dir_y * angle_offset * self.max_step_width
+                offset_y = dir_x * angle_offset * self.max_step_width
+
+                step_x += offset_x
+                step_y += offset_y
+
+                # Create pose
+                step_pose = PoseStamped()
+                step_pose.pose.position.x = step_x
+                step_pose.pose.position.y = step_y
+                step_pose.pose.position.z = current_pos.pose.position.z
+
+                potential_steps.append(step_pose)
+
+        return potential_steps
+
+    def is_valid_footstep(self, step, previous_steps):
+        """Check if footstep is valid (collision-free, stable)"""
+        # Check collision with obstacles
+        if not self.is_collision_free(step):
+            return False
+
+        # Check balance constraints
+        if not self.is_balance_valid(step, previous_steps):
+            return False
+
+        return True
+
+    def is_collision_free(self, step):
+        """Check if step position is collision-free"""
+        # Check costmap at step position
+        x = int((step.pose.position.x - self.costmap_origin_x) / self.costmap_resolution)
+        y = int((step.pose.position.y - self.costmap_origin_y) / self.costmap_resolution)
+
+        if x < 0 or x >= self.costmap_width or y < 0 or y >= self.costmap_height:
+            return False
+
+        cost = self.costmap_data[y * self.costmap_width + x]
+        return cost < 50  # Threshold for valid step
+
+    def is_balance_valid(self, step, previous_steps):
+        """Check if step maintains balance"""
+        if len(previous_steps) < 1:
+            return True
+
+        # Calculate support polygon from current and previous foot positions
+        # For bipedal: check that COM projection is within triangle formed by feet
+        # This is a simplified check - real implementation would use ZMP or other criteria
+
+        # Check distance from previous step (should be within reasonable range)
+        prev_step = previous_steps[-1]
+        dx = step.pose.position.x - prev_step.pose.position.x
+        dy = step.pose.position.y - prev_step.pose.position.y
+        dist = math.sqrt(dx*dx + dy*dy)
+
+        return dist <= self.max_step_width * 2  # Reasonable step distance
+
+    def evaluate_footstep(self, step, target):
+        """Evaluate quality of footstep"""
+        # Distance to target
+        dx = step.pose.position.x - target.pose.position.x
+        dy = step.pose.position.y - target.pose.position.y
+        dist_to_target = math.sqrt(dx*dx + dy*dy)
+
+        # Smoothness penalty (deviation from straight path)
+        # Add other factors like terrain cost, etc.
+
+        return dist_to_target
+```
+
+### Footstep Planning with Balance Constraints
+
+```python
+import numpy as np
+from geometry_msgs.msg import Point
+
+class BalanceConstrainedFootstepPlanner:
+    def __init__(self):
+        self.zmp_margin = 0.05  # Safety margin for ZMP (meters)
+        self.max_step_height = 0.1  # Maximum step height (meters)
+        self.support_polygon = []
+
+    def plan_with_balance_constraints(self, start_pose, goal_pose, costmap):
+        """Plan footsteps with explicit balance constraints"""
+        # Initialize support polygon with starting foot positions
+        left_foot = self.calculate_left_foot_position(start_pose)
+        right_foot = self.calculate_right_foot_position(start_pose)
+
+        self.support_polygon = self.calculate_support_polygon(left_foot, right_foot)
+
+        # Plan footsteps using balance-aware A*
+        footsteps = self.balance_aware_astar(start_pose, goal_pose, costmap)
+
+        return footsteps
+
+    def balance_able_astar(self, start_pose, goal_pose, costmap):
+        """A* algorithm with balance constraints"""
+        # Priority queue: (cost, position, support_polygon)
+        open_set = [(0, start_pose, self.support_polygon)]
+        closed_set = set()
+
+        g_score = {self.pose_to_key(start_pose): 0}
+        came_from = {}
+
+        while open_set:
+            current_cost, current_pose, current_support = heapq.heappop(open_set)
+
+            # Check if we reached the goal
+            if self.is_at_goal(current_pose, goal_pose):
+                return self.reconstruct_path(came_from, current_pose)
+
+            current_key = self.pose_to_key(current_pose)
+            if current_key in closed_set:
+                continue
+
+            closed_set.add(current_key)
+
+            # Generate neighbor footsteps
+            neighbors = self.generate_balance_valid_neighbors(
+                current_pose, current_support, costmap)
+
+            for neighbor_pose, neighbor_support in neighbors:
+                neighbor_key = self.pose_to_key(neighbor_pose)
+
+                if neighbor_key in closed_set:
+                    continue
+
+                tentative_g_score = g_score[current_key] + self.step_cost(
+                    current_pose, neighbor_pose)
+
+                if neighbor_key not in g_score or tentative_g_score < g_score[neighbor_key]:
+                    came_from[neighbor_key] = current_key
+                    g_score[neighbor_key] = tentative_g_score
+                    f_score = tentative_g_score + self.heuristic(neighbor_pose, goal_pose)
+
+                    heapq.heappush(open_set, (f_score, neighbor_pose, neighbor_support))
+
+        return []  # No path found
+
+    def generate_balance_valid_neighbors(self, current_pose, current_support, costmap):
+        """Generate footstep neighbors that maintain balance"""
+        neighbors = []
+
+        # Generate potential step positions
+        potential_steps = self.generate_step_pattern(current_pose)
+
+        for step_pose in potential_steps:
+            if self.is_collision_free(step_pose, costmap):
+                # Calculate new support polygon after this step
+                new_support = self.update_support_polygon(
+                    current_support, current_pose, step_pose)
+
+                # Check if new support polygon maintains balance
+                if self.is_balance_maintained(new_support):
+                    neighbors.append((step_pose, new_support))
+
+        return neighbors
+
+    def is_balance_maintained(self, support_polygon):
+        """Check if support polygon can maintain balance"""
+        # Check if center of mass projection is within support polygon
+        # This would involve checking ZMP (Zero Moment Point) constraints
+        # For humanoid: ensure COM projection is within convex hull of feet
+
+        # Simplified check: ensure support polygon has reasonable area
+        area = self.calculate_polygon_area(support_polygon)
+        return area > 0.01  # Minimum support area threshold
+
+    def update_support_polygon(self, current_support, old_foot, new_foot):
+        """Update support polygon after a step"""
+        # For bipedal: when one foot moves, the support polygon changes
+        # This is a simplified model - real implementation would be more complex
+        updated_support = current_support.copy()
+        # Replace old foot position with new foot position
+        # Calculate new support polygon
+        return updated_support
+```
+
+## Humanoid-Specific Path Smoothing
+
+### Cubic Spline Smoothing for Humanoid Paths
+
+```python
+import numpy as np
+from scipy.interpolate import CubicSpline
+import math
+
+class HumanoidPathSmoother:
+    def __init__(self):
+        self.smoothing_factor = 0.1
+        self.max_curvature = 0.5  # Maximum allowed curvature (1/m)
+
+    def smooth_path(self, raw_path):
+        """Smooth path for humanoid-friendly motion"""
+        if len(raw_path) < 3:
+            return raw_path
+
+        # Extract x, y coordinates
+        x_coords = [pose.pose.position.x for pose in raw_path]
+        y_coords = [pose.pose.position.y for pose in raw_path]
+
+        # Create parameterization based on cumulative distance
+        distances = [0]
+        for i in range(1, len(raw_path)):
+            dx = x_coords[i] - x_coords[i-1]
+            dy = y_coords[i] - y_coords[i-1]
+            distances.append(distances[-1] + math.sqrt(dx*dx + dy*dy))
+
+        # Create cubic splines
+        cs_x = CubicSpline(distances, x_coords, bc_type='natural')
+        cs_y = CubicSpline(distances, y_coords, bc_type='natural')
+
+        # Generate smooth path with appropriate resolution
+        smooth_path = []
+        total_distance = distances[-1]
+        step_size = 0.1  # 10cm steps for smooth humanoid motion
+
+        for d in np.arange(0, total_distance, step_size):
+            x = cs_x(d)
+            y = cs_y(d)
+
+            # Calculate orientation (tangent to path)
+            dx_dt = cs_x.derivative()(d)
+            dy_dt = cs_y.derivative()(d)
+            theta = math.atan2(dy_dt, dx_dt)
+
+            # Create pose
+            pose = PoseStamped()
+            pose.pose.position.x = x
+            pose.pose.position.y = y
+            pose.pose.position.z = raw_path[0].pose.position.z  # Maintain height
+
+            # Set orientation
+            from tf_transformations import quaternion_from_euler
+            quat = quaternion_from_euler(0, 0, theta)
+            pose.pose.orientation.x = quat[0]
+            pose.pose.orientation.y = quat[1]
+            pose.pose.orientation.z = quat[2]
+            pose.pose.orientation.w = quat[3]
+
+            smooth_path.append(pose)
+
+        return smooth_path
+
+    def apply_curvature_constraints(self, path):
+        """Apply curvature constraints for safe humanoid navigation"""
+        constrained_path = [path[0]]  # Start with first point
+
+        i = 0
+        while i < len(path) - 1:
+            current = path[i]
+            j = i + 1
+
+            # Find the furthest point that satisfies curvature constraints
+            while j < len(path):
+                if self.check_curvature_constraint(path[i], path[j]):
+                    j += 1
+                else:
+                    break
+
+            # Add the last valid point
+            if j > i + 1:
+                constrained_path.append(path[j - 1])
+                i = j - 1
+            else:
+                # If no valid point found, add the next point anyway
+                # (this might violate constraints but ensures progress)
+                constrained_path.append(path[i + 1])
+                i += 1
+
+        return constrained_path
+
+    def check_curvature_constraint(self, pose1, pose2):
+        """Check if segment between poses satisfies curvature constraints"""
+        dx = pose2.pose.position.x - pose1.pose.position.x
+        dy = pose2.pose.position.y - pose1.pose.position.y
+        distance = math.sqrt(dx*dx + dy*dy)
+
+        if distance < 0.01:  # Too close, avoid division by zero
+            return True
+
+        # Calculate curvature based on orientation change
+        # For a circular arc: curvature = 2*sin(angular_change/2) / distance
+        orientation1 = self.get_yaw_from_quaternion(pose1.pose.orientation)
+        orientation2 = self.get_yaw_from_quaternion(pose2.pose.orientation)
+
+        angular_change = abs(orientation2 - orientation1)
+        # Normalize to [-π, π]
+        while angular_change > math.pi:
+            angular_change -= 2 * math.pi
+        while angular_change < -math.pi:
+            angular_change += 2 * math.pi
+
+        # Approximate curvature
+        curvature = 2 * abs(math.sin(angular_change / 2)) / max(distance, 0.01)
+
+        return abs(curvature) <= self.max_curvature
+
+    def get_yaw_from_quaternion(self, quat):
+        """Extract yaw angle from quaternion"""
+        siny_cosp = 2 * (quat.w * quat.z + quat.x * quat.y)
+        cosy_cosp = 1 - 2 * (quat.y * quat.y + quat.z * quat.z)
+        return math.atan2(siny_cosp, cosy_cosp)
+```
+
+## ZMP-Based Path Planning
+
+### Zero Moment Point Path Planning
+
+```python
+import numpy as np
+from scipy.optimize import minimize
+
+class ZMPPathPlanner:
+    def __init__(self):
+        self.com_height = 0.8  # Center of mass height (meters)
+        self.gravity = 9.81
+        self.zmp_margin = 0.05  # Safety margin (meters)
+
+    def plan_zmp_feasible_path(self, start_pose, goal_pose, support_regions):
+        """Plan path that maintains ZMP within support polygon"""
+        # Discretize the path
+        waypoints = self.discretize_path(start_pose, goal_pose)
+
+        # Optimize for ZMP feasibility
+        optimized_waypoints = self.optimize_for_zmp(waypoints, support_regions)
+
+        return optimized_waypoints
+
+    def discretize_path(self, start_pose, goal_pose):
+        """Create discrete waypoints along straight-line path"""
+        num_waypoints = 20  # Adjust based on path length
+        waypoints = []
+
+        dx = (goal_pose.pose.position.x - start_pose.pose.position.x) / (num_waypoints - 1)
+        dy = (goal_pose.pose.position.y - start_pose.pose.position.y) / (num_waypoints - 1)
+
+        for i in range(num_waypoints):
+            waypoint = PoseStamped()
+            waypoint.pose.position.x = start_pose.pose.position.x + i * dx
+            waypoint.pose.position.y = start_pose.pose.position.y + i * dy
+            waypoint.pose.position.z = start_pose.pose.position.z
+
+            waypoints.append(waypoint)
+
+        return waypoints
+
+    def optimize_for_zmp(self, waypoints, support_regions):
+        """Optimize waypoints to maintain ZMP feasibility"""
+        # Convert waypoints to optimization variables
+        # [x0, y0, x1, y1, ..., xn, yn]
+        initial_vars = []
+        for wp in waypoints:
+            initial_vars.extend([wp.pose.position.x, wp.pose.position.y])
+
+        # Define optimization function
+        def objective(vars):
+            total_cost = 0
+            for i in range(0, len(vars), 2):
+                # Deviation from original path
+                original_idx = i // 2
+                if original_idx < len(waypoints):
+                    orig_x = waypoints[original_idx].pose.position.x
+                    orig_y = waypoints[original_idx].pose.position.y
+                    total_cost += (vars[i] - orig_x)**2 + (vars[i+1] - orig_y)**2
+
+            return total_cost
+
+        # Define constraints
+        def zmp_constraint(vars):
+            """Ensure ZMP stays within support polygon at each step"""
+            constraints = []
+
+            for i in range(0, len(vars), 2):
+                x, y = vars[i], vars[i+1]
+
+                # Check if (x,y) is within support polygon
+                # This would involve checking if the point is inside the convex hull
+                # of the current foot positions
+                in_support = self.is_in_support_polygon(x, y, support_regions, i//2)
+
+                if in_support:
+                    constraints.append(1.0)  # Satisfied
+                else:
+                    constraints.append(-1.0)  # Violated
+
+            return np.array(constraints)
+
+        # Run optimization
+        result = minimize(
+            objective,
+            initial_vars,
+            method='SLSQP',
+            constraints={'type': 'ineq', 'fun': zmp_constraint}
+        )
+
+        # Convert result back to waypoints
+        optimized_waypoints = []
+        for i in range(0, len(result.x), 2):
+            waypoint = PoseStamped()
+            waypoint.pose.position.x = result.x[i]
+            waypoint.pose.position.y = result.x[i+1]
+            waypoint.pose.position.z = waypoints[i//2].pose.position.z if i//2 < len(waypoints) else 0.0
+            optimized_waypoints.append(waypoint)
+
+        return optimized_waypoints
+
+    def is_in_support_polygon(self, x, y, support_regions, time_step):
+        """Check if point (x,y) is within support polygon at given time"""
+        # This would check if the ZMP projection is within the current support polygon
+        # formed by the feet positions
+        # Implementation would depend on the specific footstep plan
+        return True  # Placeholder
+```
+
+## Integration with Navigation2
+
+### Custom Nav2 Plugins for Humanoid Navigation
+
+```python
+# Custom Nav2 plugin for humanoid-specific path planning
+from nav2_core.global_planner import GlobalPlanner
+from nav2_core.local_planner import LocalPlanner
+from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
+from nav_msgs.msg import Path
+import numpy as np
+
+class HumanoidGlobalPlanner(GlobalPlanner):
+    def __init__(self):
+        super().__init__()
+        self.footstep_planner = FootstepPlanner()
+        self.balance_checker = BalanceConstrainedFootstepPlanner()
+
+    def create_plan(self, start, goal, planner_id=""):
+        """Create a bipedal-aware global plan"""
+        # Use standard A* or other algorithm for initial plan
+        raw_path = self.plan_standard_path(start, goal)
+
+        if not raw_path:
+            return Path()  # Empty path if no solution found
+
+        # Convert to footstep plan considering bipedal constraints
+        footstep_path = self.footstep_planner.plan_footsteps(raw_path)
+
+        # Validate with balance constraints
+        balanced_path = self.balance_checker.plan_with_balance_constraints(
+            start, goal, footstep_path)
+
+        # Convert to Nav2 Path message
+        nav2_path = Path()
+        nav2_path.header.frame_id = "map"
+        nav2_path.header.stamp = self.get_clock().now().to_msg()
+
+        for pose in balanced_path:
+            nav2_path.poses.append(pose.pose)
+
+        return nav2_path
+
+    def plan_standard_path(self, start, goal):
+        """Plan initial path using standard algorithms"""
+        # Implementation of standard path planning (A*, Dijkstra, etc.)
+        # This would typically use Nav2's costmap
+        pass
+
+class HumanoidLocalPlanner(LocalPlanner):
+    def __init__(self):
+        super().__init__()
+        self.footstep_generator = FootstepGenerator()
+        self.balance_controller = BalanceController()
+
+    def setPlan(self, path):
+        """Set the global plan for local execution"""
+        self.global_path = path
+        self.footstep_generator.set_global_path(path)
+
+    def computeVelocityCommands(self, pose, velocity):
+        """Compute velocity commands for humanoid robot"""
+        # For bipedal robots, this might involve generating footstep plans
+        # rather than continuous velocity commands
+
+        # Calculate desired footstep based on current pose
+        desired_footstep = self.footstep_generator.get_next_footstep(pose)
+
+        # Generate walking pattern to reach desired footstep
+        walking_cmd = self.generate_walking_command(pose, desired_footstep)
+
+        # Ensure balance during execution
+        self.balance_controller.maintain_balance(pose, velocity)
+
+        return walking_cmd, True  # Return command and if goal reached
+
+    def generate_walking_command(self, current_pose, target_footstep):
+        """Generate walking command to reach target footstep"""
+        # This would generate specific walking pattern commands
+        # for the humanoid robot's walking controller
+        pass
+
+# Registration for Nav2
+def register_plugins():
+    """Register custom humanoid navigation plugins"""
+    from nav2_core import Planner
+    from nav2_core import Controller
+
+    # Register custom planners and controllers
+    # This would typically be done in a plugin.xml file
+    pass
+```
+
+## Real-time Path Replanning
+
+### Dynamic Obstacle Avoidance for Humanoid Robots
+
+```python
+import numpy as np
+from threading import Lock
+from sensor_msgs.msg import LaserScan
+from geometry_msgs.msg import Point
+
+class DynamicHumanoidPathReplanner:
+    def __init__(self):
+        self.current_path = []
+        self.path_lock = Lock()
+        self.replan_threshold = 0.5  # Replan if obstacle within 0.5m
+        self.replan_rate = 1.0  # Replan at most once per second
+
+        self.last_replan_time = 0
+        self.footstep_planner = FootstepPlanner()
+
+    def update_with_sensor_data(self, scan_msg, robot_pose):
+        """Update path based on new sensor data"""
+        current_time = self.get_clock().now().nanoseconds / 1e9
+
+        # Check if replanning is needed
+        if (current_time - self.last_replan_time) < (1.0 / self.replan_rate):
+            return  # Too soon to replan
+
+        # Check for obstacles in path
+        if self.is_path_blocked(scan_msg, robot_pose):
+            # Plan new path avoiding obstacles
+            new_path = self.replan_around_obstacles(scan_msg, robot_pose)
+
+            if new_path:
+                with self.path_lock:
+                    self.current_path = new_path
+                    self.last_replan_time = current_time
+
+    def is_path_blocked(self, scan_msg, robot_pose):
+        """Check if current path is blocked by obstacles"""
+        # Convert path to local coordinates
+        local_path = self.transform_to_local_frame(self.current_path, robot_pose)
+
+        # Check each point in path against laser scan
+        for path_point in local_path:
+            if self.is_point_blocked(path_point, scan_msg):
+                return True
+
+        return False
+
+    def is_point_blocked(self, point, scan_msg):
+        """Check if a specific point is blocked by obstacles"""
+        # Calculate angle and distance from robot to point
+        angle = math.atan2(point.y, point.x)
+        distance = math.sqrt(point.x*point.x + point.y*point.y)
+
+        # Find corresponding laser beam
+        angle_increment = scan_msg.angle_increment
+        angle_min = scan_msg.angle_min
+
+        beam_index = int((angle - angle_min) / angle_increment)
+
+        if 0 <= beam_index < len(scan_msg.ranges):
+            range_reading = scan_msg.ranges[beam_index]
+
+            # If distance to obstacle is less than distance to point, it's blocked
+            return range_reading < distance and range_reading > scan_msg.range_min
+
+        return False
+
+    def replan_around_obstacles(self, scan_msg, robot_pose):
+        """Replan path to avoid detected obstacles"""
+        # Calculate current goal from path
+        if not self.current_path:
+            return None
+
+        goal = self.current_path[-1]  # Last point in current path
+
+        # Plan new path with obstacle inflation
+        self.footstep_planner.inflate_obstacles(scan_msg)
+
+        # Plan new footstep sequence
+        new_path = self.footstep_planner.plan_footsteps([robot_pose, goal])
+
+        return new_path
+```
+
+## Performance Optimization and Best Practices
+
+### Efficient Path Planning for Real-time Applications
+
+```python
+import time
+from functools import wraps
+
+def timing_decorator(func):
+    """Decorator to measure execution time"""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f"{func.__name__} took {end - start:.4f} seconds")
+        return result
+    return wrapper
+
+class OptimizedBipedalPathPlanner:
+    def __init__(self):
+        self.path_cache = {}
+        self.max_cache_size = 100
+
+    @timing_decorator
+    def plan_path_with_cache(self, start, goal):
+        """Plan path with caching for frequently requested paths"""
+        cache_key = self.create_cache_key(start, goal)
+
+        if cache_key in self.path_cache:
+            return self.path_cache[cache_key]
+
+        # Plan new path
+        path = self.plan_bipedal_path(start, goal)
+
+        # Add to cache
+        if len(self.path_cache) < self.max_cache_size:
+            self.path_cache[cache_key] = path
+
+        return path
+
+    def create_cache_key(self, start, goal):
+        """Create a hashable key for path caching"""
+        # Discretize positions to reduce cache size
+        start_key = (int(start.pose.position.x * 10), int(start.pose.position.y * 10))
+        goal_key = (int(goal.pose.position.x * 10), int(goal.pose.position.y * 10))
+        return (start_key, goal_key)
+
+    def plan_bipedal_path(self, start, goal):
+        """Efficient bipedal path planning implementation"""
+        # Use optimized algorithms and data structures
+        # Implement hierarchical planning for efficiency
+        # Use approximate methods when exact solutions aren't needed
+        pass
+
+    def hierarchical_path_planning(self, start, goal):
+        """Use hierarchical approach for efficiency"""
+        # High-level planning on coarse grid
+        high_level_path = self.plan_coarse_path(start, goal)
+
+        # Refine each segment with detailed footstep planning
+        detailed_path = []
+        for i in range(len(high_level_path) - 1):
+            segment = self.plan_detailed_segment(
+                high_level_path[i], high_level_path[i+1])
+            detailed_path.extend(segment[:-1])  # Exclude last point to avoid duplication
+
+        detailed_path.append(high_level_path[-1])  # Add final point
+        return detailed_path
+
+    def plan_coarse_path(self, start, goal):
+        """Plan path on coarse resolution grid"""
+        # Use standard path planning on downsampled map
+        pass
+
+    def plan_detailed_segment(self, start, end):
+        """Plan detailed footstep sequence for segment"""
+        # Plan footstep sequence between start and end points
+        pass
+```
+
+## Best Practices for Bipedal Path Planning
+
+### 1. Balance and Stability
+- Always validate center of mass position relative to support polygon
+- Use ZMP (Zero Moment Point) constraints for dynamic stability
+- Plan conservative paths with adequate safety margins
+- Consider walking speed effects on stability
+
+### 2. Terrain Adaptation
+- Account for ground slope and unevenness
+- Plan different step heights for stairs or curbs
+- Consider surface friction and slipperiness
+- Adapt step width and length based on terrain
+
+### 3. Human-like Navigation
+- Plan paths that avoid obstacles in a human-like manner
+- Consider doorways, corridors, and human traffic patterns
+- Plan for natural turning motions
+- Maintain appropriate personal space from obstacles
+
+### 4. Computational Efficiency
+- Use hierarchical planning for large environments
+- Implement path caching for frequently traveled routes
+- Use approximate methods when exact solutions aren't critical
+- Optimize data structures for fast collision checking
+
+## Troubleshooting Common Issues
+
+### 1. Path Oscillation
+- Increase smoothing parameters
+- Use hysteresis in path re-planning
+- Implement path following with tolerance
+
+### 2. Balance Failures
+- Increase support polygon margins
+- Reduce walking speed in tight spaces
+- Plan more conservative step sequences
+
+### 3. Performance Issues
+- Use coarser path discretization
+- Implement multi-threading for planning
+- Pre-compute static obstacle inflation
+
+## Hands-on Exercise
+
+1. Implement a basic footstep planner using the A* algorithm
+2. Add balance constraints to ensure stable walking
+3. Integrate with Navigation2's behavior tree system
+4. Test path planning in simulation with various obstacle configurations
+5. Validate that planned paths maintain dynamic stability
+
+## Quiz Questions
+
+1. What are the key differences between wheeled robot navigation and bipedal navigation?
+2. How does the Zero Moment Point (ZMP) concept apply to humanoid path planning?
+3. What are the main challenges in planning paths for bipedal humanoid robots?
+
+</InteractiveLesson>

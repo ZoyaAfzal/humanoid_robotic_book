@@ -1,0 +1,885 @@
+---
+sidebar_position: 1
+---
+
+import InteractiveLesson from '@site/src/components/InteractiveLesson';
+
+<InteractiveLesson title="Hardware-Accelerated Navigation (Isaac ROS)" chapter={4} lesson={2}>
+
+# Hardware-Accelerated Navigation (Isaac ROS)
+
+In this comprehensive lesson, you'll explore NVIDIA Isaac ROS, a collection of hardware-accelerated perception and navigation packages designed specifically for robotics applications. Isaac ROS leverages NVIDIA's GPU computing capabilities to accelerate critical navigation tasks for humanoid robots, enabling real-time performance for complex algorithms.
+
+## Introduction to Isaac ROS
+
+NVIDIA Isaac ROS is a collection of GPU-accelerated perception and navigation packages that provide:
+
+- **Hardware Acceleration**: GPU-accelerated algorithms for real-time performance
+- **Perception**: Advanced computer vision and sensor processing
+- **Navigation**: SLAM, path planning, and motion control
+- **Integration**: Seamless integration with ROS 2 ecosystem
+- **Optimization**: Performance optimized for NVIDIA hardware
+
+### Key Components of Isaac ROS
+
+1. **Isaac ROS Image Pipeline**: Hardware-accelerated image processing
+2. **Isaac ROS Stereo Dense Reconstruction**: 3D scene reconstruction
+3. **Isaac ROS Object Detection**: AI-powered object detection
+4. **Isaac ROS SLAM**: Simultaneous Localization and Mapping
+5. **Isaac ROS Navigation**: Path planning and motion control
+6. **Isaac ROS Manipulation**: Advanced manipulation algorithms
+
+## Isaac ROS Installation and Setup
+
+### System Requirements
+
+Before installing Isaac ROS, ensure your system meets these requirements:
+
+- **GPU**: NVIDIA GPU with CUDA compute capability 6.0+ (Pascal architecture or newer)
+- **VRAM**: 8GB+ (16GB+ recommended for complex processing)
+- **CUDA**: CUDA 11.8+ with compatible drivers
+- **OS**: Ubuntu 20.04/22.04 LTS
+- **ROS 2**: Humble Hawksbill or newer
+
+### Installation Methods
+
+#### Method 1: Docker Installation (Recommended)
+
+```bash
+# Pull Isaac ROS Docker image
+docker pull nvcr.io/nvidia/isaac-ros:latest
+
+# Run Isaac ROS container
+docker run --gpus all -it --rm \
+  --network=host \
+  --env "DISPLAY" \
+  --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+  --volume="/home/$USER/.Xauthority:/root/.Xauthority:rw" \
+  --volume="/home/$USER/isaac_ros_workspace:/workspace" \
+  --privileged \
+  nvcr.io/nvidia/isaac-ros:latest
+```
+
+#### Method 2: APT Package Installation
+
+```bash
+# Add NVIDIA package repository
+curl -sSL https://repos.mapd.com/apt/mapd-deps.pub | sudo apt-key add -
+sudo add-apt-repository "deb https://repos.mapd.com/ubuntu $(lsb_release -cs)-mapd-deps main"
+
+# Update package lists
+sudo apt update
+
+# Install Isaac ROS packages
+sudo apt install ros-humble-isaac-ros-common
+sudo apt install ros-humble-isaac-ros-image-pipeline
+sudo apt install ros-humble-isaac-ros-slam
+sudo apt install ros-humble-isaac-ros-navigation
+```
+
+#### Method 3: Source Installation
+
+```bash
+# Create ROS workspace
+mkdir -p ~/isaac_ros_ws/src
+cd ~/isaac_ros_ws
+
+# Clone Isaac ROS repositories
+git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common.git src/isaac_ros_common
+git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_image_pipeline.git src/isaac_ros_image_pipeline
+git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam.git src/isaac_ros_visual_slam
+git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nav2_bringup.git src/isaac_ros_nav2_bringup
+
+# Install dependencies
+rosdep install --from-paths src --ignore-src -r -y
+
+# Build packages
+colcon build --packages-select isaac_ros_common isaac_ros_image_pipeline isaac_ros_visual_slam
+```
+
+## Isaac ROS Image Pipeline
+
+### Hardware-Accelerated Image Processing
+
+The Isaac ROS Image Pipeline provides GPU-accelerated image processing capabilities:
+
+```python
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
+import cv2
+import numpy as np
+
+class IsaacROSImageProcessor(Node):
+    def __init__(self):
+        super().__init__('isaac_ros_image_processor')
+
+        # Create subscription for camera images
+        self.image_sub = self.create_subscription(
+            Image, '/camera/image_raw', self.image_callback, 10)
+
+        # Create publisher for processed images
+        self.processed_pub = self.create_publisher(
+            Image, '/camera/image_processed', 10)
+
+        self.bridge = CvBridge()
+
+        # Initialize GPU-accelerated processing
+        self.setup_gpu_processing()
+
+    def setup_gpu_processing(self):
+        """Initialize GPU-accelerated image processing"""
+        # This would typically involve:
+        # - Initializing CUDA contexts
+        # - Setting up GPU memory pools
+        # - Configuring hardware-accelerated codecs
+        pass
+
+    def image_callback(self, msg):
+        """Process incoming image with GPU acceleration"""
+        try:
+            # Convert ROS image to OpenCV format
+            cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+
+            # Perform GPU-accelerated processing
+            processed_image = self.gpu_process_image(cv_image)
+
+            # Convert back to ROS image format
+            processed_msg = self.bridge.cv2_to_imgmsg(processed_image, encoding='bgr8')
+            processed_msg.header = msg.header
+
+            # Publish processed image
+            self.processed_pub.publish(processed_msg)
+
+        except Exception as e:
+            self.get_logger().error(f'Error processing image: {e}')
+
+    def gpu_process_image(self, image):
+        """GPU-accelerated image processing"""
+        # This would use Isaac ROS hardware-accelerated functions
+        # such as:
+        # - Hardware-accelerated color conversion
+        # - GPU-based filtering and enhancement
+        # - Accelerated feature detection
+
+        # Placeholder for GPU processing
+        return image
+
+def main(args=None):
+    rclpy.init(args=args)
+    processor = IsaacROSImageProcessor()
+
+    try:
+        rclpy.spin(processor)
+    except KeyboardInterrupt:
+        processor.get_logger().info('Shutting down')
+    finally:
+        processor.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+### Isaac ROS Stereo Dense Reconstruction
+
+```python
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image
+from stereo_msgs.msg import DisparityImage
+from sensor_msgs.msg import PointCloud2
+import numpy as np
+
+class IsaacROSDenseReconstruction(Node):
+    def __init__(self):
+        super().__init__('isaac_ros_dense_reconstruction')
+
+        # Subscriptions for stereo images
+        self.left_sub = self.create_subscription(
+            Image, '/stereo/left/image_rect', self.left_image_callback, 10)
+        self.right_sub = self.create_subscription(
+            Image, '/stereo/right/image_rect', self.right_image_callback, 10)
+
+        # Publishers for disparity and point cloud
+        self.disparity_pub = self.create_publisher(
+            DisparityImage, '/stereo/disparity', 10)
+        self.pointcloud_pub = self.create_publisher(
+            PointCloud2, '/stereo/pointcloud', 10)
+
+        # Store stereo images
+        self.left_image = None
+        self.right_image = None
+
+        # Initialize GPU-accelerated stereo processing
+        self.setup_gpu_stereo()
+
+    def setup_gpu_stereo(self):
+        """Initialize GPU-accelerated stereo processing"""
+        # Configure GPU-based stereo matching algorithm
+        # This would typically use CUDA-optimized stereo algorithms
+        pass
+
+    def left_image_callback(self, msg):
+        """Handle left stereo image"""
+        self.left_image = msg
+        if self.right_image is not None:
+            self.process_stereo_pair()
+
+    def right_image_callback(self, msg):
+        """Handle right stereo image"""
+        self.right_image = msg
+        if self.left_image is not None:
+            self.process_stereo_pair()
+
+    def process_stereo_pair(self):
+        """Process stereo image pair to generate disparity and point cloud"""
+        # This would use Isaac ROS hardware-accelerated stereo processing
+        # to generate disparity maps and 3D point clouds
+        pass
+
+def main(args=None):
+    rclpy.init(args=args)
+    reconstruction = IsaacROSDenseReconstruction()
+
+    try:
+        rclpy.spin(reconstruction)
+    except KeyboardInterrupt:
+        reconstruction.get_logger().info('Shutting down')
+    finally:
+        reconstruction.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Isaac ROS SLAM Implementation
+
+### Visual-Inertial SLAM
+
+Isaac ROS provides hardware-accelerated Visual-Inertial SLAM (VSLAM):
+
+```python
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image, Imu
+from geometry_msgs.msg import PoseStamped
+from nav_msgs.msg import Odometry
+import numpy as np
+
+class IsaacROSVisualSLAM(Node):
+    def __init__(self):
+        super().__init__('isaac_ros_visual_slam')
+
+        # Subscriptions for camera and IMU data
+        self.image_sub = self.create_subscription(
+            Image, '/camera/image_raw', self.image_callback, 10)
+        self.imu_sub = self.create_subscription(
+            Imu, '/imu/data', self.imu_callback, 10)
+
+        # Publishers for pose and map
+        self.pose_pub = self.create_publisher(
+            PoseStamped, '/visual_slam/pose', 10)
+        self.odom_pub = self.create_publisher(
+            Odometry, '/visual_slam/odometry', 10)
+
+        # Initialize GPU-accelerated VSLAM
+        self.setup_gpu_vslam()
+
+        # Tracking variables
+        self.imu_data_buffer = []
+        self.current_pose = np.eye(4)  # 4x4 transformation matrix
+
+    def setup_gpu_vslam(self):
+        """Initialize GPU-accelerated Visual SLAM"""
+        # Configure hardware-accelerated feature detection
+        # Set up GPU memory for tracking and mapping
+        # Initialize CUDA-based optimization routines
+        pass
+
+    def image_callback(self, msg):
+        """Process camera image for visual SLAM"""
+        # Extract features using GPU acceleration
+        features = self.extract_gpu_features(msg)
+
+        # Track features and update pose
+        if len(self.imu_data_buffer) > 0:
+            pose_update = self.track_features_and_update_pose(
+                features, self.imu_data_buffer)
+            self.current_pose = self.update_pose(
+                self.current_pose, pose_update)
+
+            # Publish updated pose
+            self.publish_pose()
+
+    def imu_callback(self, msg):
+        """Process IMU data for inertial integration"""
+        # Store IMU data for fusion with visual data
+        imu_data = {
+            'angular_velocity': [
+                msg.angular_velocity.x,
+                msg.angular_velocity.y,
+                msg.angular_velocity.z
+            ],
+            'linear_acceleration': [
+                msg.linear_acceleration.x,
+                msg.linear_acceleration.y,
+                msg.linear_acceleration.z
+            ],
+            'timestamp': msg.header.stamp
+        }
+        self.imu_data_buffer.append(imu_data)
+
+    def extract_gpu_features(self, image_msg):
+        """Extract features using GPU acceleration"""
+        # This would use Isaac ROS hardware-accelerated feature detection
+        # such as ORB, SIFT, or other feature detectors optimized for GPU
+        pass
+
+    def track_features_and_update_pose(self, features, imu_buffer):
+        """Track features and compute pose update"""
+        # Perform GPU-accelerated feature tracking
+        # Fuse visual and inertial data
+        # Compute pose update
+        pass
+
+    def update_pose(self, current_pose, pose_update):
+        """Update current pose with new transformation"""
+        return np.dot(current_pose, pose_update)
+
+    def publish_pose(self):
+        """Publish current pose estimate"""
+        pose_msg = PoseStamped()
+        pose_msg.header.stamp = self.get_clock().now().to_msg()
+        pose_msg.header.frame_id = 'map'
+
+        # Convert transformation matrix to pose
+        pose_msg.pose.position.x = self.current_pose[0, 3]
+        pose_msg.pose.position.y = self.current_pose[1, 3]
+        pose_msg.pose.position.z = self.current_pose[2, 3]
+
+        # Convert rotation matrix to quaternion
+        # (simplified - in practice would use proper conversion)
+        pose_msg.pose.orientation.w = 1.0  # Placeholder
+
+        self.pose_pub.publish(pose_msg)
+
+def main(args=None):
+    rclpy.init(args=args)
+    slam = IsaacROSVisualSLAM()
+
+    try:
+        rclpy.spin(slam)
+    except KeyboardInterrupt:
+        slam.get_logger().info('Shutting down')
+    finally:
+        slam.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Isaac ROS Navigation Stack
+
+### Hardware-Accelerated Path Planning
+
+```python
+import rclpy
+from rclpy.node import Node
+from geometry_msgs.msg import PoseStamped, Point
+from nav_msgs.msg import Path, OccupancyGrid
+from visualization_msgs.msg import MarkerArray
+import numpy as np
+from scipy.spatial import KDTree
+
+class IsaacROSPathPlanner(Node):
+    def __init__(self):
+        super().__init__('isaac_ros_path_planner')
+
+        # Subscriptions
+        self.map_sub = self.create_subscription(
+            OccupancyGrid, '/map', self.map_callback, 10)
+        self.goal_sub = self.create_subscription(
+            PoseStamped, '/move_base_simple/goal', self.goal_callback, 10)
+
+        # Publishers
+        self.path_pub = self.create_publisher(
+            Path, '/plan', 10)
+        self.visualization_pub = self.create_publisher(
+            MarkerArray, '/path_visualization', 10)
+
+        # Initialize GPU-accelerated planning
+        self.setup_gpu_planning()
+
+        # Map and planning data
+        self.map_data = None
+        self.map_resolution = 0.05
+        self.map_origin = [0, 0, 0]
+
+    def setup_gpu_planning(self):
+        """Initialize GPU-accelerated path planning"""
+        # Configure GPU-based path planning algorithms
+        # Set up CUDA-optimized graph search routines
+        # Initialize GPU memory for planning operations
+        pass
+
+    def map_callback(self, msg):
+        """Process occupancy grid map"""
+        self.map_data = np.array(msg.data).reshape(
+            msg.info.height, msg.info.width)
+        self.map_resolution = msg.info.resolution
+        self.map_origin = [
+            msg.info.origin.position.x,
+            msg.info.origin.position.y,
+            msg.info.origin.orientation.z
+        ]
+
+    def goal_callback(self, msg):
+        """Process navigation goal and plan path"""
+        if self.map_data is None:
+            self.get_logger().warn('Map not received yet')
+            return
+
+        # Convert goal to map coordinates
+        goal_x = int((msg.pose.position.x - self.map_origin[0]) / self.map_resolution)
+        goal_y = int((msg.pose.position.y - self.map_origin[1]) / self.map_resolution)
+
+        # Get current robot position (in a real implementation, this would come from localization)
+        current_x = int((-self.map_origin[0]) / self.map_resolution)  # Assuming robot starts at origin
+        current_y = int((-self.map_origin[1]) / self.map_resolution)
+
+        # Plan path using GPU acceleration
+        path = self.plan_gpu_path(current_x, current_y, goal_x, goal_y)
+
+        if path is not None:
+            self.publish_path(path)
+
+    def plan_gpu_path(self, start_x, start_y, goal_x, goal_y):
+        """Plan path using GPU acceleration"""
+        # This would use Isaac ROS hardware-accelerated path planning
+        # such as GPU-optimized A* or Dijkstra's algorithm
+
+        # Placeholder implementation
+        # In practice, this would leverage CUDA for:
+        # - Parallel graph search
+        # - Cost map computation
+        # - Path optimization
+
+        # Simple A* implementation (GPU-optimized version would be much faster)
+        try:
+            # Check if start and goal are valid
+            if (start_x < 0 or start_x >= self.map_data.shape[1] or
+                start_y < 0 or start_y >= self.map_data.shape[0] or
+                goal_x < 0 or goal_x >= self.map_data.shape[1] or
+                goal_y < 0 or goal_y >= self.map_data.shape[0]):
+                return None
+
+            # Check if start or goal are obstacles
+            if self.map_data[start_y, start_x] > 50 or self.map_data[goal_y, goal_x] > 50:
+                return None
+
+            # For this example, return a simple straight-line path
+            # A real GPU-accelerated implementation would be much more sophisticated
+            path = self.simple_gpu_pathfinding(start_x, start_y, goal_x, goal_y)
+            return path
+
+        except Exception as e:
+            self.get_logger().error(f'Error in path planning: {e}')
+            return None
+
+    def simple_gpu_pathfinding(self, start_x, start_y, goal_x, goal_y):
+        """Simple pathfinding (placeholder for GPU implementation)"""
+        # This would be replaced with a GPU-accelerated algorithm
+        # For demonstration, we'll return a simple path
+        path = []
+
+        # Simple line drawing algorithm
+        dx = goal_x - start_x
+        dy = goal_y - start_y
+        steps = max(abs(dx), abs(dy))
+
+        for i in range(steps + 1):
+            x = start_x + int(i * dx / steps)
+            y = start_y + int(i * dy / steps)
+            path.append((x, y))
+
+        return path
+
+    def publish_path(self, path):
+        """Publish planned path"""
+        path_msg = Path()
+        path_msg.header.stamp = self.get_clock().now().to_msg()
+        path_msg.header.frame_id = 'map'
+
+        for x, y in path:
+            pose = PoseStamped()
+            pose.header.stamp = self.get_clock().now().to_msg()
+            pose.header.frame_id = 'map'
+            pose.pose.position.x = x * self.map_resolution + self.map_origin[0]
+            pose.pose.position.y = y * self.map_resolution + self.map_origin[1]
+            pose.pose.position.z = 0.0
+            pose.pose.orientation.w = 1.0
+
+            path_msg.poses.append(pose)
+
+        self.path_pub.publish(path_msg)
+
+def main(args=None):
+    rclpy.init(args=args)
+    planner = IsaacROSPathPlanner()
+
+    try:
+        rclpy.spin(planner)
+    except KeyboardInterrupt:
+        planner.get_logger().info('Shutting down')
+    finally:
+        planner.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Isaac ROS Object Detection and Perception
+
+### Hardware-Accelerated Object Detection
+
+```python
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image
+from vision_msgs.msg import Detection2DArray, ObjectHypothesisWithPose
+from cv_bridge import CvBridge
+import numpy as np
+
+class IsaacROSObjectDetector(Node):
+    def __init__(self):
+        super().__init__('isaac_ros_object_detector')
+
+        # Subscription for camera images
+        self.image_sub = self.create_subscription(
+            Image, '/camera/image_raw', self.image_callback, 10)
+
+        # Publisher for object detections
+        self.detection_pub = self.create_publisher(
+            Detection2DArray, '/object_detections', 10)
+
+        self.bridge = CvBridge()
+
+        # Initialize GPU-accelerated object detection
+        self.setup_gpu_detection()
+
+    def setup_gpu_detection(self):
+        """Initialize GPU-accelerated object detection"""
+        # Load pre-trained model optimized for GPU
+        # Configure TensorRT for inference optimization
+        # Set up GPU memory for batch processing
+        pass
+
+    def image_callback(self, msg):
+        """Process image and detect objects using GPU acceleration"""
+        try:
+            # Convert ROS image to OpenCV format
+            cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+
+            # Run GPU-accelerated object detection
+            detections = self.gpu_detect_objects(cv_image)
+
+            # Publish detections
+            self.publish_detections(detections, msg.header)
+
+        except Exception as e:
+            self.get_logger().error(f'Error in object detection: {e}')
+
+    def gpu_detect_objects(self, image):
+        """Perform GPU-accelerated object detection"""
+        # This would use Isaac ROS hardware-accelerated detection
+        # leveraging TensorRT and CUDA for:
+        # - YOLO inference
+        # - Classification networks
+        # - Feature extraction
+
+        # Placeholder for GPU detection results
+        detections = []
+
+        # Example detection result format
+        # In practice, this would come from GPU-accelerated inference
+        detection = {
+            'class': 'person',
+            'confidence': 0.95,
+            'bbox': [100, 100, 200, 200],  # [x, y, width, height]
+            'center': [150, 150]
+        }
+        detections.append(detection)
+
+        return detections
+
+    def publish_detections(self, detections, header):
+        """Publish object detection results"""
+        detection_array = Detection2DArray()
+        detection_array.header = header
+
+        for detection in detections:
+            detection_msg = Detection2D()
+            detection_msg.header = header
+
+            # Set bounding box
+            detection_msg.bbox.center.x = detection['bbox'][0] + detection['bbox'][2] / 2
+            detection_msg.bbox.center.y = detection['bbox'][1] + detection['bbox'][3] / 2
+            detection_msg.bbox.size_x = detection['bbox'][2]
+            detection_msg.bbox.size_y = detection['bbox'][3]
+
+            # Set hypothesis
+            hypothesis = ObjectHypothesisWithPose()
+            hypothesis.hypothesis.class_id = detection['class']
+            hypothesis.hypothesis.score = detection['confidence']
+            detection_msg.results.append(hypothesis)
+
+            detection_array.detections.append(detection_msg)
+
+        self.detection_pub.publish(detection_array)
+
+def main(args=None):
+    rclpy.init(args=args)
+    detector = IsaacROSObjectDetector()
+
+    try:
+        rclpy.spin(detector)
+    except KeyboardInterrupt:
+        detector.get_logger().info('Shutting down')
+    finally:
+        detector.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Integration with Humanoid Robot Navigation
+
+### Complete Navigation Pipeline
+
+```python
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image, Imu, LaserScan
+from geometry_msgs.msg import Twist, PoseStamped
+from nav_msgs.msg import Odometry
+from tf2_ros import TransformBroadcaster
+import numpy as np
+
+class IsaacROSHumanoidNavigator(Node):
+    def __init__(self):
+        super().__init__('isaac_ros_humanoid_navigator')
+
+        # Initialize all Isaac ROS components
+        self.initialize_perception_pipeline()
+        self.initialize_slam_system()
+        self.initialize_navigation_stack()
+        self.initialize_control_interface()
+
+        # TF broadcaster for transforms
+        self.tf_broadcaster = TransformBroadcaster(self)
+
+    def initialize_perception_pipeline(self):
+        """Initialize Isaac ROS perception pipeline"""
+        # Set up GPU-accelerated image processing
+        # Configure stereo vision
+        # Initialize object detection
+        pass
+
+    def initialize_slam_system(self):
+        """Initialize Isaac ROS SLAM system"""
+        # Set up visual-inertial SLAM
+        # Configure map building
+        # Initialize localization
+        pass
+
+    def initialize_navigation_stack(self):
+        """Initialize Isaac ROS navigation stack"""
+        # Set up path planning
+        # Configure obstacle avoidance
+        # Initialize trajectory generation
+        pass
+
+    def initialize_control_interface(self):
+        """Initialize interface to humanoid robot controllers"""
+        # Set up ROS 2 control interfaces
+        # Configure joint position/velocity commands
+        # Set up safety systems
+        pass
+
+    def navigate_to_goal(self, goal_pose):
+        """Navigate humanoid robot to specified goal"""
+        # Plan path using GPU-accelerated planners
+        path = self.plan_path_to_goal(goal_pose)
+
+        if path is not None:
+            # Execute navigation with safety checks
+            self.execute_navigation_path(path)
+
+    def plan_path_to_goal(self, goal_pose):
+        """Plan path to goal using Isaac ROS planners"""
+        # Use hardware-accelerated path planning
+        # Consider humanoid-specific constraints
+        # Optimize for bipedal locomotion
+        pass
+
+    def execute_navigation_path(self, path):
+        """Execute planned path with humanoid robot"""
+        # Generate footstep plans for bipedal navigation
+        # Execute walking controller
+        # Monitor safety and progress
+        pass
+
+def main(args=None):
+    rclpy.init(args=args)
+    navigator = IsaacROSHumanoidNavigator()
+
+    try:
+        # Example: navigate to a goal
+        goal = PoseStamped()
+        goal.pose.position.x = 5.0
+        goal.pose.position.y = 3.0
+
+        navigator.navigate_to_goal(goal)
+
+        rclpy.spin(navigator)
+    except KeyboardInterrupt:
+        navigator.get_logger().info('Shutting down')
+    finally:
+        navigator.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Performance Optimization
+
+### GPU Memory Management
+
+```python
+import rclpy
+from rclpy.node import Node
+import cupy as cp  # Use CuPy for GPU memory management
+import numpy as np
+
+class IsaacROSGPUManager(Node):
+    def __init__(self):
+        super().__init__('isaac_ros_gpu_manager')
+
+        # Initialize GPU memory pools
+        self.setup_gpu_memory_management()
+
+        # Monitor GPU usage
+        self.setup_gpu_monitoring()
+
+    def setup_gpu_memory_management(self):
+        """Set up GPU memory management for Isaac ROS"""
+        # Configure memory pools for different processing tasks
+        # Set up memory pre-allocation for real-time performance
+        # Configure CUDA streams for parallel processing
+
+        # Example: create GPU memory pools
+        self.image_processing_pool = cp.cuda.MemoryPool()
+        self.detection_pool = cp.cuda.MemoryPool()
+        self.planning_pool = cp.cuda.MemoryPool()
+
+        # Set memory pools as default
+        cp.cuda.set_allocator(self.image_processing_pool.malloc)
+
+    def setup_gpu_monitoring(self):
+        """Set up GPU usage monitoring"""
+        # Create timer to periodically check GPU usage
+        self.gpu_monitor_timer = self.create_timer(
+            1.0, self.monitor_gpu_usage)
+
+    def monitor_gpu_usage(self):
+        """Monitor GPU memory and utilization"""
+        try:
+            # Get GPU memory info
+            mem_info = cp.cuda.runtime.memGetInfo()
+            free_mem = mem_info[0]
+            total_mem = mem_info[1]
+            used_mem = total_mem - free_mem
+            mem_utilization = (used_mem / total_mem) * 100
+
+            # Log GPU usage
+            self.get_logger().info(
+                f'GPU Memory - Used: {used_mem/1e9:.2f}GB, '
+                f'Total: {total_mem/1e9:.2f}GB, '
+                f'Utilization: {mem_utilization:.1f}%'
+            )
+
+        except Exception as e:
+            self.get_logger().error(f'Error monitoring GPU: {e}')
+```
+
+## Best Practices for Isaac ROS
+
+### 1. Hardware Optimization
+- Use compatible NVIDIA GPUs for maximum acceleration
+- Configure CUDA compute capability appropriately
+- Optimize GPU memory usage patterns
+- Use TensorRT for inference optimization
+
+### 2. Pipeline Design
+- Structure processing pipelines for maximum parallelism
+- Use asynchronous processing where possible
+- Implement proper error handling and fallbacks
+- Design modular, reusable components
+
+### 3. Performance Monitoring
+- Monitor GPU utilization and memory usage
+- Profile algorithms for bottlenecks
+- Optimize data transfer between CPU and GPU
+- Use appropriate batch sizes for processing
+
+### 4. Integration Considerations
+- Ensure compatibility with existing ROS 2 systems
+- Validate GPU-accelerated results against CPU implementations
+- Plan for graceful degradation when GPU is unavailable
+- Document hardware requirements clearly
+
+## Troubleshooting Common Issues
+
+### 1. GPU Memory Issues
+```bash
+# Check GPU memory usage
+nvidia-smi
+
+# Clear GPU memory cache
+# In Python: cp.get_default_memory_pool().free_all_blocks()
+```
+
+### 2. Performance Optimization
+- Use appropriate data types (float32 vs float64)
+- Minimize CPU-GPU data transfers
+- Use CUDA streams for overlapping operations
+- Optimize batch sizes for your hardware
+
+### 3. Compatibility Issues
+- Ensure CUDA versions match
+- Verify GPU compute capability
+- Check Isaac ROS package compatibility
+- Validate hardware acceleration is enabled
+
+## Hands-on Exercise
+
+1. Install Isaac ROS packages in your development environment
+2. Set up a GPU-accelerated image processing pipeline
+3. Implement a basic GPU-accelerated path planning algorithm
+4. Test performance improvements over CPU-only implementations
+5. Validate results against traditional approaches
+
+## Quiz Questions
+
+1. What are the key advantages of using Isaac ROS for hardware-accelerated navigation?
+2. How does GPU acceleration improve performance in robot navigation tasks?
+3. What are the best practices for optimizing Isaac ROS pipeline performance?
+
+</InteractiveLesson>

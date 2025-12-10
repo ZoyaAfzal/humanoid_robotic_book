@@ -1,0 +1,121 @@
+---
+sidebar_position: 3
+---
+
+import InteractiveLesson from '@site/src/components/InteractiveLesson';
+
+<InteractiveLesson title="Development Environment Setup" chapter={1} lesson={3}>
+
+# Development Environment Setup
+
+In this lesson, you'll learn how to set up a comprehensive development environment for humanoid robotics projects. A properly configured environment is essential for efficient development, testing, and deployment of humanoid robot applications.
+
+## Prerequisites
+
+Before setting up your development environment, ensure you have:
+
+- A computer with at least 8GB RAM (16GB recommended)
+- 50GB+ of available disk space
+- A 64-bit operating system (Ubuntu 20.04/22.04 LTS, Windows 10/11, or macOS 10.15+)
+- Administrative privileges to install software
+- Stable internet connection
+
+## Core Software Components
+
+### 1. Robot Operating System (ROS)
+
+ROS is the middleware framework that provides services designed for a heterogeneous computer cluster, including hardware abstraction, device drivers, libraries, visualizers, message-passing, package management, and more.
+
+**Installation Steps:**
+1. Update your system: `sudo apt update`
+2. Install ROS Noetic (for Ubuntu) following the official installation guide
+3. Set up your ROS environment by sourcing the setup file
+4. Install additional ROS packages relevant to humanoid robotics
+
+### 2. Integrated Development Environment (IDE)
+
+Choose an IDE that supports robotics development:
+
+- **Visual Studio Code**: Lightweight with ROS extensions
+- **PyCharm**: Excellent for Python-based robotics development
+- **CLion**: Great for C++ development in robotics
+
+### 3. Simulation Environment
+
+- **Gazebo**: 3D dynamic simulator with high-quality physics
+- **RViz**: 3D visualization tool for ROS
+- **Webots**: Alternative robotics simulator with built-in physics engine
+
+## Version Control Setup
+
+### Git Configuration
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+```
+
+### Recommended Repository Structure
+```
+humanoid_robot_project/
+├── src/                 # Source code
+├── models/              # Robot models and URDF files
+├── launch/              # ROS launch files
+├── config/              # Configuration files
+├── scripts/             # Utility scripts
+├── docs/                # Documentation
+└── README.md
+```
+
+## Development Tools
+
+### 1. Docker for Isolated Environments
+Docker helps create consistent, isolated development environments:
+```bash
+# Example Dockerfile for ROS development
+FROM ros:noetic
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    ros-noetic-ros-base \
+    python3-catkin-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up workspace
+WORKDIR /workspace
+```
+
+### 2. Virtual Environments
+For Python development:
+```bash
+python3 -m venv humanoid_robot_env
+source humanoid_robot_env/bin/activate
+pip install -r requirements.txt
+```
+
+## Testing Frameworks
+
+### Unit Testing
+- **rostest**: ROS testing framework
+- **pytest**: Python testing framework
+- **Google Test**: C++ testing framework
+
+### Integration Testing
+- Develop tests that verify multiple components work together
+- Test robot behaviors in simulation before real-world deployment
+
+## Best Practices
+
+1. **Environment Consistency**: Ensure all team members use the same environment setup
+2. **Documentation**: Document your environment setup process
+3. **Backup Configurations**: Save your environment configurations as scripts
+4. **Regular Updates**: Keep your development tools updated
+5. **Isolation**: Use containers or virtual machines to avoid conflicts
+
+## Hands-on Exercise
+
+1. Set up your development environment following the steps outlined above
+2. Create a simple ROS workspace
+3. Write a basic "Hello World" publisher and subscriber
+4. Test your setup by running the nodes in your environment
+
+</InteractiveLesson>

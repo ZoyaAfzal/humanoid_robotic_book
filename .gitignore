@@ -1,0 +1,15 @@
+node_modules/
+_temp_backup_docusaurus_init/
+build/
+.DS_Store
+.env
+*.log
+npm-debug.log*
+coverage/
+.nyc_output/
+.git/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

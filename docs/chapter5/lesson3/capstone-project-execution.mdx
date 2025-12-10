@@ -1,0 +1,1739 @@
+---
+sidebar_position: 1
+---
+
+import InteractiveLesson from '@site/src/components/InteractiveLesson';
+
+<InteractiveLesson title="Capstone Project Execution" chapter={5} lesson={3}>
+
+# Capstone Project Execution
+
+In this comprehensive capstone lesson, you'll integrate all the concepts learned throughout the course to execute a complete humanoid robotics project. This lesson brings together perception, planning, control, AI integration, and system orchestration to create a functional, intelligent humanoid robot system.
+
+## Introduction to Capstone Project Execution
+
+The capstone project execution involves synthesizing all the components learned in previous chapters:
+
+- **Perception Systems**: Sensor integration and data processing
+- **Planning & Control**: Navigation, manipulation, and locomotion
+- **AI Integration**: Machine learning, computer vision, and decision making
+- **System Integration**: ROS 2, Gazebo, Isaac Sim, and real-world deployment
+- **Project Management**: Planning, execution, and validation
+
+### Key Phases of Capstone Execution
+
+1. **System Design & Architecture**: Define the complete system structure
+2. **Component Integration**: Connect all individual components
+3. **System Testing**: Validate integrated functionality
+4. **Performance Optimization**: Improve efficiency and reliability
+5. **Validation & Deployment**: Deploy and validate in target scenarios
+
+## System Architecture Design
+
+### Complete Humanoid Robot System Architecture
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String, Bool
+from sensor_msgs.msg import Image, Imu, LaserScan
+from geometry_msgs.msg import Twist, PoseStamped
+from nav_msgs.msg import Odometry
+from humanoid_robot_msgs.msg import RobotStatus, TaskRequest, TaskResult
+from tf2_ros import TransformBroadcaster
+import threading
+import queue
+import time
+from typing import Dict, List, Optional
+
+class HumanoidRobotSystem(Node):
+    def __init__(self):
+        super().__init__('humanoid_robot_system')
+
+        # Initialize all system components
+        self.initialize_perception_system()
+        self.initialize_control_system()
+        self.initialize_planning_system()
+        self.initialize_ai_system()
+        self.initialize_communication_system()
+
+        # System state management
+        self.system_state = {
+            'initialized': False,
+            'operational': False,
+            'mode': 'standby',  # standby, autonomous, teleoperation, maintenance
+            'health_status': 'nominal',
+            'last_error': None
+        }
+
+        # Publishers and subscribers
+        self.status_pub = self.create_publisher(RobotStatus, '/robot_status', 10)
+        self.health_check_timer = self.create_timer(1.0, self.health_check)
+
+        # Task management
+        self.task_queue = queue.Queue()
+        self.active_task = None
+        self.task_executor_thread = threading.Thread(target=self.task_executor, daemon=True)
+        self.task_executor_thread.start()
+
+        # Initialize system
+        self.initialize_system()
+
+    def initialize_perception_system(self):
+        """Initialize perception components"""
+        self.get_logger().info('Initializing perception system...')
+
+        # Camera systems
+        self.front_camera_sub = self.create_subscription(
+            Image, '/camera/rgb/image_raw', self.camera_callback, 10)
+        self.depth_camera_sub = self.create_subscription(
+            Image, '/camera/depth/image_raw', self.depth_callback, 10)
+
+        # IMU and other sensors
+        self.imu_sub = self.create_subscription(
+            Imu, '/imu/data', self.imu_callback, 10)
+        self.lidar_sub = self.create_subscription(
+            LaserScan, '/scan', self.lidar_callback, 10)
+
+        # TF broadcaster
+        self.tf_broadcaster = TransformBroadcaster(self)
+
+    def initialize_control_system(self):
+        """Initialize control components"""
+        self.get_logger().info('Initializing control system...')
+
+        # Motor control interfaces
+        self.joint_command_pub = self.create_publisher(
+            JointTrajectory, '/joint_trajectory_controller/joint_trajectory', 10)
+        self.velocity_pub = self.create_publisher(
+            Twist, '/cmd_vel', 10)
+
+        # Control parameters
+        self.control_params = {
+            'walking_speed': 0.5,  # m/s
+            'turning_speed': 0.5,  # rad/s
+            'balance_margin': 0.05,  # m
+            'step_height': 0.1      # m
+        }
+
+    def initialize_planning_system(self):
+        """Initialize planning components"""
+        self.get_logger().info('Initializing planning system...')
+
+        # Navigation stack
+        self.nav2_client = self.create_client(NavigateToPose, 'navigate_to_pose')
+
+        # Path planning
+        self.path_planner = self.create_client(MakePlan, 'make_plan')
+
+        # Task planning
+        self.task_planner = CognitivePlanningSystem(self)
+
+    def initialize_ai_system(self):
+        """Initialize AI components"""
+        self.get_logger().info('Initializing AI system...')
+
+        # Vision processing
+        self.vision_processor = VisionProcessor(self)
+
+        # Natural language processing
+        self.nlp_system = NLPSystem(self)
+
+        # Decision making
+        self.decision_maker = DecisionMakingSystem(self)
+
+    def initialize_communication_system(self):
+        """Initialize communication components"""
+        self.get_logger().info('Initializing communication system...')
+
+        # High-level task interface
+        self.task_request_sub = self.create_subscription(
+            TaskRequest, '/task_request', self.task_request_callback, 10)
+        self.task_result_pub = self.create_publisher(
+            TaskResult, '/task_result', 10)
+
+        # Status and health monitoring
+        self.status_sub = self.create_subscription(
+            RobotStatus, '/robot_status', self.status_callback, 10)
+
+    def initialize_system(self):
+        """Complete system initialization"""
+        try:
+            # Initialize all components
+            self.get_logger().info('Starting system initialization...')
+
+            # Wait for services to be available
+            if self.nav2_client.wait_for_service(timeout_sec=5.0):
+                self.get_logger().info('Navigation system ready')
+            else:
+                self.get_logger().warn('Navigation system not available')
+
+            if self.path_planner.wait_for_service(timeout_sec=5.0):
+                self.get_logger().info('Path planning system ready')
+            else:
+                self.get_logger().warn('Path planning system not available')
+
+            # Set system state
+            self.system_state['initialized'] = True
+            self.system_state['operational'] = True
+            self.system_state['mode'] = 'standby'
+
+            self.get_logger().info('System initialization complete')
+
+        except Exception as e:
+            self.get_logger().error(f'System initialization failed: {e}')
+            self.system_state['initialized'] = False
+            self.system_state['health_status'] = 'error'
+            self.system_state['last_error'] = str(e)
+
+    def health_check(self):
+        """Periodic system health check"""
+        # Check all critical components
+        health_status = 'nominal'
+
+        # Check perception system
+        if not hasattr(self, 'last_camera_time'):
+            health_status = 'warning'
+        elif time.time() - self.last_camera_time > 5.0:  # No camera data for 5 seconds
+            health_status = 'degraded'
+
+        # Check control system
+        if not hasattr(self, 'control_system_active'):
+            health_status = 'warning'
+
+        # Update system state
+        self.system_state['health_status'] = health_status
+
+        # Publish status
+        status_msg = RobotStatus()
+        status_msg.initialized = self.system_state['initialized']
+        status_msg.operational = self.system_state['operational']
+        status_msg.mode = self.system_state['mode']
+        status_msg.health_status = self.system_state['health_status']
+        status_msg.error_message = self.system_state['last_error'] or ""
+        status_msg.timestamp = self.get_clock().now().to_msg()
+
+        self.status_pub.publish(status_msg)
+
+    def task_request_callback(self, msg):
+        """Handle incoming task requests"""
+        self.get_logger().info(f'Received task request: {msg.description}')
+
+        # Add to task queue
+        self.task_queue.put(msg)
+
+        # If no active task, start processing
+        if self.active_task is None:
+            self.process_next_task()
+
+    def task_executor(self):
+        """Background task execution thread"""
+        while rclpy.ok():
+            try:
+                # Wait for next task
+                task = self.task_queue.get(timeout=1.0)
+
+                # Process task
+                self.active_task = task
+                result = self.execute_task(task)
+
+                # Publish result
+                result_msg = TaskResult()
+                result_msg.task_id = task.task_id
+                result_msg.result = result
+                result_msg.timestamp = self.get_clock().now().to_msg()
+                self.task_result_pub.publish(result_msg)
+
+                # Mark task as complete
+                self.active_task = None
+                self.task_queue.task_done()
+
+            except queue.Empty:
+                continue  # No task, continue loop
+            except Exception as e:
+                self.get_logger().error(f'Task execution error: {e}')
+                self.active_task = None
+
+    def execute_task(self, task):
+        """Execute a specific task"""
+        self.get_logger().info(f'Executing task: {task.description}')
+
+        # Update system mode
+        self.system_state['mode'] = 'autonomous'
+
+        try:
+            # Parse task and generate plan
+            plan = self.task_planner.generate_plan(task.description, self.get_current_context())
+
+            if not plan:
+                return "FAILED: No plan generated"
+
+            # Execute plan step by step
+            for step in plan:
+                if not self.execute_plan_step(step):
+                    return f"FAILED: Step failed - {step}"
+
+            # Task completed successfully
+            return "SUCCESS"
+
+        except Exception as e:
+            self.get_logger().error(f'Task execution failed: {e}')
+            return f"FAILED: {str(e)}"
+        finally:
+            # Return to standby mode
+            self.system_state['mode'] = 'standby'
+
+    def execute_plan_step(self, step):
+        """Execute a single plan step"""
+        step_type = step['action']
+        params = step.get('parameters', {})
+
+        self.get_logger().info(f'Executing step: {step_type} with params: {params}')
+
+        try:
+            if step_type == 'navigate_to':
+                return self.execute_navigation_step(params)
+            elif step_type == 'pick_up':
+                return self.execute_manipulation_step('pick', params)
+            elif step_type == 'place_down':
+                return self.execute_manipulation_step('place', params)
+            elif step_type == 'detect_object':
+                return self.execute_perception_step(params)
+            elif step_type == 'speak':
+                return self.execute_communication_step(params)
+            else:
+                self.get_logger().error(f'Unknown action type: {step_type}')
+                return False
+
+        except Exception as e:
+            self.get_logger().error(f'Step execution failed: {e}')
+            return False
+
+    def get_current_context(self):
+        """Get current robot and environment context"""
+        return {
+            'robot_state': self.get_robot_state(),
+            'environment': self.get_environment_state(),
+            'capabilities': self.get_robot_capabilities()
+        }
+
+    def get_robot_state(self):
+        """Get current robot state"""
+        # This would integrate with actual robot state
+        return {
+            'position': {'x': 0.0, 'y': 0.0, 'z': 0.0},
+            'orientation': {'x': 0.0, 'y': 0.0, 'z': 0.0, 'w': 1.0},
+            'battery_level': 0.8,
+            'temperature': 35.0,
+            'joint_angles': {},
+            'balance_status': 'stable'
+        }
+
+    def get_environment_state(self):
+        """Get current environment state"""
+        # This would integrate with perception system
+        return {
+            'map': {},
+            'obstacles': [],
+            'objects': [],
+            'people': []
+        }
+
+    def get_robot_capabilities(self):
+        """Get robot capabilities"""
+        return {
+            'max_speed': 0.5,
+            'max_payload': 5.0,
+            'manipulation_range': 1.0,
+            'sensor_range': 10.0,
+            'available_actions': [
+                'navigate_to', 'pick_up', 'place_down',
+                'detect_object', 'speak', 'listen'
+            ]
+        }
+
+def main(args=None):
+    rclpy.init(args=args)
+    robot_system = HumanoidRobotSystem()
+
+    try:
+        rclpy.spin(robot_system)
+    except KeyboardInterrupt:
+        robot_system.get_logger().info('Shutting down humanoid robot system')
+    finally:
+        robot_system.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Component Integration and Orchestration
+
+### System Integration Manager
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String, Bool
+from lifecycle_msgs.srv import ChangeState, GetState
+import subprocess
+import time
+from typing import Dict, List, Tuple
+
+class SystemIntegrationManager(Node):
+    def __init__(self):
+        super().__init__('system_integration_manager')
+
+        # System components and their states
+        self.components = {
+            'ros2_core': {'status': 'unknown', 'pid': None, 'health': 'unknown'},
+            'navigation_stack': {'status': 'unknown', 'pid': None, 'health': 'unknown'},
+            'perception_stack': {'status': 'unknown', 'pid': None, 'health': 'unknown'},
+            'control_stack': {'status': 'unknown', 'pid': None, 'health': 'unknown'},
+            'ai_stack': {'status': 'unknown', 'pid': None, 'health': 'unknown'},
+            'simulation': {'status': 'unknown', 'pid': None, 'health': 'unknown'}
+        }
+
+        # Publishers and subscribers
+        self.system_status_pub = self.create_publisher(
+            String, '/system_status', 10)
+        self.integration_command_sub = self.create_subscription(
+            String, '/integration_command', self.integration_command_callback, 10)
+
+        # Timers for monitoring
+        self.monitoring_timer = self.create_timer(2.0, self.monitor_components)
+        self.health_check_timer = self.create_timer(5.0, self.health_check)
+
+        # Initialize system
+        self.initialize_system()
+
+    def initialize_system(self):
+        """Initialize all system components"""
+        self.get_logger().info('Initializing humanoid robot system...')
+
+        # Start core ROS 2 system
+        self.start_ros2_core()
+
+        # Start individual stacks
+        self.start_perception_stack()
+        self.start_control_stack()
+        self.start_navigation_stack()
+        self.start_ai_stack()
+
+        # Wait for components to be ready
+        self.wait_for_components_ready()
+
+        self.get_logger().info('All system components initialized')
+
+    def start_ros2_core(self):
+        """Start ROS 2 core system"""
+        try:
+            # Launch ROS 2 master
+            self.components['ros2_core']['pid'] = subprocess.Popen(['ros2', 'daemon', 'start'])
+            time.sleep(2)  # Wait for daemon to start
+
+            self.components['ros2_core']['status'] = 'running'
+            self.components['ros2_core']['health'] = 'nominal'
+
+            self.get_logger().info('ROS 2 core started successfully')
+        except Exception as e:
+            self.get_logger().error(f'Failed to start ROS 2 core: {e}')
+            self.components['ros2_core']['status'] = 'error'
+            self.components['ros2_core']['health'] = 'error'
+
+    def start_perception_stack(self):
+        """Start perception stack"""
+        try:
+            # Launch perception nodes
+            launch_cmd = [
+                'ros2', 'launch', 'perception_stack', 'perception.launch.py'
+            ]
+            self.components['perception_stack']['pid'] = subprocess.Popen(launch_cmd)
+
+            # Wait briefly for process to start
+            time.sleep(3)
+
+            self.components['perception_stack']['status'] = 'running'
+            self.components['perception_stack']['health'] = 'nominal'
+
+            self.get_logger().info('Perception stack started successfully')
+        except Exception as e:
+            self.get_logger().error(f'Failed to start perception stack: {e}')
+            self.components['perception_stack']['status'] = 'error'
+            self.components['perception_stack']['health'] = 'error'
+
+    def start_control_stack(self):
+        """Start control stack"""
+        try:
+            # Launch control nodes
+            launch_cmd = [
+                'ros2', 'launch', 'control_stack', 'control.launch.py'
+            ]
+            self.components['control_stack']['pid'] = subprocess.Popen(launch_cmd)
+
+            time.sleep(3)
+
+            self.components['control_stack']['status'] = 'running'
+            self.components['control_stack']['health'] = 'nominal'
+
+            self.get_logger().info('Control stack started successfully')
+        except Exception as e:
+            self.get_logger().error(f'Failed to start control stack: {e}')
+            self.components['control_stack']['status'] = 'error'
+            self.components['control_stack']['health'] = 'error'
+
+    def start_navigation_stack(self):
+        """Start navigation stack"""
+        try:
+            # Launch navigation nodes
+            launch_cmd = [
+                'ros2', 'launch', 'nav2_bringup', 'navigation_launch.py'
+            ]
+            self.components['navigation_stack']['pid'] = subprocess.Popen(launch_cmd)
+
+            time.sleep(5)  # Navigation takes longer to start
+
+            self.components['navigation_stack']['status'] = 'running'
+            self.components['navigation_stack']['health'] = 'nominal'
+
+            self.get_logger().info('Navigation stack started successfully')
+        except Exception as e:
+            self.get_logger().error(f'Failed to start navigation stack: {e}')
+            self.components['navigation_stack']['status'] = 'error'
+            self.components['navigation_stack']['health'] = 'error'
+
+    def start_ai_stack(self):
+        """Start AI stack"""
+        try:
+            # Launch AI nodes (LLM, vision, NLP)
+            launch_cmd = [
+                'ros2', 'launch', 'ai_stack', 'ai.launch.py'
+            ]
+            self.components['ai_stack']['pid'] = subprocess.Popen(launch_cmd)
+
+            time.sleep(4)
+
+            self.components['ai_stack']['status'] = 'running'
+            self.components['ai_stack']['health'] = 'nominal'
+
+            self.get_logger().info('AI stack started successfully')
+        except Exception as e:
+            self.get_logger().error(f'Failed to start AI stack: {e}')
+            self.components['ai_stack']['status'] = 'error'
+            self.components['ai_stack']['health'] = 'error'
+
+    def wait_for_components_ready(self):
+        """Wait for all components to be ready"""
+        timeout = 30  # seconds
+        start_time = time.time()
+
+        while time.time() - start_time < timeout:
+            all_ready = True
+            for comp_name, comp_info in self.components.items():
+                if comp_info['status'] != 'running' or comp_info['health'] != 'nominal':
+                    all_ready = False
+                    break
+
+            if all_ready:
+                self.get_logger().info('All components ready')
+                return True
+
+            time.sleep(1)
+
+        self.get_logger().warn('Timeout waiting for components to be ready')
+        return False
+
+    def monitor_components(self):
+        """Monitor component health"""
+        for comp_name, comp_info in self.components.items():
+            if comp_info['pid']:
+                # Check if process is still running
+                return_code = comp_info['pid'].poll()
+                if return_code is not None:
+                    # Process died
+                    comp_info['status'] = 'stopped'
+                    comp_info['health'] = 'error'
+                    self.get_logger().error(f'{comp_name} process died with code: {return_code}')
+
+                    # Attempt restart
+                    self.restart_component(comp_name)
+                else:
+                    # Process is running, check health
+                    if comp_info['status'] == 'running':
+                        comp_info['health'] = 'nominal'
+            else:
+                # Component not started
+                if comp_info['status'] != 'error':
+                    comp_info['health'] = 'not_started'
+
+    def restart_component(self, component_name):
+        """Restart a failed component"""
+        self.get_logger().info(f'Restarting component: {component_name}')
+
+        try:
+            if component_name == 'ros2_core':
+                self.start_ros2_core()
+            elif component_name == 'perception_stack':
+                self.start_perception_stack()
+            elif component_name == 'control_stack':
+                self.start_control_stack()
+            elif component_name == 'navigation_stack':
+                self.start_navigation_stack()
+            elif component_name == 'ai_stack':
+                self.start_ai_stack()
+        except Exception as e:
+            self.get_logger().error(f'Failed to restart {component_name}: {e}')
+
+    def health_check(self):
+        """Perform system health check"""
+        overall_health = 'nominal'
+
+        for comp_name, comp_info in self.components.items():
+            if comp_info['health'] == 'error':
+                overall_health = 'error'
+                break
+            elif comp_info['health'] == 'degraded' and overall_health == 'nominal':
+                overall_health = 'degraded'
+
+        # Publish system status
+        status_msg = String()
+        status_msg.data = f"Overall Health: {overall_health}"
+        self.system_status_pub.publish(status_msg)
+
+    def integration_command_callback(self, msg):
+        """Handle integration commands"""
+        command = msg.data
+
+        if command == 'restart_all':
+            self.restart_all_components()
+        elif command == 'stop_all':
+            self.stop_all_components()
+        elif command == 'health_check':
+            self.perform_manual_health_check()
+        elif command.startswith('start_'):
+            component = command.split('_', 1)[1]
+            self.start_component(component)
+        elif command.startswith('stop_'):
+            component = command.split('_', 1)[1]
+            self.stop_component(component)
+
+    def restart_all_components(self):
+        """Restart all system components"""
+        self.get_logger().info('Restarting all components...')
+
+        # Stop all components first
+        self.stop_all_components()
+
+        # Wait briefly
+        time.sleep(2)
+
+        # Restart all components
+        self.initialize_system()
+
+    def stop_all_components(self):
+        """Stop all system components"""
+        self.get_logger().info('Stopping all components...')
+
+        for comp_name, comp_info in self.components.items():
+            if comp_info['pid']:
+                try:
+                    comp_info['pid'].terminate()
+                    comp_info['pid'].wait(timeout=5)
+                    comp_info['status'] = 'stopped'
+                    comp_info['health'] = 'stopped'
+                except subprocess.TimeoutExpired:
+                    comp_info['pid'].kill()
+                    comp_info['status'] = 'killed'
+                    comp_info['health'] = 'killed'
+                except Exception as e:
+                    self.get_logger().error(f'Error stopping {comp_name}: {e}')
+
+    def start_component(self, component_name):
+        """Start a specific component"""
+        if component_name in self.components:
+            if component_name == 'ros2_core':
+                self.start_ros2_core()
+            elif component_name == 'perception_stack':
+                self.start_perception_stack()
+            elif component_name == 'control_stack':
+                self.start_control_stack()
+            elif component_name == 'navigation_stack':
+                self.start_navigation_stack()
+            elif component_name == 'ai_stack':
+                self.start_ai_stack()
+
+    def stop_component(self, component_name):
+        """Stop a specific component"""
+        if component_name in self.components:
+            comp_info = self.components[component_name]
+            if comp_info['pid']:
+                try:
+                    comp_info['pid'].terminate()
+                    comp_info['pid'].wait(timeout=5)
+                    comp_info['status'] = 'stopped'
+                    comp_info['health'] = 'stopped'
+                except subprocess.TimeoutExpired:
+                    comp_info['pid'].kill()
+                    comp_info['status'] = 'killed'
+                    comp_info['health'] = 'killed'
+                except Exception as e:
+                    self.get_logger().error(f'Error stopping {component_name}: {e}')
+
+    def perform_manual_health_check(self):
+        """Perform manual health check"""
+        self.get_logger().info('Manual health check initiated')
+        self.health_check()
+```
+
+## Simulation to Real Deployment
+
+### Hardware Abstraction Layer
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from sensor_msgs.msg import JointState
+from control_msgs.msg import JointTrajectoryControllerState
+from humanoid_robot_msgs.msg import HardwareStatus
+import yaml
+import json
+from abc import ABC, abstractmethod
+
+class HardwareInterface(ABC):
+    """Abstract base class for hardware interfaces"""
+
+    @abstractmethod
+    def connect(self):
+        """Connect to hardware"""
+        pass
+
+    @abstractmethod
+    def disconnect(self):
+        """Disconnect from hardware"""
+        pass
+
+    @abstractmethod
+    def get_joint_states(self) -> Dict[str, float]:
+        """Get current joint states"""
+        pass
+
+    @abstractmethod
+    def send_joint_commands(self, commands: Dict[str, float]):
+        """Send joint commands"""
+        pass
+
+    @abstractmethod
+    def get_sensor_data(self) -> Dict[str, any]:
+        """Get sensor data"""
+        pass
+
+class SimulationHardwareInterface(HardwareInterface):
+    """Hardware interface for simulation"""
+
+    def __init__(self, node: Node):
+        self.node = node
+        self.connected = False
+
+        # Subscribers for simulation data
+        self.joint_state_sub = node.create_subscription(
+            JointState, '/joint_states', self.joint_state_callback, 10)
+        self.controller_state_sub = node.create_subscription(
+            JointTrajectoryControllerState, '/controller_state', self.controller_state_callback, 10)
+
+        # Publishers for simulation commands
+        self.joint_command_pub = node.create_publisher(
+            JointTrajectory, '/joint_group_position_controller/joint_trajectory', 10)
+
+        self.current_joint_states = {}
+        self.current_controller_state = {}
+
+    def connect(self):
+        """Connect to simulation"""
+        self.connected = True
+        self.node.get_logger().info('Connected to simulation hardware interface')
+        return True
+
+    def disconnect(self):
+        """Disconnect from simulation"""
+        self.connected = False
+        self.node.get_logger().info('Disconnected from simulation hardware interface')
+
+    def get_joint_states(self) -> Dict[str, float]:
+        """Get current joint states from simulation"""
+        return self.current_joint_states
+
+    def send_joint_commands(self, commands: Dict[str, float]):
+        """Send joint commands to simulation"""
+        if not self.connected:
+            return False
+
+        # Create trajectory message
+        traj_msg = JointTrajectory()
+        traj_msg.joint_names = list(commands.keys())
+
+        point = JointTrajectoryPoint()
+        point.positions = list(commands.values())
+        point.time_from_start.sec = 1  # Execute in 1 second
+        traj_msg.points.append(point)
+
+        self.joint_command_pub.publish(traj_msg)
+        return True
+
+    def get_sensor_data(self) -> Dict[str, any]:
+        """Get sensor data from simulation"""
+        return {
+            'imu': {},
+            'camera': {},
+            'lidar': {},
+            'force_torque': {}
+        }
+
+    def joint_state_callback(self, msg):
+        """Handle joint state updates from simulation"""
+        for i, name in enumerate(msg.name):
+            if i < len(msg.position):
+                self.current_joint_states[name] = msg.position[i]
+
+    def controller_state_callback(self, msg):
+        """Handle controller state updates"""
+        self.current_controller_state = msg
+
+class RealHardwareInterface(HardwareInterface):
+    """Hardware interface for real robot"""
+
+    def __init__(self, node: Node, config_file: str):
+        self.node = node
+        self.config_file = config_file
+        self.connected = False
+        self.hardware_handles = {}
+
+        # Load hardware configuration
+        self.load_config()
+
+        # Initialize real hardware connections
+        self.initialize_real_hardware()
+
+    def load_config(self):
+        """Load hardware configuration"""
+        try:
+            with open(self.config_file, 'r') as f:
+                self.config = yaml.safe_load(f)
+        except Exception as e:
+            self.node.get_logger().error(f'Failed to load config: {e}')
+            self.config = {}
+
+    def initialize_real_hardware(self):
+        """Initialize connections to real hardware"""
+        # Initialize motor controllers
+        self.initialize_motor_controllers()
+
+        # Initialize sensor interfaces
+        self.initialize_sensor_interfaces()
+
+        # Initialize communication protocols
+        self.initialize_communication_protocols()
+
+    def initialize_motor_controllers(self):
+        """Initialize motor controllers"""
+        motors = self.config.get('motors', [])
+        for motor in motors:
+            # Initialize specific motor controller
+            # This would depend on the specific hardware
+            self.node.get_logger().info(f'Initializing motor: {motor["name"]}')
+
+    def initialize_sensor_interfaces(self):
+        """Initialize sensor interfaces"""
+        sensors = self.config.get('sensors', [])
+        for sensor in sensors:
+            # Initialize specific sensor interface
+            self.node.get_logger().info(f'Initializing sensor: {sensor["name"]}')
+
+    def initialize_communication_protocols(self):
+        """Initialize communication protocols"""
+        # Initialize CAN, EtherCAT, or other communication protocols
+        self.node.get_logger().info('Initializing communication protocols')
+
+    def connect(self):
+        """Connect to real hardware"""
+        try:
+            # Establish connections to all hardware components
+            success = self.connect_to_motors()
+            if not success:
+                return False
+
+            success = self.connect_to_sensors()
+            if not success:
+                return False
+
+            self.connected = True
+            self.node.get_logger().info('Connected to real hardware interface')
+            return True
+
+        except Exception as e:
+            self.node.get_logger().error(f'Connection failed: {e}')
+            return False
+
+    def disconnect(self):
+        """Disconnect from real hardware"""
+        try:
+            self.disconnect_from_motors()
+            self.disconnect_from_sensors()
+            self.connected = False
+            self.node.get_logger().info('Disconnected from real hardware interface')
+        except Exception as e:
+            self.node.get_logger().error(f'Disconnection error: {e}')
+
+    def connect_to_motors(self):
+        """Connect to motor controllers"""
+        # Implementation depends on specific hardware
+        return True
+
+    def disconnect_from_motors(self):
+        """Disconnect from motor controllers"""
+        # Implementation depends on specific hardware
+        pass
+
+    def connect_to_sensors(self):
+        """Connect to sensors"""
+        # Implementation depends on specific hardware
+        return True
+
+    def disconnect_from_sensors(self):
+        """Disconnect from sensors"""
+        # Implementation depends on specific hardware
+        pass
+
+    def get_joint_states(self) -> Dict[str, float]:
+        """Get current joint states from real hardware"""
+        # Query real hardware for joint states
+        states = {}
+        # This would involve querying actual encoders/sensors
+        return states
+
+    def send_joint_commands(self, commands: Dict[str, float]):
+        """Send joint commands to real hardware"""
+        if not self.connected:
+            return False
+
+        # Send commands to real motor controllers
+        # This would involve converting to hardware-specific commands
+        return True
+
+    def get_sensor_data(self) -> Dict[str, any]:
+        """Get sensor data from real hardware"""
+        # Query real sensors
+        data = {}
+        # This would involve reading from actual sensors
+        return data
+
+class HardwareAbstractionLayer(Node):
+    """Hardware abstraction layer for switching between sim and real"""
+
+    def __init__(self):
+        super().__init__('hardware_abstraction_layer')
+
+        # Determine if running in simulation or real
+        self.mode = self.get_parameter_or('mode', 'simulation')  # 'simulation' or 'real'
+
+        # Initialize appropriate hardware interface
+        if self.mode == 'simulation':
+            self.hw_interface = SimulationHardwareInterface(self)
+        else:
+            config_file = self.get_parameter_or('config_file', 'robot_config.yaml')
+            self.hw_interface = RealHardwareInterface(self, config_file)
+
+        # Publishers and subscribers
+        self.hardware_status_pub = self.create_publisher(
+            HardwareStatus, '/hardware_status', 10)
+
+        # Connect to hardware
+        self.connect_to_hardware()
+
+        # Timer for status updates
+        self.status_timer = self.create_timer(1.0, self.publish_hardware_status)
+
+    def connect_to_hardware(self):
+        """Connect to appropriate hardware"""
+        success = self.hw_interface.connect()
+        if success:
+            self.get_logger().info(f'Connected to {self.mode} hardware')
+        else:
+            self.get_logger().error(f'Failed to connect to {self.mode} hardware')
+
+    def publish_hardware_status(self):
+        """Publish hardware status"""
+        status_msg = HardwareStatus()
+        status_msg.mode = self.mode
+        status_msg.connected = self.hw_interface.connected
+        status_msg.timestamp = self.get_clock().now().to_msg()
+
+        self.hardware_status_pub.publish(status_msg)
+
+    def get_joint_states(self):
+        """Get joint states through abstraction layer"""
+        return self.hw_interface.get_joint_states()
+
+    def send_joint_commands(self, commands):
+        """Send joint commands through abstraction layer"""
+        return self.hw_interface.send_joint_commands(commands)
+
+    def get_sensor_data(self):
+        """Get sensor data through abstraction layer"""
+        return self.hw_interface.get_sensor_data()
+```
+
+## Performance Optimization and Profiling
+
+### System Performance Monitor
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from diagnostic_msgs.msg import DiagnosticArray, DiagnosticStatus
+import psutil
+import time
+import threading
+from collections import deque
+import statistics
+
+class SystemPerformanceMonitor(Node):
+    def __init__(self):
+        super().__init__('system_performance_monitor')
+
+        # Performance metrics
+        self.cpu_history = deque(maxlen=100)
+        self.memory_history = deque(maxlen=100)
+        self.network_history = deque(maxlen=100)
+        self.disk_history = deque(maxlen=100)
+
+        # Publishers
+        self.diag_pub = self.create_publisher(DiagnosticArray, '/diagnostics', 10)
+        self.performance_pub = self.create_publisher(String, '/performance_metrics', 10)
+
+        # Timer for monitoring
+        self.monitor_timer = self.create_timer(1.0, self.collect_metrics)
+        self.diagnostic_timer = self.create_timer(2.0, self.publish_diagnostics)
+
+        # Performance thresholds
+        self.thresholds = {
+            'cpu_high': 80.0,      # Percentage
+            'memory_high': 85.0,   # Percentage
+            'disk_high': 90.0,     # Percentage
+            'process_count_high': 200  # Number of processes
+        }
+
+        self.get_logger().info('System performance monitor initialized')
+
+    def collect_metrics(self):
+        """Collect system performance metrics"""
+        # CPU usage
+        cpu_percent = psutil.cpu_percent(interval=None)
+        self.cpu_history.append(cpu_percent)
+
+        # Memory usage
+        memory = psutil.virtual_memory()
+        memory_percent = memory.percent
+        self.memory_history.append(memory_percent)
+
+        # Disk usage
+        disk = psutil.disk_usage('/')
+        disk_percent = (disk.used / disk.total) * 100
+        self.disk_history.append(disk_percent)
+
+        # Network I/O (since last check)
+        net_io = psutil.net_io_counters()
+        network_data = {
+            'bytes_sent': net_io.bytes_sent,
+            'bytes_recv': net_io.bytes_recv,
+            'packets_sent': net_io.packets_sent,
+            'packets_recv': net_io.packets_recv
+        }
+        self.network_history.append(network_data)
+
+        # Process count
+        process_count = len(psutil.pids())
+
+        # Publish performance metrics
+        metrics_str = f"CPU: {cpu_percent:.1f}%, Memory: {memory_percent:.1f}%, " \
+                     f"Disk: {disk_percent:.1f}%, Processes: {process_count}"
+
+        metrics_msg = String()
+        metrics_msg.data = metrics_str
+        self.performance_pub.publish(metrics_msg)
+
+    def publish_diagnostics(self):
+        """Publish diagnostic information"""
+        diag_array = DiagnosticArray()
+        diag_array.header.stamp = self.get_clock().now().to_msg()
+
+        # Create diagnostic status for each metric
+        statuses = []
+
+        # CPU Status
+        cpu_avg = statistics.mean(list(self.cpu_history)[-10:]) if self.cpu_history else 0
+        cpu_diag = DiagnosticStatus()
+        cpu_diag.name = "CPU Usage"
+        cpu_diag.level = DiagnosticStatus.OK if cpu_avg < self.thresholds['cpu_high'] else DiagnosticStatus.WARN
+        cpu_diag.message = f"CPU usage: {cpu_avg:.1f}%"
+        cpu_diag.hardware_id = "cpu"
+        statuses.append(cpu_diag)
+
+        # Memory Status
+        memory_avg = statistics.mean(list(self.memory_history)[-10:]) if self.memory_history else 0
+        memory_diag = DiagnosticStatus()
+        memory_diag.name = "Memory Usage"
+        memory_diag.level = DiagnosticStatus.OK if memory_avg < self.thresholds['memory_high'] else DiagnosticStatus.WARN
+        memory_diag.message = f"Memory usage: {memory_avg:.1f}%"
+        memory_diag.hardware_id = "memory"
+        statuses.append(memory_diag)
+
+        # Disk Status
+        disk_avg = statistics.mean(list(self.disk_history)[-10:]) if self.disk_history else 0
+        disk_diag = DiagnosticStatus()
+        disk_diag.name = "Disk Usage"
+        disk_diag.level = DiagnosticStatus.OK if disk_avg < self.thresholds['disk_high'] else DiagnosticStatus.WARN
+        disk_diag.message = f"Disk usage: {disk_avg:.1f}%"
+        disk_diag.hardware_id = "disk"
+        statuses.append(disk_diag)
+
+        # Process Count Status
+        process_count = len(psutil.pids())
+        process_diag = DiagnosticStatus()
+        process_diag.name = "Process Count"
+        process_diag.level = DiagnosticStatus.OK if process_count < self.thresholds['process_count_high'] else DiagnosticStatus.WARN
+        process_diag.message = f"Running processes: {process_count}"
+        process_diag.hardware_id = "system"
+        statuses.append(process_diag)
+
+        diag_array.status = statuses
+        self.diag_pub.publish(diag_array)
+
+    def get_performance_summary(self):
+        """Get performance summary"""
+        if not self.cpu_history:
+            return "No data collected yet"
+
+        summary = {
+            'cpu': {
+                'current': self.cpu_history[-1] if self.cpu_history else 0,
+                'average': statistics.mean(self.cpu_history) if self.cpu_history else 0,
+                'peak': max(self.cpu_history) if self.cpu_history else 0
+            },
+            'memory': {
+                'current': self.memory_history[-1] if self.memory_history else 0,
+                'average': statistics.mean(self.memory_history) if self.memory_history else 0,
+                'peak': max(self.memory_history) if self.memory_history else 0
+            },
+            'disk': {
+                'current': self.disk_history[-1] if self.disk_history else 0,
+                'average': statistics.mean(self.disk_history) if self.disk_history else 0,
+                'peak': max(self.disk_history) if self.disk_history else 0
+            }
+        }
+
+        return summary
+
+class PerformanceOptimizer:
+    """System performance optimizer"""
+
+    def __init__(self, node: Node):
+        self.node = node
+        self.performance_monitor = SystemPerformanceMonitor(node)
+
+        # Optimization strategies
+        self.optimization_strategies = {
+            'cpu': self.optimize_cpu_usage,
+            'memory': self.optimize_memory_usage,
+            'network': self.optimize_network_usage
+        }
+
+    def optimize_cpu_usage(self):
+        """Optimize CPU usage"""
+        # Reduce update rates for non-critical nodes
+        # Implement multi-threading where appropriate
+        # Optimize algorithms for efficiency
+        pass
+
+    def optimize_memory_usage(self):
+        """Optimize memory usage"""
+        # Implement object pooling
+        # Reduce memory allocations
+        # Use efficient data structures
+        pass
+
+    def optimize_network_usage(self):
+        """Optimize network usage"""
+        # Reduce message frequency where possible
+        # Use compression for large messages
+        # Implement message batching
+        pass
+
+    def adaptive_optimization(self):
+        """Perform adaptive optimization based on current metrics"""
+        summary = self.performance_monitor.get_performance_summary()
+
+        if summary['cpu']['current'] > 80:
+            self.optimize_cpu_usage()
+        if summary['memory']['current'] > 85:
+            self.optimize_memory_usage()
+        # Add more adaptive optimizations as needed
+```
+
+## Testing and Validation Framework
+
+### Comprehensive Testing Suite
+
+```python
+import unittest
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from geometry_msgs.msg import PoseStamped
+from humanoid_robot_msgs.msg import RobotStatus
+import time
+import threading
+
+class HumanoidRobotTestSuite(unittest.TestCase):
+    def setUp(self):
+        """Setup test environment"""
+        rclpy.init()
+        self.test_node = TestNode('humanoid_robot_test_node')
+        self.executor = rclpy.executors.SingleThreadedExecutor()
+        self.executor.add_node(self.test_node)
+
+    def tearDown(self):
+        """Cleanup after tests"""
+        self.executor.shutdown()
+        rclpy.shutdown()
+
+    def test_system_initialization(self):
+        """Test system initialization"""
+        # Wait for system to initialize
+        timeout = 10  # seconds
+        start_time = time.time()
+
+        while time.time() - start_time < timeout:
+            if self.test_node.system_initialized:
+                break
+            time.sleep(0.1)
+
+        self.assertTrue(self.test_node.system_initialized, "System failed to initialize")
+
+    def test_perception_system(self):
+        """Test perception system functionality"""
+        # Wait for perception data
+        timeout = 5
+        start_time = time.time()
+
+        while time.time() - start_time < timeout:
+            if self.test_node.perception_data_received:
+                break
+            time.sleep(0.1)
+
+        self.assertTrue(self.test_node.perception_data_received, "Perception system not working")
+
+    def test_navigation_system(self):
+        """Test navigation system"""
+        # Send navigation command
+        goal = PoseStamped()
+        goal.pose.position.x = 1.0
+        goal.pose.position.y = 1.0
+
+        self.test_node.send_navigation_command(goal)
+
+        # Wait for navigation to complete
+        timeout = 30
+        start_time = time.time()
+
+        while time.time() - start_time < timeout:
+            if self.test_node.navigation_completed:
+                break
+            time.sleep(0.1)
+
+        self.assertTrue(self.test_node.navigation_completed, "Navigation failed")
+
+    def test_manipulation_system(self):
+        """Test manipulation system"""
+        # This would test picking up and placing objects
+        success = self.test_node.test_manipulation_sequence()
+        self.assertTrue(success, "Manipulation sequence failed")
+
+    def test_ai_integration(self):
+        """Test AI system integration"""
+        # Test voice command processing
+        command = "move forward 1 meter"
+        success = self.test_node.process_voice_command(command)
+        self.assertTrue(success, "AI command processing failed")
+
+class TestNode(Node):
+    def __init__(self, node_name):
+        super().__init__(node_name)
+
+        # Test state
+        self.system_initialized = False
+        self.perception_data_received = False
+        self.navigation_completed = False
+        self.manipulation_success = False
+
+        # Publishers and subscribers for testing
+        self.status_sub = self.create_subscription(
+            RobotStatus, '/robot_status', self.status_callback, 10)
+
+        # Initialize test subjects
+        self.initialize_test_subjects()
+
+    def initialize_test_subjects(self):
+        """Initialize components to test"""
+        # Wait briefly for system to be ready
+        time.sleep(2)
+
+        # Check if system is operational
+        self.system_initialized = True  # This would be determined by actual status
+
+    def status_callback(self, msg):
+        """Handle robot status updates"""
+        if msg.operational:
+            self.system_initialized = True
+
+    def send_navigation_command(self, goal):
+        """Send navigation command for testing"""
+        # Implementation would send goal to navigation system
+        pass
+
+    def test_manipulation_sequence(self):
+        """Test manipulation sequence"""
+        # Implementation would test manipulation capabilities
+        return True
+
+    def process_voice_command(self, command):
+        """Process voice command for testing"""
+        # Implementation would send command to NLP system
+        return True
+
+class IntegrationTestRunner:
+    """Runner for integration tests"""
+
+    def __init__(self):
+        self.test_results = {}
+        self.test_suite = HumanoidRobotTestSuite()
+
+    def run_all_tests(self):
+        """Run all integration tests"""
+        loader = unittest.TestLoader()
+        suite = loader.loadTestsFromTestCase(HumanoidRobotTestSuite)
+
+        runner = unittest.TextTestRunner(verbosity=2)
+        result = runner.run(suite)
+
+        return result
+
+    def run_specific_test(self, test_name):
+        """Run specific test by name"""
+        suite = unittest.TestSuite()
+        suite.addTest(HumanoidRobotTestSuite(test_name))
+
+        runner = unittest.TextTestRunner(verbosity=2)
+        result = runner.run(suite)
+
+        return result
+
+    def generate_test_report(self, results):
+        """Generate test report"""
+        report = {
+            'timestamp': time.time(),
+            'total_tests': results.testsRun,
+            'passed': results.testsRun - len(results.failures) - len(results.errors),
+            'failed': len(results.failures),
+            'errors': len(results.errors),
+            'failures': [str(failure[0]) for failure in results.failures],
+            'errors': [str(error[0]) for error in results.errors]
+        }
+
+        return report
+
+def run_integration_tests():
+    """Run the complete integration test suite"""
+    runner = IntegrationTestRunner()
+    results = runner.run_all_tests()
+
+    # Generate report
+    report = runner.generate_test_report(results)
+
+    print("\n" + "="*50)
+    print("INTEGRATION TEST RESULTS")
+    print("="*50)
+    print(f"Total Tests: {report['total_tests']}")
+    print(f"Passed: {report['passed']}")
+    print(f"Failed: {report['failed']}")
+    print(f"Errors: {report['errors']}")
+
+    if report['failures']:
+        print("\nFAILURES:")
+        for failure in report['failures']:
+            print(f"  - {failure}")
+
+    if report['errors']:
+        print("\nERRORS:")
+        for error in report['errors']:
+            print(f"  - {error}")
+
+    print("="*50)
+
+    return results
+```
+
+## Deployment and Validation
+
+### Complete Deployment Script
+
+```bash
+#!/bin/bash
+
+# Humanoid Robot Deployment Script
+# This script deploys the complete humanoid robot system
+
+set -e  # Exit on any error
+
+echo "==========================================="
+echo "Humanoid Robot System Deployment Script"
+echo "==========================================="
+
+# Configuration
+ROBOT_NAME=${ROBOT_NAME:-"humanoid_robot"}
+DEPLOY_MODE=${DEPLOY_MODE:-"simulation"}  # simulation or real
+CONFIG_DIR=${CONFIG_DIR:-"/etc/humanoid_robot"}
+LOG_DIR=${LOG_DIR:-"/var/log/humanoid_robot"}
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Logging function
+log() {
+    echo -e "${GREEN}[INFO]${NC} $1"
+    echo "[INFO] $(date): $1" >> ${LOG_DIR}/deployment.log
+}
+
+log_warn() {
+    echo -e "${YELLOW}[WARN]${NC} $1"
+    echo "[WARN] $(date): $1" >> ${LOG_DIR}/deployment.log
+}
+
+log_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+    echo "[ERROR] $(date): $1" >> ${LOG_DIR}/deployment.log
+}
+
+# Check prerequisites
+check_prerequisites() {
+    log "Checking prerequisites..."
+
+    # Check if running as root (for some operations)
+    if [ "$EUID" -ne 0 ]; then
+        log_warn "Not running as root. Some operations may fail."
+    fi
+
+    # Check if ROS 2 is installed
+    if ! command -v ros2 &> /dev/null; then
+        log_error "ROS 2 is not installed"
+        exit 1
+    fi
+
+    # Check if required directories exist
+    mkdir -p ${CONFIG_DIR}
+    mkdir -p ${LOG_DIR}
+
+    log "Prerequisites check completed"
+}
+
+# Setup ROS 2 workspace
+setup_workspace() {
+    log "Setting up ROS 2 workspace..."
+
+    # Source ROS 2
+    source /opt/ros/humble/setup.bash
+
+    # Create workspace if it doesn't exist
+    if [ ! -d "ws_humanoid_robot" ]; then
+        mkdir -p ws_humanoid_robot/src
+        cd ws_humanoid_robot
+
+        # Copy source code (assuming it's in the current directory)
+        # This would be customized based on your project structure
+        cp -r ../robotics_book/* src/
+
+        # Build the workspace
+        colcon build --packages-select humanoid_robot_core humanoid_robot_perception humanoid_robot_control
+    else
+        cd ws_humanoid_robot
+        # Pull latest changes and rebuild
+        git pull origin main
+        colcon build
+    fi
+
+    source install/setup.bash
+    log "Workspace setup completed"
+}
+
+# Configure system
+configure_system() {
+    log "Configuring system..."
+
+    # Copy configuration files
+    cp -r config/* ${CONFIG_DIR}/
+
+    # Set proper permissions
+    chmod +x ${CONFIG_DIR}/*.yaml
+    chmod +x ${CONFIG_DIR}/*.xml
+
+    # Create systemd services (for real robot deployment)
+    if [ "$DEPLOY_MODE" = "real" ]; then
+        cat > /etc/systemd/system/humanoid-robot.service << EOF
+[Unit]
+Description=Humanoid Robot System
+After=network.target
+
+[Service]
+Type=simple
+User=robot
+ExecStart=/usr/bin/ros2 launch humanoid_robot_bringup robot.launch.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+        systemctl daemon-reload
+        systemctl enable humanoid-robot.service
+    fi
+
+    log "System configuration completed"
+}
+
+# Deploy simulation environment
+deploy_simulation() {
+    log "Deploying simulation environment..."
+
+    # Start Gazebo simulation
+    nohup ros2 launch humanoid_robot_gazebo simulation.launch.py > ${LOG_DIR}/gazebo.log 2>&1 &
+    GAZEBO_PID=$!
+    echo $GAZEBO_PID > /tmp/humanoid_gazebo.pid
+
+    # Start robot in simulation
+    nohup ros2 launch humanoid_robot_bringup simulation.launch.py > ${LOG_DIR}/robot_sim.log 2>&1 &
+    ROBOT_PID=$!
+    echo $ROBOT_PID > /tmp/humanoid_robot.pid
+
+    log "Simulation environment deployed"
+    log "Gazebo PID: $GAZEBO_PID"
+    log "Robot PID: $ROBOT_PID"
+}
+
+# Deploy real robot
+deploy_real_robot() {
+    log "Deploying real robot system..."
+
+    # Check if real hardware is connected
+    if ! lsusb | grep -q "robot"; then
+        log_warn "Real robot hardware not detected"
+    fi
+
+    # Start robot system
+    if [ "$DEPLOY_MODE" = "real" ]; then
+        nohup ros2 launch humanoid_robot_bringup robot.launch.py > ${LOG_DIR}/robot_real.log 2>&1 &
+        ROBOT_PID=$!
+        echo $ROBOT_PID > /tmp/humanoid_robot.pid
+
+        log "Real robot system deployed with PID: $ROBOT_PID"
+    fi
+}
+
+# Run system tests
+run_tests() {
+    log "Running system tests..."
+
+    # Wait a bit for systems to start
+    sleep 10
+
+    # Run integration tests
+    python3 -m pytest tests/integration_tests.py -v
+
+    log "System tests completed"
+}
+
+# Main deployment function
+deploy() {
+    log "Starting deployment process..."
+
+    check_prerequisites
+    setup_workspace
+    configure_system
+
+    if [ "$DEPLOY_MODE" = "simulation" ]; then
+        deploy_simulation
+    else
+        deploy_real_robot
+    fi
+
+    run_tests
+
+    log "Deployment completed successfully!"
+    log "System is now running in $DEPLOY_MODE mode"
+
+    # Show status
+    if [ -f /tmp/humanoid_robot.pid ]; then
+        ROBOT_PID=$(cat /tmp/humanoid_robot.pid)
+        if ps -p $ROBOT_PID > /dev/null; then
+            log "Robot process is running with PID: $ROBOT_PID"
+        else
+            log_error "Robot process is not running!"
+        fi
+    fi
+}
+
+# Cleanup function
+cleanup() {
+    log "Cleaning up deployment..."
+
+    # Kill running processes
+    if [ -f /tmp/humanoid_gazebo.pid ]; then
+        GAZEBO_PID=$(cat /tmp/humanoid_gazebo.pid)
+        kill $GAZEBO_PID 2>/dev/null || true
+        rm /tmp/humanoid_gazebo.pid
+    fi
+
+    if [ -f /tmp/humanoid_robot.pid ]; then
+        ROBOT_PID=$(cat /tmp/humanoid_robot.pid)
+        kill $ROBOT_PID 2>/dev/null || true
+        rm /tmp/humanoid_robot.pid
+    fi
+
+    log "Cleanup completed"
+}
+
+# Help function
+show_help() {
+    echo "Usage: $0 [OPTIONS]"
+    echo "Options:"
+    echo "  deploy                    Deploy the system"
+    echo "  cleanup                   Clean up deployment"
+    echo "  status                    Show system status"
+    echo "  -m, --mode MODE          Deployment mode (simulation|real) [default: simulation]"
+    echo "  -h, --help              Show this help message"
+}
+
+# Status function
+show_status() {
+    echo "System Status:"
+    echo "=============="
+
+    if [ -f /tmp/humanoid_robot.pid ]; then
+        ROBOT_PID=$(cat /tmp/humanoid_robot.pid)
+        if ps -p $ROBOT_PID > /dev/null; then
+            echo "Robot process: RUNNING (PID: $ROBOT_PID)"
+        else
+            echo "Robot process: STOPPED"
+        fi
+    else
+        echo "Robot process: NOT STARTED"
+    fi
+
+    if [ -f /tmp/humanoid_gazebo.pid ]; then
+        GAZEBO_PID=$(cat /tmp/humanoid_gazebo.pid)
+        if ps -p $GAZEBO_PID > /dev/null; then
+            echo "Gazebo process: RUNNING (PID: $GAZEBO_PID)"
+        else
+            echo "Gazebo process: STOPPED"
+        fi
+    fi
+}
+
+# Parse command line arguments
+case "${1:-deploy}" in
+    deploy)
+        deploy
+        ;;
+    cleanup)
+        cleanup
+        ;;
+    status)
+        show_status
+        ;;
+    -h|--help)
+        show_help
+        ;;
+    *)
+        echo "Unknown option: $1"
+        show_help
+        exit 1
+        ;;
+esac
+```
+
+## Best Practices for Capstone Projects
+
+### 1. System Design Principles
+- **Modularity**: Design components to be independent and replaceable
+- **Scalability**: Plan for future expansion and enhancement
+- **Maintainability**: Write clean, documented code
+- **Robustness**: Handle failures gracefully
+
+### 2. Integration Strategies
+- **Gradual Integration**: Integrate components incrementally
+- **Mock Interfaces**: Use mocks for unready components
+- **Continuous Testing**: Test integration continuously
+- **Version Control**: Use proper versioning for components
+
+### 3. Performance Considerations
+- **Resource Management**: Monitor and optimize resource usage
+- **Real-time Constraints**: Ensure timing requirements are met
+- **Communication Efficiency**: Optimize message passing
+- **Parallel Processing**: Use multi-threading where appropriate
+
+### 4. Safety and Reliability
+- **Fail-safe Mechanisms**: Implement safe failure modes
+- **Monitoring**: Continuously monitor system health
+- **Logging**: Maintain comprehensive logs
+- **Recovery**: Implement automatic recovery procedures
+
+## Troubleshooting Common Integration Issues
+
+### 1. Communication Problems
+- Check ROS 2 network configuration
+- Verify topic and service names
+- Ensure message type compatibility
+- Check firewall settings
+
+### 2. Performance Bottlenecks
+- Profile CPU and memory usage
+- Optimize algorithms and data structures
+- Reduce unnecessary computations
+- Use efficient serialization methods
+
+### 3. Hardware Integration Issues
+- Verify driver installations
+- Check communication protocols
+- Test hardware individually
+- Validate calibration procedures
+
+## Hands-on Exercise
+
+1. Integrate all the components developed in previous chapters
+2. Create a deployment script for your system
+3. Run comprehensive system tests
+4. Optimize performance based on profiling results
+5. Document the complete system architecture
+
+## Quiz Questions
+
+1. What are the key phases in capstone project execution?
+2. How do you design a hardware abstraction layer for simulation-to-real deployment?
+3. What are the best practices for system integration and testing?
+
+</InteractiveLesson>
