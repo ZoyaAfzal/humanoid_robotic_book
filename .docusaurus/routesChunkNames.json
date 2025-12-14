@@ -42,7 +42,7 @@
       "plugin": "plugin---docusaurus-debug-6-e-2-65c"
     }
   },
-  "/docs-f17": {
+  "/docs-d97": {
     "__comp": "__comp---theme-doc-page-1-be-9be",
     "__context": {
       "plugin": "plugin---docs-3-b-5-a09"
@@ -52,6 +52,10 @@
   "/docs/adr/adr-004-4fb": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-adr-adr-0045-d-0-5f0"
+  },
+  "/docs/chapter1-de6": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-1805-cc9"
   },
   "/docs/chapter1/lesson1/spec-kit-plus-workflow-a8b": {
     "__comp": "__comp---theme-doc-item-178-a40",
@@ -65,6 +69,10 @@
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-chapter-1-lesson-3-development-environment-setup-9-e-0-b82"
   },
+  "/docs/chapter2-93a": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-2-c-9-e-5fe"
+  },
   "/docs/chapter2/lesson1/ros2-architecture-cc7": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-chapter-2-lesson-1-ros-2-architecture-59-b-a6b"
@@ -76,6 +84,10 @@
   "/docs/chapter2/lesson3/bridging-ai-agents-a74": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-chapter-2-lesson-3-bridging-ai-agents-67-e-94c"
+  },
+  "/docs/chapter3-f3f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-3-bff-94f"
   },
   "/docs/chapter3/lesson1/gazebo-environment-setup-37c": {
     "__comp": "__comp---theme-doc-item-178-a40",
@@ -89,6 +101,10 @@
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-chapter-3-lesson-3-sensor-simulation-66-e-74f"
   },
+  "/docs/chapter4-eb6": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-43-b-0-a27"
+  },
   "/docs/chapter4/lesson1/isaac-sim-synthetic-data-188": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-chapter-4-lesson-1-isaac-sim-synthetic-data-386-bf3"
@@ -100,6 +116,10 @@
   "/docs/chapter4/lesson3/bipedal-path-planning-d42": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-chapter-4-lesson-3-bipedal-path-planning-286-308"
+  },
+  "/docs/chapter5-f1e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-chapter-5-fd-4-d95"
   },
   "/docs/chapter5/lesson1/voice-to-action-25c": {
     "__comp": "__comp---theme-doc-item-178-a40",
@@ -140,10 +160,6 @@
   "/docs/module1/summary-386": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-module-1-summary-51-a-0df"
-  },
-  "/docs/test-route-87d": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-test-route-30-f-cab"
   },
   "/-754": {
     "__comp": "__comp---site-src-pages-index-jsc-4-f-f99",

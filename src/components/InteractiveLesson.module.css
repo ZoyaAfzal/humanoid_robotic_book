@@ -6,10 +6,19 @@
   background-color: #fff;
 }
 
+[data-theme='dark'] .interactiveLessonContainer {
+  background-color: #1e1e1e;
+  border-color: #444;
+}
+
 .lessonHeader {
   margin-bottom: 0.75rem;
   padding-bottom: 0.25rem;
   border-bottom: 1px solid #e0e0e0;
+}
+
+[data-theme='dark'] .lessonHeader {
+  border-color: #444;
 }
 
 .lessonHeader h1 {
@@ -18,11 +27,121 @@
   font-size: 1.25rem;
 }
 
+[data-theme='dark'] .lessonHeader h1 {
+  color: white;
+}
+
 .lessonMeta {
   color: #666;
   font-size: 0.8rem;
 }
 
+[data-theme='dark'] .lessonMeta {
+  color: #e0e0e0;
+}
+
 .lessonContent {
   margin-top: 0.5rem;
+  animation: fadeInUp 0.6s ease-out;
+  opacity: 0;
+  transform: translateY(20px);
+  animation-fill-mode: forwards;
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply animations to different elements */
+.lessonHeader {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #e0e0e0;
+  animation: slideInLeft 0.5s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.lessonHeader h1 {
+  margin: 0 0 0.25rem 0;
+  color: #1a73e8;
+  font-size: 1.25rem;
+  animation: fadeIn 0.5s ease-out 0.2s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.lessonMeta {
+  color: #666;
+  font-size: 0.8rem;
+  animation: fadeIn 0.5s ease-out 0.3s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+[data-theme='dark'] .lessonHeader {
+  border-color: #444;
+}
+
+[data-theme='dark'] .lessonHeader h1 {
+  color: white;
+}
+
+[data-theme='dark'] .lessonMeta {
+  color: #e0e0e0;
+}
+
+.interactiveLessonContainer {
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #fff;
+  animation: fadeIn 0.5s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+[data-theme='dark'] .interactiveLessonContainer {
+  background-color: #1e1e1e;
+  border-color: #444;
 }

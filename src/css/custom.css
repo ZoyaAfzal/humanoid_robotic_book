@@ -71,14 +71,14 @@
 
 /* Enhanced dark theme colors */
 [data-theme='dark'] {
-  /* Primary colors */
-  --ifm-color-primary: #3a81d0;
-  --ifm-color-primary-dark: #2a70c2;
-  --ifm-color-primary-darker: #1a5fb4;
-  --ifm-color-primary-darkest: #154e92;
-  --ifm-color-primary-light: #5a9ae4;
-  --ifm-color-primary-lighter: #7ab8f0;
-  --ifm-color-primary-lightest: #a0d0f7;
+  /* Primary colors - Changed from blue to green */
+  --ifm-color-primary: #28a745;
+  --ifm-color-primary-dark: #218838;
+  --ifm-color-primary-darker: #1e7e34;
+  --ifm-color-primary-darkest: #16652e;
+  --ifm-color-primary-light: #4caf50;
+  --ifm-color-primary-lighter: #66bb6a;
+  --ifm-color-primary-lightest: #81c784;
 
   /* Secondary colors */
   --ifm-color-secondary: #6c757d;
@@ -89,9 +89,9 @@
   --ifm-color-secondary-lighter: #adb5bd;
   --ifm-color-secondary-lightest: #495057;
 
-  /* Success, warning, danger colors for dark mode */
-  --ifm-color-success: #20c997;
-  --ifm-color-success-dark: #1da57d;
+  /* Success, warning, danger colors for dark mode - Maintaining green theme */
+  --ifm-color-success: #28a745;
+  --ifm-color-success-dark: #218838;
   --ifm-color-warning: #ffc107;
   --ifm-color-warning-dark: #e0a800;
   --ifm-color-danger: #e74c3c;
@@ -106,7 +106,7 @@
   --ifm-code-background: #2d2d2d;
   --ifm-code-color: #f8f8f2;
 
-  /* Emphasis colors */
+  /* Emphasis colors - Updated for darker appearance with green accents */
   --ifm-color-emphasis-0: #ffffff;
   --ifm-color-emphasis-100: rgba(255, 255, 255, 0.05);
   --ifm-color-emphasis-200: rgba(255, 255, 255, 0.1);
@@ -141,11 +141,90 @@ body {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
   padding: 0.75rem 0;
+  color: #000000; /* Ensure navbar text is black */
+}
+
+.navbar__title {
+  color: #000000 !important; /* Ensure title is black */
+}
+
+.navbar__link {
+  color: #000000 !important; /* Ensure nav links are black */
 }
 
 [data-theme='dark'] .navbar {
   background-color: rgba(30, 30, 30, 0.95);
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  color: #ffffff; /* Dark mode navbar text */
+}
+
+[data-theme='dark'] .navbar__title {
+  color: #ffffff !important; /* Dark mode title */
+}
+
+[data-theme='dark'] .navbar__link {
+  color: #ffffff !important; /* Dark mode nav links */
+}
+
+/* Navbar dropdown menu styling */
+.navbar__item.dropdown {
+  color: #000000 !important;
+}
+
+.dropdown__menu {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.dropdown__link {
+  color: #000000 !important;
+}
+
+/* Dark mode dropdown styling */
+[data-theme='dark'] .dropdown__menu {
+  background-color: var(--ifm-background-surface-color) !important;
+  color: #ffffff !important;
+}
+
+[data-theme='dark'] .dropdown__link {
+  color: #ffffff !important;
+}
+
+/* Fix dark mode background for homepage */
+[data-theme='dark'] main {
+  background-color: var(--ifm-background-color) !important;
+}
+
+[data-theme='dark'] .hero {
+  background: linear-gradient(135deg, #28a745 0%, #218838 100%) !important;
+}
+
+[data-theme='dark'] section {
+  background-color: var(--ifm-background-color) !important; /* Keep black background */
+}
+
+[data-theme='dark'] .container {
+  background-color: transparent !important;
+}
+
+/* Note: Keep main content with black background */
+[data-theme='dark'] main {
+  background-color: var(--ifm-background-color) !important;
+}
+
+[data-theme='dark'] .footer {
+  background-color: var(--ifm-background-surface-color) !important; /* Dark surface color */
+  color: #e0e0e0;
+}
+
+[data-theme='dark'] .pagination-nav__link {
+  background-color: var(--ifm-background-surface-color) !important; /* Dark surface color */
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  color: #e0e0e0;
+}
+
+[data-theme='dark'] .pagination-nav__link:hover {
+  background-color: color-mix(in srgb, var(--ifm-color-primary), transparent 80%) !important;
 }
 
 .navbar__inner {
@@ -162,6 +241,13 @@ body {
   position: relative;
   overflow: hidden;
   margin-bottom: 2rem; /* Reduced margin */
+  transition: all 0.3s ease;
+}
+
+.hero:hover {
+  background: linear-gradient(135deg, var(--ifm-color-primary-darker) 0%, var(--ifm-color-primary-darkest) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .hero::before {
@@ -177,6 +263,12 @@ body {
 
 [data-theme='dark'] .hero {
   background: linear-gradient(135deg, var(--ifm-color-primary-darker) 0%, var(--ifm-color-primary-darkest) 100%);
+}
+
+[data-theme='dark'] .hero:hover {
+  background: linear-gradient(135deg, var(--ifm-color-primary-darkest) 0%, #125a2a 100%); /* Even darker green for hover */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
 .hero__title {
@@ -221,10 +313,7 @@ body {
   transform: translateY(-1px); /* Reduced transform for compact feel */
 }
 
-[data-theme='dark'] .card {
-  background-color: var(--ifm-background-surface-color);
-  border: 1px solid var(--ifm-color-emphasis-200);
-}
+/* This section is replaced by the updated styling at lines 1289-1308 */
 
 /* Compact card content */
 .card__header {
@@ -269,12 +358,15 @@ body {
   background-color: var(--ifm-color-primary);
   color: white;
   border-color: var(--ifm-color-primary);
+  transition: all 0.3s ease;
 }
 
 .button--primary:hover {
   background-color: var(--ifm-color-primary-dark);
   border-color: var(--ifm-color-primary-dark);
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
 }
 
 .button--secondary {
@@ -457,7 +549,20 @@ select:focus,
 textarea:focus,
 details:focus,
 summary:focus {
-  outline: 3px solid var(--ifm-color-primary-light) !important;
+  outline: 3px solid #28a745 !important; /* Green focus outline */
+  outline-offset: 2px !important;
+  border-radius: var(--ifm-border-radius);
+}
+
+/* In dark mode, keep the green focus outline */
+[data-theme='dark'] a:focus,
+[data-theme='dark'] button:focus,
+[data-theme='dark'] input:focus,
+[data-theme='dark'] select:focus,
+[data-theme='dark'] textarea:focus,
+[data-theme='dark'] details:focus,
+[data-theme='dark'] summary:focus {
+  outline: 3px solid #28a745 !important; /* Green focus outline in dark mode too */
   outline-offset: 2px !important;
   border-radius: var(--ifm-border-radius);
 }
@@ -631,13 +736,281 @@ a:hover {
   outline: none;
 }
 
-/* Better mobile navigation */
+/* Enhanced mobile responsive navigation */
+@media (max-width: 996px) {
+  .navbar {
+    padding: 0.5rem 0 !important;
+  }
+
+  .navbar__inner {
+    flex-wrap: wrap;
+    padding: 0 1rem;
+  }
+
+  .navbar__items {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .navbar__item {
+    margin: 0.25rem;
+  }
+
+  .navbar-sidebar__brand {
+    padding: 1rem;
+    border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  }
+
+  .navbar-sidebar__back {
+    padding: 1rem;
+    border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  }
+
+  .navbar-sidebar__close {
+    padding: 1rem;
+  }
+
+  .navbar-sidebar__items {
+    flex-direction: column;
+  }
+
+  .navbar-sidebar__item {
+    width: 100%;
+    border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  }
+
+  .navbar-sidebar__item:last-child {
+    border-bottom: none;
+  }
+
+  .navbar__item.dropdown {
+    margin: 0.25rem 0.125rem;
+  }
+
+  .dropdown__menu {
+    max-height: 70vh;
+    overflow-y: auto;
+    position: static !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    background-color: var(--ifm-background-surface-color) !important;
+  }
+
+  .dropdown__link {
+    padding: 0.75rem 1rem !important;
+    margin: 0.125rem 0.5rem !important;
+    border-radius: var(--ifm-button-border-radius) !important;
+  }
+
+  .dropdown__link:hover {
+    background-color: var(--ifm-color-emphasis-100) !important;
+  }
+
+  [data-theme='dark'] .dropdown__link:hover {
+    background-color: var(--ifm-color-emphasis-200) !important;
+  }
+
+  /* Enhanced chapter navigation in mobile sidebar */
+  .navbar-sidebar .dropdown__menu {
+    margin: 0.5rem 0 !important;
+    border-radius: var(--ifm-button-border-radius) !important;
+  }
+
+  .navbar-sidebar .dropdown--hoverable .navbar__link,
+  .navbar-sidebar .dropdown--right .navbar__link {
+    width: 100% !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  /* Chapter-specific styling in mobile menu */
+  .navbar-sidebar .navbar__link[href*="/docs/chapter"] {
+    background-color: var(--ifm-color-emphasis-100);
+    border-radius: var(--ifm-button-border-radius);
+    margin: 0.25rem 0.5rem;
+  }
+
+  [data-theme='dark'] .navbar-sidebar .navbar__link[href*="/docs/chapter"] {
+    background-color: var(--ifm-color-emphasis-200);
+  }
+
+  /* Enhanced mobile chapter navigation section */
+  .navbar-sidebar .menu__list-item .menu__link[href^="/docs/chapter"] {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0.75rem 1.5rem !important;
+    margin: 0.25rem 0.5rem !important;
+    border-radius: var(--ifm-button-border-radius) !important;
+    background: linear-gradient(to right, var(--ifm-color-emphasis-100), transparent) !important;
+  }
+
+  [data-theme='dark'] .navbar-sidebar .menu__list-item .menu__link[href^="/docs/chapter"] {
+    background: linear-gradient(to right, var(--ifm-color-emphasis-200), transparent) !important;
+  }
+
+  /* Chapter dropdown items in mobile */
+  .navbar-sidebar .menu__list-item .menu__link[href^="/docs/chapter"]::after {
+    content: "▶";
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+  }
+
+  .navbar-sidebar .menu__list-item .menu__link[href^="/docs/chapter"].menu__link--sublist::after {
+    content: "▼";
+  }
+
+  /* Mobile-friendly chapter section header */
+  .navbar-sidebar .menu .menu__list > .menu__list-item:nth-child(3) {
+    border-top: 1px solid var(--ifm-color-emphasis-200);
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Mobile navigation improvements */
 .navbar-sidebar {
   background-color: var(--ifm-background-color);
 }
 
 [data-theme='dark'] .navbar-sidebar {
   background-color: var(--ifm-background-color);
+}
+
+/* Enhanced mobile sidebar for chapter navigation */
+.navbar-sidebar .menu {
+  padding: 0.5rem 0;
+}
+
+.navbar-sidebar .menu__list .menu__list {
+  margin-left: 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] .navbar-sidebar .menu__list .menu__list {
+  border-left: 2px solid var(--ifm-color-emphasis-300);
+}
+
+.navbar-sidebar .menu__list-item > .menu__link {
+  transition: all 0.2s ease;
+  border-radius: var(--ifm-button-border-radius) !important;
+  margin: 0.125rem 0.5rem !important;
+}
+
+.navbar-sidebar .menu__list-item > .menu__link:hover {
+  background-color: var(--ifm-color-emphasis-100);
+  transform: translateX(4px);
+}
+
+[data-theme='dark'] .navbar-sidebar .menu__list-item > .menu__link:hover {
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+/* Chapter category styling in mobile sidebar - card-like appearance */
+.navbar-sidebar .menu__list-item .menu__link[aria-expanded] {
+  font-weight: 600;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  margin: 0.25rem 0.5rem !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+[data-theme='dark'] .navbar-sidebar .menu__list-item .menu__link[aria-expanded] {
+  background: var(--ifm-color-emphasis-200);
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+/* Chapter item styling */
+.navbar-sidebar .menu__list-item .menu__link:not([aria-expanded]) {
+  padding-left: 2rem !important;
+  font-size: 0.9rem;
+  margin: 0.125rem 0.75rem !important;
+  border-radius: var(--ifm-button-border-radius) !important;
+}
+
+/* Chapter category headers - card-like appearance */
+.navbar-sidebar .menu__list-item > .menu__list-item-collapsible > .menu__link {
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+  background: linear-gradient(135deg, var(--ifm-color-emphasis-100), var(--ifm-background-surface-color));
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-button-border-radius) !important;
+  margin: 0.5rem 0.5rem !important;
+  padding: 0.75rem 1rem !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+
+[data-theme='dark'] .navbar-sidebar .menu__list-item > .menu__list-item-collapsible > .menu__link {
+  background: linear-gradient(135deg, var(--ifm-color-emphasis-200), var(--ifm-background-color));
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+/* Chapter dropdown card styling */
+.navbar-sidebar .menu .menu__list > .menu__list-item {
+  margin: 0.25rem 0.5rem;
+  border-radius: var(--ifm-button-border-radius);
+}
+
+/* Card-like appearance for chapter items */
+.navbar-sidebar .menu__list-item .menu__link[href^="/docs/chapter"]:not([aria-expanded]) {
+  background-color: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-button-border-radius) !important;
+  margin: 0.25rem 0.75rem !important;
+  padding: 0.5rem 1rem !important;
+}
+
+[data-theme='dark'] .navbar-sidebar .menu__list-item .menu__link[href^="/docs/chapter"]:not([aria-expanded]) {
+  background-color: var(--ifm-color-emphasis-200);
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+/* Enhanced mobile menu styling */
+@media (max-width: 996px) {
+  .navbar__toggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--ifm-button-border-radius);
+    background: transparent;
+    border: 1px solid transparent;
+    margin-right: 0.5rem;
+  }
+}
+
+.navbar__toggle:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+[data-theme='dark'] .navbar__toggle:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+/* Mobile search improvements */
+.navbar__search {
+  flex: 1;
+  min-width: 0;
+}
+
+.navbar__search-input {
+  width: 100%;
+}
+
+@media (max-width: 576px) {
+  .navbar__search-input {
+    min-width: 120px;
+  }
+
+  .navbar__items--right {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .navbar__item {
+    margin: 0 0.125rem;
+  }
 }
 
 /* Enhanced pagination */
@@ -744,11 +1117,11 @@ img.loading {
 }
 
 /* Enhanced contrast for WCAG AA compliance */
-.table-of-contents__link,
-.table-of-contents__link:hover,
-.table-of-contents__link--active,
-.table-of-contents__link--active:hover {
-  color: var(--ifm-color-emphasis-800);
+:not([data-theme='dark']) .table-of-contents__link,
+:not([data-theme='dark']) .table-of-contents__link:hover,
+:not([data-theme='dark']) .table-of-contents__link--active,
+:not([data-theme='dark']) .table-of-contents__link--active:hover {
+  color: #1a5fb4 !important; /* Blue text for TOC in light mode */
   padding: 0.25rem 0.5rem;
   border-radius: var(--ifm-border-radius);
   transition: all 0.2s ease;
@@ -763,7 +1136,24 @@ img.loading {
 [data-theme='dark'] .table-of-contents__link:hover,
 [data-theme='dark'] .table-of-contents__link--active,
 [data-theme='dark'] .table-of-contents__link--active:hover {
-  color: var(--ifm-color-emphasis-200);
+  color: #ffffff !important; /* White text for TOC in dark mode */
+}
+
+/* Ensure navigation links in content area are blue in day mode */
+:not([data-theme='dark']) .pagination-nav__link,
+:not([data-theme='dark']) .pagination-nav__label,
+:not([data-theme='dark']) .pagination-nav__sublabel,
+:not([data-theme='dark']) .theme-edit-this-page {
+  color: #1a5fb4 !important; /* Blue for navigation links in light mode */
+}
+
+:not([data-theme='dark']) .pagination-nav__link {
+  border-color: #1a5fb4 !important;
+}
+
+:not([data-theme='dark']) .pagination-nav__link:hover {
+  border-color: #1a5fb4 !important;
+  color: #1754a1 !important; /* Darker blue on hover */
 }
 
 [data-theme='dark'] .table-of-contents__link:hover {
@@ -841,6 +1231,230 @@ hr {
   background: var(--ifm-color-emphasis-300);
 }
 
+/* Make lesson text black in day (light) mode */
+.markdown,
+.markdown p,
+.markdown li,
+.markdown td,
+.markdown th {
+  color: #000000 !important; /* Black text in light mode */
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  color: #000000 !important; /* Black headings in light mode */
+}
+
+/* Enhanced sidebar text colors in dark mode */
+[data-theme='dark'] .menu {
+  background-color: var(--ifm-background-color);
+}
+
+[data-theme='dark'] .menu__link {
+  color: #ffffff !important; /* White text for sidebar links in dark mode */
+}
+
+[data-theme='dark'] .menu__link:hover {
+  color: #ffffff !important; /* White text on hover */
+  background-color: var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] .menu__list-item-collapsible > .menu__link {
+  color: #ffffff !important; /* White for collapsible items */
+}
+
+[data-theme='dark'] .menu__list-item-collapsible .menu__list-item > .menu__link {
+  color: #f0f0f0 !important; /* Slightly lighter gray for nested items to maintain hierarchy */
+}
+
+/* Make lesson text white in dark mode */
+[data-theme='dark'] .markdown,
+[data-theme='dark'] .markdown p,
+[data-theme='dark'] .markdown li,
+[data-theme='dark'] .markdown td,
+[data-theme='dark'] .markdown th,
+[data-theme='dark'] .markdown ul,
+[data-theme='dark'] .markdown ol,
+[data-theme='dark'] .markdown blockquote,
+[data-theme='dark'] .markdown pre,
+[data-theme='dark'] .markdown code {
+  color: #ffffff !important; /* White text in dark mode */
+}
+
+/* Make lesson headings white in dark mode */
+[data-theme='dark'] .markdown h1,
+[data-theme='dark'] .markdown h2,
+[data-theme='dark'] .markdown h3,
+[data-theme='dark'] .markdown h4,
+[data-theme='dark'] .markdown h5,
+[data-theme='dark'] .markdown h6 {
+  color: #ffffff !important; /* White headings in dark mode */
+}
+
+/* Keep links readable in both modes */
+.markdown a {
+  color: #1a5fb4 !important; /* Blue in light mode */
+}
+
+.markdown a:link, .markdown a:visited, .markdown a:active {
+  color: #1a5fb4 !important; /* Ensure blue color for all link states in light mode */
+}
+
+.markdown a:hover {
+  color: #1754a1 !important;
+}
+
+[data-theme='dark'] .markdown a {
+  color: #66bb6a !important; /* Lighter green in dark mode */
+}
+
+[data-theme='dark'] .markdown a:link, [data-theme='dark'] .markdown a:visited, [data-theme='dark'] .markdown a:active {
+  color: #66bb6a !important; /* Ensure green color for all link states in dark mode */
+}
+
+[data-theme='dark'] .markdown a:hover {
+  color: #81c784 !important;
+}
+
+/* Enhanced dark mode button styling */
+[data-theme='dark'] .button {
+  background-color: var(--ifm-background-surface-color);
+  color: #ffffff;
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+[data-theme='dark'] .button:hover {
+  background-color: color-mix(in srgb, var(--ifm-background-surface-color) 80%, white 20%);
+  color: #ffffff;
+  border-color: var(--ifm-color-emphasis-400);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .button--primary {
+  background-color: var(--ifm-color-primary);
+  color: white;
+  border-color: var(--ifm-color-primary);
+}
+
+[data-theme='dark'] .button--primary:hover {
+  background-color: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+}
+
+[data-theme='dark'] .button--secondary {
+  background-color: var(--ifm-color-secondary);
+  color: white;
+  border-color: var(--ifm-color-secondary);
+}
+
+[data-theme='dark'] .button--secondary:hover {
+  background-color: var(--ifm-color-secondary-dark);
+  border-color: var(--ifm-color-secondary-dark);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
+}
+
+[data-theme='dark'] .button--success {
+  background-color: var(--ifm-color-success);
+  color: white;
+  border-color: var(--ifm-color-success);
+}
+
+[data-theme='dark'] .button--success:hover {
+  background-color: var(--ifm-color-success-dark);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+}
+
+[data-theme='dark'] .button--danger {
+  background-color: var(--ifm-color-danger);
+  color: white;
+  border-color: var(--ifm-color-danger);
+}
+
+[data-theme='dark'] .button--danger:hover {
+  background-color: var(--ifm-color-danger-dark);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
+}
+
+/* Enhanced dark mode component backgrounds */
+[data-theme='dark'] .container {
+  background-color: transparent;
+}
+
+/* Chapter card specific dark styling */
+[data-theme='dark'] .card {
+  background-color: var(--ifm-background-surface-color); /* Dark surface color from inside */
+  border: 1px solid var(--ifm-color-emphasis-300);
+  color: #e0e0e0;
+}
+
+[data-theme='dark'] .card__header {
+  background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+  color: white;
+}
+
+[data-theme='dark'] .card__body {
+  background-color: var(--ifm-background-surface-color); /* Dark surface color from inside */
+  color: #e0e0e0;
+}
+
+[data-theme='dark'] .card__footer {
+  background-color: color-mix(in srgb, var(--ifm-background-surface-color) 90%, black 10%); /* Slightly darker */
+  color: #e0e0e0;
+}
+
+/* Dark mode styling for chapter content */
+[data-theme='dark'] .card p {
+  color: #e0e0e0;
+}
+
+[data-theme='dark'] .card h3 {
+  color: white;
+}
+
+[data-theme='dark'] .card a {
+  color: #66bb6a; /* Light green for links */
+}
+
+[data-theme='dark'] .card a:hover {
+  color: #81c784; /* Lighter green on hover */
+}
+
+/* Enhanced dark mode section backgrounds */
+[data-theme='dark'] section {
+  background-color: var(--ifm-background-color);
+}
+
+/* Override any conflicting menu styles */
+[data-theme='dark'] .menu {
+  background-color: var(--ifm-background-color) !important;
+}
+
+[data-theme='dark'] .menu__list {
+  background-color: var(--ifm-background-color) !important;
+}
+
+[data-theme='dark'] .menu__list-item {
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] .menu__list-item:last-child {
+  border-bottom: none;
+}
+
 /* Better focus management for interactive elements */
 details summary {
   cursor: pointer;
@@ -864,4 +1478,120 @@ details summary:focus {
   border-color: var(--ifm-color-primary);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--ifm-color-primary), transparent 80%);
   outline: none;
+}
+
+/* Enhanced dark mode styling for cover buttons */
+[data-theme='dark'] .button--secondary {
+  background-color: #ffffff !important;
+  color: #28a745 !important;
+}
+
+/* Make homepage CTA section button white in day mode */
+main > section:last-of-type .button--secondary:not([data-theme='dark']) {
+  background-color: #ffffff !important;
+  color: #28a745 !important;
+  border-color: #ffffff !important;
+}
+
+[data-theme='dark'] .button--outline {
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  background: transparent !important;
+}
+
+[data-theme='dark'] .button--secondary:hover {
+  background-color: color-mix(in srgb, white 15%, transparent 85%) !important;
+  color: #218838 !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3) !important;
+}
+
+[data-theme='dark'] .button--outline:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: white !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;
+}
+
+/* Enhanced styling for cover buttons */
+.hero .button--secondary,
+.hero .button--outline {
+  transition: all 0.3s ease !important;
+}
+
+/* Enhanced dark mode styling for chapter explore buttons */
+[data-theme='dark'] .card .button--primary {
+  background: linear-gradient(135deg, #28a745 0%, #218838 100%) !important;
+  color: white !important;
+  border: none !important;
+}
+
+[data-theme='dark'] .card .button--primary:hover {
+  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%) !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4) !important;
+}
+
+/* Animation keyframes for cover page */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Additional animations for interactive elements */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Apply animations to hero elements */
+.hero .hero__title {
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero .hero__subtitle {
+  animation: fadeInUp 1s ease-out 0.2s;
+  animation-fill-mode: both;
+}
+
+/* Add floating animation to feature icons */
+.hero [style*="fontSize: 1.5rem"] {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Add staggered animations to buttons */
+.hero .button--secondary {
+  animation: fadeInUp 1s ease-out 0.6s;
+  animation-fill-mode: both;
+}
+
+.hero .button--outline {
+  animation: fadeInUp 1s ease-out 0.8s;
+  animation-fill-mode: both;
 }

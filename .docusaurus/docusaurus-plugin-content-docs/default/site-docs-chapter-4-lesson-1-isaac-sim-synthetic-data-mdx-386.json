@@ -16,8 +16,8 @@
   },
   "sidebar": "mySidebar",
   "previous": {
-    "title": "sensor-simulation",
-    "permalink": "/docs/chapter3/lesson3/sensor-simulation"
+    "title": "index",
+    "permalink": "/docs/chapter4/"
   },
   "next": {
     "title": "hardware-accelerated-navigation",

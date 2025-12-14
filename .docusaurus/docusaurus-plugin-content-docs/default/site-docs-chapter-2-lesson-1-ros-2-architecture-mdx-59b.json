@@ -16,8 +16,8 @@
   },
   "sidebar": "mySidebar",
   "previous": {
-    "title": "development-environment-setup",
-    "permalink": "/docs/chapter1/lesson3/development-environment-setup"
+    "title": "index",
+    "permalink": "/docs/chapter2/"
   },
   "next": {
     "title": "humanoid-robot-modeling",

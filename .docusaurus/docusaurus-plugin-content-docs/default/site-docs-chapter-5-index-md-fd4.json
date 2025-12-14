@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter5/index",
+  "id": "chapter5/index",
+  "title": "index",
+  "description": "Welcome to Chapter 5 of the Humanoid Robotics Book! This final chapter covers Vision-Language-Action systems and the capstone project.",
+  "source": "@site/docs/chapter5/index.md",
+  "sourceDirName": "chapter5",
+  "slug": "/chapter5/",
+  "permalink": "/docs/chapter5/",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 14,
+  "frontMatter": {
+    "sidebar_position": 14
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "bipedal-path-planning",
+    "permalink": "/docs/chapter4/lesson3/bipedal-path-planning"
+  },
+  "next": {
+    "title": "voice-to-action",
+    "permalink": "/docs/chapter5/lesson1/voice-to-action"
+  }
+}

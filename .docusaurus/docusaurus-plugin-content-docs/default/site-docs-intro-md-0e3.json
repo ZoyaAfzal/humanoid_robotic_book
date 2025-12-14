@@ -2,7 +2,7 @@
   "unversionedId": "intro",
   "id": "intro",
   "title": "intro",
-  "description": "Welcome to the fascinating world of humanoid robotics! This comprehensive guide will take you through everything you need to know to build and understand humanoid robots.",
+  "description": "Welcome to the fascinating world of humanoid robotics! This comprehensive guide will take you through everything you need to know to build, understand, and control humanoid robots that combine artificial intelligence with physical embodiment.",
   "source": "@site/docs/intro.md",
   "sourceDirName": ".",
   "slug": "/intro",
@@ -16,7 +16,7 @@
   },
   "sidebar": "mySidebar",
   "next": {
-    "title": "spec-kit-plus-workflow",
-    "permalink": "/docs/chapter1/lesson1/spec-kit-plus-workflow"
+    "title": "index",
+    "permalink": "/docs/chapter1/"
   }
 }

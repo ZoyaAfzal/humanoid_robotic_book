@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter1/index",
+  "id": "chapter1/index",
+  "title": "index",
+  "description": "Welcome to Chapter 1 of the Humanoid Robotics Book! This chapter introduces you to the foundational concepts of humanoid robotics and the Spec-Kit Plus platform.",
+  "source": "@site/docs/chapter1/index.md",
+  "sourceDirName": "chapter1",
+  "slug": "/chapter1/",
+  "permalink": "/docs/chapter1/",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 10,
+  "frontMatter": {
+    "sidebar_position": 10
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "intro",
+    "permalink": "/docs/intro"
+  },
+  "next": {
+    "title": "spec-kit-plus-workflow",
+    "permalink": "/docs/chapter1/lesson1/spec-kit-plus-workflow"
+  }
+}

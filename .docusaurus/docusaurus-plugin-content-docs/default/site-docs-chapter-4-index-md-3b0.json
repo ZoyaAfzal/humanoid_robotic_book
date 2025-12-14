@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter4/index",
+  "id": "chapter4/index",
+  "title": "index",
+  "description": "Welcome to Chapter 4 of the Humanoid Robotics Book! This chapter explores AI integration and the NVIDIA Isaac platform for humanoid robot brains.",
+  "source": "@site/docs/chapter4/index.md",
+  "sourceDirName": "chapter4",
+  "slug": "/chapter4/",
+  "permalink": "/docs/chapter4/",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 13,
+  "frontMatter": {
+    "sidebar_position": 13
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "sensor-simulation",
+    "permalink": "/docs/chapter3/lesson3/sensor-simulation"
+  },
+  "next": {
+    "title": "isaac-sim-synthetic-data",
+    "permalink": "/docs/chapter4/lesson1/isaac-sim-synthetic-data"
+  }
+}

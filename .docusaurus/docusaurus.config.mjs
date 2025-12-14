@@ -4,7 +4,7 @@
  * Modify the docusaurus.config.js file at your site's root instead.
  */
 export default {
-  "title": "Humanoid Robotics Book",
+  "title": "Physical AI & Humanoid Robotics Textbook",
   "tagline": "Learn Humanoid Robotics Step by Step",
   "url": "http://localhost:3000",
   "baseUrl": "/",
@@ -35,6 +35,11 @@ export default {
     ]
   ],
   "themeConfig": {
+    "colorMode": {
+      "defaultMode": "light",
+      "disableSwitch": false,
+      "respectPrefersColorScheme": false
+    },
     "navbar": {
       "title": "Humanoid Robotics",
       "logo": {
@@ -105,11 +110,6 @@ export default {
         }
       ],
       "hideOnScroll": false
-    },
-    "colorMode": {
-      "defaultMode": "light",
-      "disableSwitch": false,
-      "respectPrefersColorScheme": false
     },
     "docs": {
       "versionPersistence": "localStorage",

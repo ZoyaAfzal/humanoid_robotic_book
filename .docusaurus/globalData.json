@@ -16,6 +16,11 @@
               "sidebar": "mySidebar"
             },
             {
+              "id": "chapter1/index",
+              "path": "/docs/chapter1/",
+              "sidebar": "mySidebar"
+            },
+            {
               "id": "chapter1/lesson1/spec-kit-plus-workflow",
               "path": "/docs/chapter1/lesson1/spec-kit-plus-workflow",
               "sidebar": "mySidebar"
@@ -28,6 +33,11 @@
             {
               "id": "chapter1/lesson3/development-environment-setup",
               "path": "/docs/chapter1/lesson3/development-environment-setup",
+              "sidebar": "mySidebar"
+            },
+            {
+              "id": "chapter2/index",
+              "path": "/docs/chapter2/",
               "sidebar": "mySidebar"
             },
             {
@@ -46,6 +56,11 @@
               "sidebar": "mySidebar"
             },
             {
+              "id": "chapter3/index",
+              "path": "/docs/chapter3/",
+              "sidebar": "mySidebar"
+            },
+            {
               "id": "chapter3/lesson1/gazebo-environment-setup",
               "path": "/docs/chapter3/lesson1/gazebo-environment-setup",
               "sidebar": "mySidebar"
@@ -61,6 +76,11 @@
               "sidebar": "mySidebar"
             },
             {
+              "id": "chapter4/index",
+              "path": "/docs/chapter4/",
+              "sidebar": "mySidebar"
+            },
+            {
               "id": "chapter4/lesson1/isaac-sim-synthetic-data",
               "path": "/docs/chapter4/lesson1/isaac-sim-synthetic-data",
               "sidebar": "mySidebar"
@@ -73,6 +93,11 @@
             {
               "id": "chapter4/lesson3/bipedal-path-planning",
               "path": "/docs/chapter4/lesson3/bipedal-path-planning",
+              "sidebar": "mySidebar"
+            },
+            {
+              "id": "chapter5/index",
+              "path": "/docs/chapter5/",
               "sidebar": "mySidebar"
             },
             {
@@ -118,10 +143,6 @@
             {
               "id": "module1/summary",
               "path": "/docs/module1/summary"
-            },
-            {
-              "id": "test-route",
-              "path": "/docs/test-route"
             }
           ],
           "draftIds": [],

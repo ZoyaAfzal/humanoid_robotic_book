@@ -21,6 +21,12 @@
         "items": [
           {
             "type": "link",
+            "label": "index",
+            "href": "/docs/chapter1/",
+            "docId": "chapter1/index"
+          },
+          {
+            "type": "link",
             "label": "spec-kit-plus-workflow",
             "href": "/docs/chapter1/lesson1/spec-kit-plus-workflow",
             "docId": "chapter1/lesson1/spec-kit-plus-workflow"
@@ -45,6 +51,12 @@
         "type": "category",
         "label": "Chapter 2: The Robotic Nervous System (ROS 2)",
         "items": [
+          {
+            "type": "link",
+            "label": "index",
+            "href": "/docs/chapter2/",
+            "docId": "chapter2/index"
+          },
           {
             "type": "link",
             "label": "ros2-architecture",
@@ -73,6 +85,12 @@
         "items": [
           {
             "type": "link",
+            "label": "index",
+            "href": "/docs/chapter3/",
+            "docId": "chapter3/index"
+          },
+          {
+            "type": "link",
             "label": "gazebo-environment-setup",
             "href": "/docs/chapter3/lesson1/gazebo-environment-setup",
             "docId": "chapter3/lesson1/gazebo-environment-setup"
@@ -99,6 +117,12 @@
         "items": [
           {
             "type": "link",
+            "label": "index",
+            "href": "/docs/chapter4/",
+            "docId": "chapter4/index"
+          },
+          {
+            "type": "link",
             "label": "isaac-sim-synthetic-data",
             "href": "/docs/chapter4/lesson1/isaac-sim-synthetic-data",
             "docId": "chapter4/lesson1/isaac-sim-synthetic-data"
@@ -123,6 +147,12 @@
         "type": "category",
         "label": "Chapter 5: Vision-Language-Action (VLA) & Capstone",
         "items": [
+          {
+            "type": "link",
+            "label": "index",
+            "href": "/docs/chapter5/",
+            "docId": "chapter5/index"
+          },
           {
             "type": "link",
             "label": "voice-to-action",
@@ -168,10 +198,16 @@
       "description": "Status",
       "sidebar": "mySidebar"
     },
+    "chapter1/index": {
+      "id": "chapter1/index",
+      "title": "index",
+      "description": "Welcome to Chapter 1 of the Humanoid Robotics Book! This chapter introduces you to the foundational concepts of humanoid robotics and the Spec-Kit Plus platform.",
+      "sidebar": "mySidebar"
+    },
     "chapter1/lesson1/spec-kit-plus-workflow": {
       "id": "chapter1/lesson1/spec-kit-plus-workflow",
       "title": "spec-kit-plus-workflow",
-      "description": "In this lesson, you'll learn about the Spec-Kit Plus workflow for humanoid robotics development. This systematic approach helps you plan, design, and implement humanoid robots efficiently.",
+      "description": "In this lesson, you'll learn about the comprehensive Spec-Kit Plus workflow for humanoid robotics development. This systematic methodology helps you plan, design, implement, test, and optimize humanoid robots efficiently while maintaining modularity, scalability, and cross-platform compatibility.",
       "sidebar": "mySidebar"
     },
     "chapter1/lesson2/physical-ai-embodied-intelligence": {
@@ -184,6 +220,12 @@
       "id": "chapter1/lesson3/development-environment-setup",
       "title": "development-environment-setup",
       "description": "In this lesson, you'll learn how to set up a comprehensive development environment for humanoid robotics projects. A properly configured environment is essential for efficient development, testing, and deployment of humanoid robot applications.",
+      "sidebar": "mySidebar"
+    },
+    "chapter2/index": {
+      "id": "chapter2/index",
+      "title": "index",
+      "description": "Welcome to Chapter 2 of the Humanoid Robotics Book! This chapter covers the Robot Operating System (ROS 2) which serves as the nervous system for humanoid robots.",
       "sidebar": "mySidebar"
     },
     "chapter2/lesson1/ros2-architecture": {
@@ -204,6 +246,12 @@
       "description": "In this comprehensive lesson, you'll explore how to integrate AI agents with ROS 2 using Python (rclpy), creating intelligent humanoid robots that can perceive, reason, and act in complex environments. This integration is fundamental to creating autonomous humanoid robots with advanced cognitive capabilities.",
       "sidebar": "mySidebar"
     },
+    "chapter3/index": {
+      "id": "chapter3/index",
+      "title": "index",
+      "description": "Welcome to Chapter 3 of the Humanoid Robotics Book! This chapter focuses on digital twin technology and simulation environments for humanoid robots.",
+      "sidebar": "mySidebar"
+    },
     "chapter3/lesson1/gazebo-environment-setup": {
       "id": "chapter3/lesson1/gazebo-environment-setup",
       "title": "gazebo-environment-setup",
@@ -222,6 +270,12 @@
       "description": "In this comprehensive lesson, you'll explore how to simulate various sensors in Gazebo for humanoid robots, focusing on LiDAR, IMU, cameras, and other essential sensors. Accurate sensor simulation is crucial for developing robust perception and control systems that can transfer from simulation to real robots.",
       "sidebar": "mySidebar"
     },
+    "chapter4/index": {
+      "id": "chapter4/index",
+      "title": "index",
+      "description": "Welcome to Chapter 4 of the Humanoid Robotics Book! This chapter explores AI integration and the NVIDIA Isaac platform for humanoid robot brains.",
+      "sidebar": "mySidebar"
+    },
     "chapter4/lesson1/isaac-sim-synthetic-data": {
       "id": "chapter4/lesson1/isaac-sim-synthetic-data",
       "title": "isaac-sim-synthetic-data",
@@ -238,6 +292,12 @@
       "id": "chapter4/lesson3/bipedal-path-planning",
       "title": "bipedal-path-planning",
       "description": "In this comprehensive lesson, you'll explore specialized path planning techniques for bipedal humanoid robots using the Navigation2 (Nav2) framework. Unlike wheeled robots, humanoid robots have unique locomotion constraints that require specialized planning algorithms to ensure stable, efficient, and safe navigation.",
+      "sidebar": "mySidebar"
+    },
+    "chapter5/index": {
+      "id": "chapter5/index",
+      "title": "index",
+      "description": "Welcome to Chapter 5 of the Humanoid Robotics Book! This final chapter covers Vision-Language-Action systems and the capstone project.",
       "sidebar": "mySidebar"
     },
     "chapter5/lesson1/voice-to-action": {
@@ -271,7 +331,7 @@
     "intro": {
       "id": "intro",
       "title": "intro",
-      "description": "Welcome to the fascinating world of humanoid robotics! This comprehensive guide will take you through everything you need to know to build and understand humanoid robots.",
+      "description": "Welcome to the fascinating world of humanoid robotics! This comprehensive guide will take you through everything you need to know to build, understand, and control humanoid robots that combine artificial intelligence with physical embodiment.",
       "sidebar": "mySidebar"
     },
     "module1/introduction-to-humanoid-robotics": {
@@ -293,11 +353,6 @@
       "id": "module1/summary",
       "title": "Module 1 Summary: Introduction to Humanoid Robotics",
       "description": "Congratulations! You've completed Module 1 of the Humanoid Robotics Book. In this module, you've learned about:"
-    },
-    "test-route": {
-      "id": "test-route",
-      "title": "Test Route",
-      "description": "This is a simple test route to verify that basic MDX routing works."
     }
   }
 }

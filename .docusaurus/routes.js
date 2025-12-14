@@ -39,11 +39,17 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', 'f17'),
+    component: ComponentCreator('/docs', 'd97'),
     routes: [
       {
         path: '/docs/adr/adr-004',
         component: ComponentCreator('/docs/adr/adr-004', '4fb'),
+        exact: true,
+        sidebar: "mySidebar"
+      },
+      {
+        path: '/docs/chapter1',
+        component: ComponentCreator('/docs/chapter1', 'de6'),
         exact: true,
         sidebar: "mySidebar"
       },
@@ -66,6 +72,12 @@ export default [
         sidebar: "mySidebar"
       },
       {
+        path: '/docs/chapter2',
+        component: ComponentCreator('/docs/chapter2', '93a'),
+        exact: true,
+        sidebar: "mySidebar"
+      },
+      {
         path: '/docs/chapter2/lesson1/ros2-architecture',
         component: ComponentCreator('/docs/chapter2/lesson1/ros2-architecture', 'cc7'),
         exact: true,
@@ -80,6 +92,12 @@ export default [
       {
         path: '/docs/chapter2/lesson3/bridging-ai-agents',
         component: ComponentCreator('/docs/chapter2/lesson3/bridging-ai-agents', 'a74'),
+        exact: true,
+        sidebar: "mySidebar"
+      },
+      {
+        path: '/docs/chapter3',
+        component: ComponentCreator('/docs/chapter3', 'f3f'),
         exact: true,
         sidebar: "mySidebar"
       },
@@ -102,6 +120,12 @@ export default [
         sidebar: "mySidebar"
       },
       {
+        path: '/docs/chapter4',
+        component: ComponentCreator('/docs/chapter4', 'eb6'),
+        exact: true,
+        sidebar: "mySidebar"
+      },
+      {
         path: '/docs/chapter4/lesson1/isaac-sim-synthetic-data',
         component: ComponentCreator('/docs/chapter4/lesson1/isaac-sim-synthetic-data', '188'),
         exact: true,
@@ -116,6 +140,12 @@ export default [
       {
         path: '/docs/chapter4/lesson3/bipedal-path-planning',
         component: ComponentCreator('/docs/chapter4/lesson3/bipedal-path-planning', 'd42'),
+        exact: true,
+        sidebar: "mySidebar"
+      },
+      {
+        path: '/docs/chapter5',
+        component: ComponentCreator('/docs/chapter5', 'f1e'),
         exact: true,
         sidebar: "mySidebar"
       },
@@ -171,11 +201,6 @@ export default [
       {
         path: '/docs/module1/summary',
         component: ComponentCreator('/docs/module1/summary', '386'),
-        exact: true
-      },
-      {
-        path: '/docs/test-route',
-        component: ComponentCreator('/docs/test-route', '87d'),
         exact: true
       }
     ]

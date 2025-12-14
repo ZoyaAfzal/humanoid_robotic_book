@@ -1,0 +1,26 @@
+{
+  "unversionedId": "test-component",
+  "id": "test-component",
+  "title": "Test Interactive Lesson Component",
+  "description": "This page tests if the InteractiveLesson component works:",
+  "source": "@site/docs/test-component.md",
+  "sourceDirName": ".",
+  "slug": "/test-component",
+  "permalink": "/docs/test-component",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "Basic Test Page",
+    "permalink": "/docs/basic-test"
+  },
+  "next": {
+    "title": "index",
+    "permalink": "/docs/chapter1/"
+  }
+}

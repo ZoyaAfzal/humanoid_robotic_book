@@ -1,0 +1,26 @@
+{
+  "unversionedId": "chapter2/index",
+  "id": "chapter2/index",
+  "title": "index",
+  "description": "Welcome to Chapter 2 of the Humanoid Robotics Book! This chapter covers the Robot Operating System (ROS 2) which serves as the nervous system for humanoid robots.",
+  "source": "@site/docs/chapter2/index.md",
+  "sourceDirName": "chapter2",
+  "slug": "/chapter2/",
+  "permalink": "/docs/chapter2/",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 11,
+  "frontMatter": {
+    "sidebar_position": 11
+  },
+  "sidebar": "mySidebar",
+  "previous": {
+    "title": "development-environment-setup",
+    "permalink": "/docs/chapter1/lesson3/development-environment-setup"
+  },
+  "next": {
+    "title": "ros2-architecture",
+    "permalink": "/docs/chapter2/lesson1/ros2-architecture"
+  }
+}

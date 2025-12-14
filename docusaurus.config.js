@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Humanoid Robotics Book',
+  title: 'Physical AI & Humanoid Robotics Textbook',
   tagline: 'Learn Humanoid Robotics Step by Step',
   url: 'http://localhost:3000', // Base URL for local development
   baseUrl: '/', // Root base URL for local development
@@ -30,6 +30,11 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    colorMode: {
+      defaultMode: 'light',  // Set default to light mode
+      disableSwitch: false,  // Allow theme switching
+      respectPrefersColorScheme: false,  // Don't respect system preference
+    },
     // Navigation bar configuration
     navbar: {
       title: 'Humanoid Robotics',

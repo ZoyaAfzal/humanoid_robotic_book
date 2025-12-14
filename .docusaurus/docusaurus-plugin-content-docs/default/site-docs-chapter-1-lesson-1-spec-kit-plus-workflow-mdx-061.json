@@ -2,7 +2,7 @@
   "unversionedId": "chapter1/lesson1/spec-kit-plus-workflow",
   "id": "chapter1/lesson1/spec-kit-plus-workflow",
   "title": "spec-kit-plus-workflow",
-  "description": "In this lesson, you'll learn about the Spec-Kit Plus workflow for humanoid robotics development. This systematic approach helps you plan, design, and implement humanoid robots efficiently.",
+  "description": "In this lesson, you'll learn about the comprehensive Spec-Kit Plus workflow for humanoid robotics development. This systematic methodology helps you plan, design, implement, test, and optimize humanoid robots efficiently while maintaining modularity, scalability, and cross-platform compatibility.",
   "source": "@site/docs/chapter1/lesson1/spec-kit-plus-workflow.mdx",
   "sourceDirName": "chapter1/lesson1",
   "slug": "/chapter1/lesson1/spec-kit-plus-workflow",
@@ -16,8 +16,8 @@
   },
   "sidebar": "mySidebar",
   "previous": {
-    "title": "intro",
-    "permalink": "/docs/intro"
+    "title": "index",
+    "permalink": "/docs/chapter1/"
   },
   "next": {
     "title": "physical-ai-embodied-intelligence",
