@@ -1231,21 +1231,21 @@ hr {
   background: var(--ifm-color-emphasis-300);
 }
 
-/* Make lesson text black in day (light) mode */
-.markdown,
-.markdown p,
-.markdown li,
-.markdown td,
-.markdown th {
+/* Make lesson text black in day (light) mode - more specific to avoid affecting hero section */
+.main-wrapper .markdown,
+.main-wrapper .markdown p,
+.main-wrapper .markdown li,
+.main-wrapper .markdown td,
+.main-wrapper .markdown th {
   color: #000000 !important; /* Black text in light mode */
 }
 
-.markdown h1,
-.markdown h2,
-.markdown h3,
-.markdown h4,
-.markdown h5,
-.markdown h6 {
+.main-wrapper .markdown h1,
+.main-wrapper .markdown h2,
+.main-wrapper .markdown h3,
+.main-wrapper .markdown h4,
+.main-wrapper .markdown h5,
+.main-wrapper .markdown h6 {
   color: #000000 !important; /* Black headings in light mode */
 }
 
@@ -1272,26 +1272,26 @@ hr {
 }
 
 /* Make lesson text white in dark mode */
-[data-theme='dark'] .markdown,
-[data-theme='dark'] .markdown p,
-[data-theme='dark'] .markdown li,
-[data-theme='dark'] .markdown td,
-[data-theme='dark'] .markdown th,
-[data-theme='dark'] .markdown ul,
-[data-theme='dark'] .markdown ol,
-[data-theme='dark'] .markdown blockquote,
-[data-theme='dark'] .markdown pre,
-[data-theme='dark'] .markdown code {
+[data-theme='dark'] .main-wrapper .markdown,
+[data-theme='dark'] .main-wrapper .markdown p,
+[data-theme='dark'] .main-wrapper .markdown li,
+[data-theme='dark'] .main-wrapper .markdown td,
+[data-theme='dark'] .main-wrapper .markdown th,
+[data-theme='dark'] .main-wrapper .markdown ul,
+[data-theme='dark'] .main-wrapper .markdown ol,
+[data-theme='dark'] .main-wrapper .markdown blockquote,
+[data-theme='dark'] .main-wrapper .markdown pre,
+[data-theme='dark'] .main-wrapper .markdown code {
   color: #ffffff !important; /* White text in dark mode */
 }
 
 /* Make lesson headings white in dark mode */
-[data-theme='dark'] .markdown h1,
-[data-theme='dark'] .markdown h2,
-[data-theme='dark'] .markdown h3,
-[data-theme='dark'] .markdown h4,
-[data-theme='dark'] .markdown h5,
-[data-theme='dark'] .markdown h6 {
+[data-theme='dark'] .main-wrapper .markdown h1,
+[data-theme='dark'] .main-wrapper .markdown h2,
+[data-theme='dark'] .main-wrapper .markdown h3,
+[data-theme='dark'] .main-wrapper .markdown h4,
+[data-theme='dark'] .main-wrapper .markdown h5,
+[data-theme='dark'] .main-wrapper .markdown h6 {
   color: #ffffff !important; /* White headings in dark mode */
 }
 
