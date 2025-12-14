@@ -1249,15 +1249,20 @@ hr {
   color: #000000 !important; /* Black headings in light mode */
 }
 
-/* Ensure hero section text remains visible */
-.hero p, .hero div, .hero span {
+/* Ensure hero section text remains visible in GitHub Pages deployment */
+.hero--primary h1,
+.hero--primary h1 *,
+.hero--primary > div > div > div > h1,
+.hero--primary > div > div > div > h1 *,
+.hero--primary p,
+.hero--primary p *,
+.hero--primary > div > div > div > p,
+.hero--primary > div > div > div > p *,
+.hero--primary div[style*="comprehensive guide"],
+.hero--primary div[style*="comprehensive guide"] * {
   opacity: 1 !important;
-  animation: none !important;
-}
-
-[data-theme='dark'] .hero p, [data-theme='dark'] .hero div, [data-theme='dark'] .hero span {
-  opacity: 1 !important;
-  animation: none !important;
+  visibility: visible !important;
+  display: block !important;
 }
 
 /* Enhanced sidebar text colors in dark mode */

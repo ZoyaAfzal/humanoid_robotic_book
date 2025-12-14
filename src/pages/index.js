@@ -126,9 +126,9 @@ export default function Home() {
               letterSpacing: '-0.02em',
               lineHeight: '1.2',
               animation: 'fadeInUp 1s ease-out',
-              opacity: 0,
-              transform: 'translateY(30px)',
-              animationFillMode: 'forwards'
+              opacity: 1,  // Always ensure visibility
+              transform: 'translateY(0px)',  // Start at final position
+              // Remove animationFillMode to prevent any issues
             }}>
               {siteConfig.title}
             </Heading>
@@ -142,9 +142,9 @@ export default function Home() {
               lineHeight: '1.6',
               color: 'rgba(255, 255, 255, 0.95)',
               animation: 'fadeInUp 1s ease-out 0.2s',
-              opacity: 0,
-              transform: 'translateY(30px)',
-              animationFillMode: 'forwards'
+              opacity: 1,  // Always ensure visibility
+              transform: 'translateY(0px)',  // Start at final position
+              // Remove animationFillMode to prevent any issues
             }}>
               {siteConfig.tagline}
             </p>
@@ -159,9 +159,9 @@ export default function Home() {
               lineHeight: '1.7',
               color: 'rgba(255, 255, 255, 0.9)',
               animation: 'fadeInUp 1s ease-out 0.4s',
-              opacity: 0,
-              transform: 'translateY(30px)',
-              animationFillMode: 'forwards'
+              opacity: 1,  // Always ensure visibility
+              transform: 'translateY(0px)',  // Start at final position
+              // Remove animationFillMode to prevent any issues
             }}>
               <p>
                 This comprehensive guide takes you from robotics fundamentals to advanced AI integration,

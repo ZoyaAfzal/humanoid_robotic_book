@@ -13,10 +13,6 @@ module.exports = {
     [
       '@docusaurus/preset-classic',
       {
-        debug: {
-          debugMode: true,
-          lazyLoad: true,
-        },
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
         },
