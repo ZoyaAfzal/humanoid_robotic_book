@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkhumanoid_robotic_book=globalThis.webpackChunkhumanoid_robotic_book||[]).push([[504],{1641:(e,l,o)=>{o.r(l),o.d(l,{default:()=>r});var t=o(6540),a=o(6588),n=o(5435),c=o(6592);function r(){const e=(0,a.Ay)();return t.createElement(n.A,null,t.createElement("h2",null,"Global data"),t.createElement(c.A,{src:e,collapseDepth:3}))}}}]);
