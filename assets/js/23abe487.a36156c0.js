@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkhumanoid_robotic_book=globalThis.webpackChunkhumanoid_robotic_book||[]).push([[911],{4920:(e,o,t)=>{t.r(o),t.d(o,{default:()=>i});var n=t(6540),l=t(4586),c=t(5435),a=t(6592);function i(){const{siteConfig:e}=(0,l.A)();return n.createElement(c.A,null,n.createElement("h2",null,"Site config"),n.createElement(a.A,{src:e,collapseDepth:3}))}}}]);
