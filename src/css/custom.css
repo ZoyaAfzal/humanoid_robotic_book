@@ -1249,6 +1249,17 @@ hr {
   color: #000000 !important; /* Black headings in light mode */
 }
 
+/* Ensure hero section text remains visible */
+.hero p, .hero div, .hero span {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+[data-theme='dark'] .hero p, [data-theme='dark'] .hero div, [data-theme='dark'] .hero span {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
 /* Enhanced sidebar text colors in dark mode */
 [data-theme='dark'] .menu {
   background-color: var(--ifm-background-color);
