@@ -1,8 +1,8 @@
 module.exports = {
   title: 'Physical AI & Humanoid Robotics Textbook',
   tagline: 'Learn Humanoid Robotics Step by Step',
-  url: 'http://localhost:3000', // Base URL for local development
-  baseUrl: '/', // Root base URL for local development
+  url: 'https://ZoyaAfzal.github.io', // GitHub Pages URL
+  baseUrl: '/humanoid_robotic_book/', // GitHub Pages base URL for the project
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
