@@ -342,6 +342,24 @@ class VectorStorage:
                 else:
                     logger.warning(f"Score is still a complex object: {type(score)}, setting to 0.0")
                     score = 0.0
+            elif isinstance(score, list) and len(score) > 0:
+                # Handle case where score is a list
+                if isinstance(score[0], (int, float)):
+                    score = score[0]
+                else:
+                    logger.warning(f"Score is a list with non-numeric values: {type(score[0])}, setting to 0.0")
+                    score = 0.0
+            elif isinstance(score, (list, set, dict)):
+                # Handle other collection types that can't be compared with >=
+                logger.warning(f"Score is a collection type {type(score)} that can't be compared numerically, setting to 0.0")
+                score = 0.0
+
+            # Ensure score is a numeric value for comparisons
+            try:
+                score = float(score)
+            except (TypeError, ValueError):
+                logger.warning(f"Could not convert score to float: {type(score)}, setting to 0.0")
+                score = 0.0
 
             result_dict = {
                 'score': score,
