@@ -238,6 +238,12 @@ class VectorStorage:
         if search_results is None:
             raise last_exception or AttributeError("Qdrant client does not have a recognized search method.")
 
+        # Debug: Log the type and structure of search_results to understand the format
+        logger.debug(f"Raw search_results type: {type(search_results)}, length: {len(search_results) if hasattr(search_results, '__len__') else 'N/A'}")
+        if search_results:
+            logger.debug(f"First result type: {type(search_results[0]) if len(search_results) > 0 else 'N/A'}")
+            logger.debug(f"First result: {str(search_results[0])[:300] if len(search_results) > 0 else 'N/A'}")
+
         # Calculate query time
         query_time = time.time() - start_time
 
