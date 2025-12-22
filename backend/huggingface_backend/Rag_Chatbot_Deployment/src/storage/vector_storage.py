@@ -248,11 +248,7 @@ class VectorStorage:
             # Handle different result formats from different Qdrant methods
             # Modern search() method returns objects with attributes
             # Older search_points() might return different formats
-            if hasattr(result, 'score'):
-                # This is from the modern search method
-                score = result.score
-                payload = result.payload
-            elif isinstance(result, tuple):
+            if isinstance(result, tuple):
                 # This might be from an older method returning tuples
                 # Assuming format (payload, score) or similar
                 if len(result) == 2:
@@ -266,6 +262,18 @@ class VectorStorage:
                 # This could be a dictionary-like object
                 payload = result.get('payload', result if isinstance(result, dict) else {})
                 score = result.get('score', result.get('score', 0.0))
+            elif hasattr(result, 'score'):
+                # This is from the modern search method, but check if it's a tuple with score attribute
+                # Some versions might have tuple-like objects with attributes
+                try:
+                    score = result.score
+                    payload = result.payload
+                except AttributeError:
+                    # If it has score attribute but accessing it fails, treat as unknown format
+                    payload = getattr(result, 'payload', {})
+                    score = getattr(result, 'score',
+                                   getattr(result, 'score_',
+                                   getattr(result, 'similarity', 0.0)))
             else:
                 # Unknown format, use default
                 payload = getattr(result, 'payload', {})
