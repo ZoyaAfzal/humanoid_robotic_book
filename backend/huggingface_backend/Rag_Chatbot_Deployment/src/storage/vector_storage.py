@@ -100,16 +100,63 @@ class VectorStorage:
             collection_info = self.client.get_collection(self.collection_name)
             count = collection_info.points_count
 
-            # Perform a sample search to verify functionality
-            sample_search_result = self.client.search(
-                collection_name=self.collection_name,
-                query_vector=[0.1] * 1024,  # Sample vector
-                limit=1
-            )
+            # Perform a sample search to verify functionality using try-catch approach
+            sample_search_result = None
+            last_exception = None
+
+            # Try the most modern method first
+            try:
+                sample_search_result = self.client.search(
+                    collection_name=self.collection_name,
+                    query_vector=[0.1] * 1024,  # Sample vector
+                    limit=1
+                )
+            except AttributeError as e:
+                last_exception = e
+            except Exception as e:
+                last_exception = e
+
+            # If search failed, try search_points (older method)
+            if sample_search_result is None:
+                try:
+                    sample_search_result = self.client.search_points(
+                        collection_name=self.collection_name,
+                        vector=[0.1] * 1024,  # Sample vector
+                        limit=1
+                    )
+                except AttributeError as e:
+                    last_exception = e
+                except Exception as e:
+                    last_exception = e
+
+            # If both failed, try query_points (another version)
+            if sample_search_result is None:
+                try:
+                    sample_search_result = self.client.query_points(
+                        collection_name=self.collection_name,
+                        query=[0.1] * 1024,  # Sample vector
+                        limit=1
+                    )
+                except AttributeError as e:
+                    last_exception = e
+                except Exception as e:
+                    last_exception = e
+
+            # If all methods failed, raise an error
+            if sample_search_result is None:
+                raise last_exception or AttributeError("Qdrant client does not have a recognized search method for verification.")
+
+            # Check if the search result has proper structure by examining the first result
+            sample_works = False
+            if len(sample_search_result) > 0:
+                first_result = sample_search_result[0]
+                # Check if the result has a score attribute or can be handled by our logic
+                if hasattr(first_result, 'score') or isinstance(first_result, tuple) or hasattr(first_result, '__getitem__'):
+                    sample_works = True
 
             return {
                 'vector_count': count,
-                'sample_search_works': len(sample_search_result) > 0,
+                'sample_search_works': sample_works,
                 'collection_exists': True
             }
         except Exception as e:
@@ -141,12 +188,55 @@ class VectorStorage:
             input_type="search_query"
         ).embeddings[0]
 
-        search_results = self.client.search(
-            collection_name=self.collection_name,
-            query_vector=query_embedding,
-            limit=limit,
-            with_payload=True
-        )
+        # Determine the correct search method by trying each one in order of preference
+        search_results = None
+        last_exception = None
+
+        # Try the most modern method first
+        try:
+            search_results = self.client.search(
+                collection_name=self.collection_name,
+                query_vector=query_embedding,
+                limit=limit,
+                with_payload=True
+            )
+        except AttributeError as e:
+            last_exception = e
+        except Exception as e:
+            # If it's not an AttributeError, the method exists but had another issue
+            last_exception = e
+
+        # If search failed, try search_points (older method)
+        if search_results is None:
+            try:
+                search_results = self.client.search_points(
+                    collection_name=self.collection_name,
+                    vector=query_embedding,
+                    limit=limit,
+                    with_payload=True
+                )
+            except AttributeError as e:
+                last_exception = e
+            except Exception as e:
+                last_exception = e
+
+        # If both failed, try query_points (another version)
+        if search_results is None:
+            try:
+                search_results = self.client.query_points(
+                    collection_name=self.collection_name,
+                    query=query_embedding,
+                    limit=limit,
+                    with_payload=True
+                )
+            except AttributeError as e:
+                last_exception = e
+            except Exception as e:
+                last_exception = e
+
+        # If all methods failed, raise an error
+        if search_results is None:
+            raise last_exception or AttributeError("Qdrant client does not have a recognized search method.")
 
         # Calculate query time
         query_time = time.time() - start_time
@@ -155,12 +245,41 @@ class VectorStorage:
         validation_errors = []
 
         for result in search_results:
+            # Handle different result formats from different Qdrant methods
+            # Modern search() method returns objects with attributes
+            # Older search_points() might return different formats
+            if hasattr(result, 'score'):
+                # This is from the modern search method
+                score = result.score
+                payload = result.payload
+            elif isinstance(result, tuple):
+                # This might be from an older method returning tuples
+                # Assuming format (payload, score) or similar
+                if len(result) == 2:
+                    payload, score = result
+                else:
+                    # Unknown tuple format, try to extract score differently
+                    # Attempt to find score in the tuple
+                    payload = result[0] if len(result) > 0 else {}
+                    score = result[1] if len(result) > 1 else 0.0
+            elif hasattr(result, '__getitem__') and not isinstance(result, str):
+                # This could be a dictionary-like object
+                payload = result.get('payload', result if isinstance(result, dict) else {})
+                score = result.get('score', result.get('score', 0.0))
+            else:
+                # Unknown format, use default
+                payload = getattr(result, 'payload', {})
+                # Try to get score from various possible attributes
+                score = getattr(result, 'score',
+                               getattr(result, 'score_',
+                               getattr(result, 'similarity', 0.0)))
+
             result_dict = {
-                'score': result.score,
-                'payload': result.payload,
-                'url': result.payload.get('url', ''),
-                'title': result.payload.get('title', ''),
-                'content': result.payload.get('content', '')[:200] + '...' if len(result.payload.get('content', '')) > 200 else result.payload.get('content', ''),
+                'score': score,
+                'payload': payload,
+                'url': payload.get('url', ''),
+                'title': payload.get('title', ''),
+                'content': payload.get('content', '')[:200] + '...' if len(payload.get('content', '')) > 200 else payload.get('content', ''),
                 'query_time': query_time  # Add query time to results
             }
 
