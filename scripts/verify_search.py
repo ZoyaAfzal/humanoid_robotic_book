@@ -104,23 +104,58 @@ def test_semantic_search():
             # This might be from an older method returning tuples
             # Assuming format (payload, score) or similar
             if len(result) == 2:
-                payload, score = result
+                raw_payload, score = result
             else:
                 # Unknown tuple format, try to extract score differently
                 # Attempt to find score in the tuple
-                payload = result[0] if len(result) > 0 else {}
+                raw_payload = result[0] if len(result) > 0 else {}
                 score = result[1] if len(result) > 1 else 0.0
+            # Ensure payload is always a dictionary
+            if isinstance(raw_payload, dict):
+                payload = raw_payload
+            elif isinstance(raw_payload, str):
+                # If raw_payload is a string, we need to handle it appropriately
+                # For Qdrant results, payload should be a dictionary with metadata
+                print(f"Warning: Received string payload instead of dictionary: {type(raw_payload)}")
+                payload = {}
+            else:
+                # For other types, try to convert or default to empty dict
+                payload = getattr(raw_payload, '__dict__', {}) if hasattr(raw_payload, '__dict__') else {}
         elif hasattr(result, '__getitem__') and not isinstance(result, str):
             # This could be a dictionary-like object
-            payload = result.get('payload', result if isinstance(result, dict) else {})
+            raw_payload = result.get('payload', result if isinstance(result, dict) else {})
+            # Ensure payload is a dictionary
+            if isinstance(raw_payload, dict):
+                payload = raw_payload
+            elif isinstance(raw_payload, str):
+                print(f"Warning: Received string payload instead of dictionary: {type(raw_payload)}")
+                payload = {}
+            else:
+                payload = getattr(raw_payload, '__dict__', {}) if hasattr(raw_payload, '__dict__') else {}
             score = result.get('score', result.get('score', 0.0))
         elif hasattr(result, 'score'):
             # This is from the modern search method
             score = result.score
-            payload = getattr(result, 'payload', {})  # Use getattr for safety
+            raw_payload = getattr(result, 'payload', {})  # Use getattr for safety
+            # Ensure payload is a dictionary
+            if isinstance(raw_payload, dict):
+                payload = raw_payload
+            elif isinstance(raw_payload, str):
+                print(f"Warning: Received string payload instead of dictionary: {type(raw_payload)}")
+                payload = {}
+            else:
+                payload = getattr(raw_payload, '__dict__', {}) if hasattr(raw_payload, '__dict__') else {}
         else:
             # Unknown format, use default
-            payload = getattr(result, 'payload', {})
+            raw_payload = getattr(result, 'payload', {})
+            # Ensure payload is a dictionary
+            if isinstance(raw_payload, dict):
+                payload = raw_payload
+            elif isinstance(raw_payload, str):
+                print(f"Warning: Received string payload instead of dictionary: {type(raw_payload)}")
+                payload = {}
+            else:
+                payload = getattr(raw_payload, '__dict__', {}) if hasattr(raw_payload, '__dict__') else {}
             # Try to get score from various possible attributes
             score = getattr(result, 'score',
                            getattr(result, 'score_',
@@ -200,23 +235,58 @@ def test_semantic_search():
             # This might be from an older method returning tuples
             # Assuming format (payload, score) or similar
             if len(result) == 2:
-                payload, score = result
+                raw_payload, score = result
             else:
                 # Unknown tuple format, try to extract score differently
                 # Attempt to find score in the tuple
-                payload = result[0] if len(result) > 0 else {}
+                raw_payload = result[0] if len(result) > 0 else {}
                 score = result[1] if len(result) > 1 else 0.0
+            # Ensure payload is always a dictionary
+            if isinstance(raw_payload, dict):
+                payload = raw_payload
+            elif isinstance(raw_payload, str):
+                # If raw_payload is a string, we need to handle it appropriately
+                # For Qdrant results, payload should be a dictionary with metadata
+                print(f"Warning: Received string payload instead of dictionary: {type(raw_payload)}")
+                payload = {}
+            else:
+                # For other types, try to convert or default to empty dict
+                payload = getattr(raw_payload, '__dict__', {}) if hasattr(raw_payload, '__dict__') else {}
         elif hasattr(result, '__getitem__') and not isinstance(result, str):
             # This could be a dictionary-like object
-            payload = result.get('payload', result if isinstance(result, dict) else {})
+            raw_payload = result.get('payload', result if isinstance(result, dict) else {})
+            # Ensure payload is a dictionary
+            if isinstance(raw_payload, dict):
+                payload = raw_payload
+            elif isinstance(raw_payload, str):
+                print(f"Warning: Received string payload instead of dictionary: {type(raw_payload)}")
+                payload = {}
+            else:
+                payload = getattr(raw_payload, '__dict__', {}) if hasattr(raw_payload, '__dict__') else {}
             score = result.get('score', result.get('score', 0.0))
         elif hasattr(result, 'score'):
             # This is from the modern search method
             score = result.score
-            payload = getattr(result, 'payload', {})  # Use getattr for safety
+            raw_payload = getattr(result, 'payload', {})  # Use getattr for safety
+            # Ensure payload is a dictionary
+            if isinstance(raw_payload, dict):
+                payload = raw_payload
+            elif isinstance(raw_payload, str):
+                print(f"Warning: Received string payload instead of dictionary: {type(raw_payload)}")
+                payload = {}
+            else:
+                payload = getattr(raw_payload, '__dict__', {}) if hasattr(raw_payload, '__dict__') else {}
         else:
             # Unknown format, use default
-            payload = getattr(result, 'payload', {})
+            raw_payload = getattr(result, 'payload', {})
+            # Ensure payload is a dictionary
+            if isinstance(raw_payload, dict):
+                payload = raw_payload
+            elif isinstance(raw_payload, str):
+                print(f"Warning: Received string payload instead of dictionary: {type(raw_payload)}")
+                payload = {}
+            else:
+                payload = getattr(raw_payload, '__dict__', {}) if hasattr(raw_payload, '__dict__') else {}
             # Try to get score from various possible attributes
             score = getattr(result, 'score',
                            getattr(result, 'score_',
