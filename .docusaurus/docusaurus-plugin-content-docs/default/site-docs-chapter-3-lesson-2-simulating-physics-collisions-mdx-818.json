@@ -6,7 +6,7 @@
   "source": "@site/docs/chapter3/lesson2/simulating-physics-collisions.mdx",
   "sourceDirName": "chapter3/lesson2",
   "slug": "/chapter3/lesson2/simulating-physics-collisions",
-  "permalink": "/docs/chapter3/lesson2/simulating-physics-collisions",
+  "permalink": "/humanoid_robotic_book/docs/chapter3/lesson2/simulating-physics-collisions",
   "draft": false,
   "tags": [],
   "version": "current",
@@ -17,10 +17,10 @@
   "sidebar": "mySidebar",
   "previous": {
     "title": "gazebo-environment-setup",
-    "permalink": "/docs/chapter3/lesson1/gazebo-environment-setup"
+    "permalink": "/humanoid_robotic_book/docs/chapter3/lesson1/gazebo-environment-setup"
   },
   "next": {
     "title": "sensor-simulation",
-    "permalink": "/docs/chapter3/lesson3/sensor-simulation"
+    "permalink": "/humanoid_robotic_book/docs/chapter3/lesson3/sensor-simulation"
   }
 }

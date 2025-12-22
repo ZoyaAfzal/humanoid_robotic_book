@@ -6,7 +6,7 @@
   "source": "@site/docs/chapter2/lesson2/humanoid-robot-modeling.mdx",
   "sourceDirName": "chapter2/lesson2",
   "slug": "/chapter2/lesson2/humanoid-robot-modeling",
-  "permalink": "/docs/chapter2/lesson2/humanoid-robot-modeling",
+  "permalink": "/humanoid_robotic_book/docs/chapter2/lesson2/humanoid-robot-modeling",
   "draft": false,
   "tags": [],
   "version": "current",
@@ -17,10 +17,10 @@
   "sidebar": "mySidebar",
   "previous": {
     "title": "ros2-architecture",
-    "permalink": "/docs/chapter2/lesson1/ros2-architecture"
+    "permalink": "/humanoid_robotic_book/docs/chapter2/lesson1/ros2-architecture"
   },
   "next": {
     "title": "bridging-ai-agents",
-    "permalink": "/docs/chapter2/lesson3/bridging-ai-agents"
+    "permalink": "/humanoid_robotic_book/docs/chapter2/lesson3/bridging-ai-agents"
   }
 }

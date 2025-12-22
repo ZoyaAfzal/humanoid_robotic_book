@@ -6,7 +6,7 @@
   "source": "@site/docs/chapter4/lesson2/hardware-accelerated-navigation.mdx",
   "sourceDirName": "chapter4/lesson2",
   "slug": "/chapter4/lesson2/hardware-accelerated-navigation",
-  "permalink": "/docs/chapter4/lesson2/hardware-accelerated-navigation",
+  "permalink": "/humanoid_robotic_book/docs/chapter4/lesson2/hardware-accelerated-navigation",
   "draft": false,
   "tags": [],
   "version": "current",
@@ -17,10 +17,10 @@
   "sidebar": "mySidebar",
   "previous": {
     "title": "isaac-sim-synthetic-data",
-    "permalink": "/docs/chapter4/lesson1/isaac-sim-synthetic-data"
+    "permalink": "/humanoid_robotic_book/docs/chapter4/lesson1/isaac-sim-synthetic-data"
   },
   "next": {
     "title": "bipedal-path-planning",
-    "permalink": "/docs/chapter4/lesson3/bipedal-path-planning"
+    "permalink": "/humanoid_robotic_book/docs/chapter4/lesson3/bipedal-path-planning"
   }
 }

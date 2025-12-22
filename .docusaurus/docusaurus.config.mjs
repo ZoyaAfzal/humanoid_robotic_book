@@ -6,8 +6,8 @@
 export default {
   "title": "Physical AI & Humanoid Robotics Textbook",
   "tagline": "Learn Humanoid Robotics Step by Step",
-  "url": "http://localhost:3000",
-  "baseUrl": "/",
+  "url": "https://ZoyaAfzal.github.io",
+  "baseUrl": "/humanoid_robotic_book/",
   "onBrokenLinks": "warn",
   "onBrokenMarkdownLinks": "warn",
   "favicon": "img/favicon.ico",
@@ -18,18 +18,14 @@ export default {
     [
       "@docusaurus/preset-classic",
       {
-        "debug": {
-          "debugMode": true,
-          "lazyLoad": true
-        },
         "docs": {
-          "sidebarPath": "/mnt/d/Hackathon1/humanoid_robotic_book/sidebars.js"
+          "sidebarPath": "/mnt/d/Hackathon_Project/humanoid_robotic_book/sidebars.js"
         },
         "blog": {
           "showReadingTime": true
         },
         "theme": {
-          "customCss": "/mnt/d/Hackathon1/humanoid_robotic_book/src/css/custom.css"
+          "customCss": "/mnt/d/Hackathon_Project/humanoid_robotic_book/src/css/custom.css"
         }
       }
     ]

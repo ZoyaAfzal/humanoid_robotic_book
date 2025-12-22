@@ -6,7 +6,7 @@
   "source": "@site/docs/chapter5/lesson3/capstone-project-execution.mdx",
   "sourceDirName": "chapter5/lesson3",
   "slug": "/chapter5/lesson3/capstone-project-execution",
-  "permalink": "/docs/chapter5/lesson3/capstone-project-execution",
+  "permalink": "/humanoid_robotic_book/docs/chapter5/lesson3/capstone-project-execution",
   "draft": false,
   "tags": [],
   "version": "current",
@@ -17,10 +17,10 @@
   "sidebar": "mySidebar",
   "previous": {
     "title": "cognitive-planning",
-    "permalink": "/docs/chapter5/lesson2/cognitive-planning"
+    "permalink": "/humanoid_robotic_book/docs/chapter5/lesson2/cognitive-planning"
   },
   "next": {
     "title": "ADR 004: Context 7 Feedback Integration",
-    "permalink": "/docs/adr/adr-004"
+    "permalink": "/humanoid_robotic_book/docs/adr/adr-004"
   }
 }

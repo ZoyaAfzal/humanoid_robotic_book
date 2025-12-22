@@ -6,7 +6,7 @@
   "source": "@site/docs/chapter5/lesson1/voice-to-action.mdx",
   "sourceDirName": "chapter5/lesson1",
   "slug": "/chapter5/lesson1/voice-to-action",
-  "permalink": "/docs/chapter5/lesson1/voice-to-action",
+  "permalink": "/humanoid_robotic_book/docs/chapter5/lesson1/voice-to-action",
   "draft": false,
   "tags": [],
   "version": "current",
@@ -17,10 +17,10 @@
   "sidebar": "mySidebar",
   "previous": {
     "title": "index",
-    "permalink": "/docs/chapter5/"
+    "permalink": "/humanoid_robotic_book/docs/chapter5/"
   },
   "next": {
     "title": "cognitive-planning",
-    "permalink": "/docs/chapter5/lesson2/cognitive-planning"
+    "permalink": "/humanoid_robotic_book/docs/chapter5/lesson2/cognitive-planning"
   }
 }
