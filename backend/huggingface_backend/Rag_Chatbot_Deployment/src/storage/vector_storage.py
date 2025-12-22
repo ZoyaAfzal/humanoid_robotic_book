@@ -245,6 +245,9 @@ class VectorStorage:
         validation_errors = []
 
         for result in search_results:
+            # Debug: Log the type and structure of the result to understand what we're receiving
+            logger.debug(f"Processing search result of type: {type(result)}, value: {str(result)[:200]}")
+
             # Handle different result formats from different Qdrant methods
             # Modern search() method returns objects with attributes
             # Older search_points() might return different formats
@@ -267,8 +270,9 @@ class VectorStorage:
                 # Some versions might have tuple-like objects with attributes
                 try:
                     score = result.score
-                    payload = result.payload
-                except AttributeError:
+                    payload = getattr(result, 'payload', {})  # Use getattr for safety
+                except AttributeError as e:
+                    logger.warning(f"Could not access score attribute: {e}. Result type: {type(result)}")
                     # If it has score attribute but accessing it fails, treat as unknown format
                     payload = getattr(result, 'payload', {})
                     score = getattr(result, 'score',
@@ -281,6 +285,15 @@ class VectorStorage:
                 score = getattr(result, 'score',
                                getattr(result, 'score_',
                                getattr(result, 'similarity', 0.0)))
+
+            # Additional safety check: if score is still problematic, log and set to default
+            if isinstance(score, tuple) and hasattr(score, '__len__') and len(score) > 0:
+                # This means score itself is a problematic tuple, try to extract the actual score
+                if isinstance(score[0], (int, float)):
+                    score = score[0]
+                else:
+                    logger.warning(f"Score is still a complex object: {type(score)}, setting to 0.0")
+                    score = 0.0
 
             result_dict = {
                 'score': score,
