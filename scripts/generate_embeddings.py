@@ -106,9 +106,11 @@ def store_in_qdrant(client: QdrantClient, collection_name: str, chunks: List[Dic
     Store the embedded chunks in Qdrant with metadata.
     """
     points = []
-    for chunk in chunks:
+    for i, chunk in enumerate(chunks):
+        # Use a smaller integer ID to avoid range issues
+        point_id = i + 1  # Start from 1 to avoid 0
         point = models.PointStruct(
-            id=uuid.uuid4().int,  # Generate a unique ID
+            id=point_id,  # Use simple integer ID to avoid range issues
             vector=chunk['embedding'],
             payload={
                 'url': chunk['url'],
@@ -191,8 +193,8 @@ def main():
 
     print(f"Created {len(all_chunks)} content chunks")
 
-    # Generate embeddings in batches to avoid rate limits
-    batch_size = 96  # Cohere has limits, so we'll batch appropriately
+    # Generate embeddings in smaller batches to avoid rate limits
+    batch_size = 20  # Smaller batch size to respect API limits
     all_embeddings = []
 
     for i in range(0, len(all_chunks), batch_size):
@@ -208,6 +210,24 @@ def main():
         except Exception as e:
             print(f"  Error generating embeddings for batch {i//batch_size + 1}: {str(e)}")
             # Handle the error by potentially retrying or skipping
+            # If it's a rate limit error, wait longer before continuing
+            if "rate limit" in str(e).lower() or "429" in str(e):
+                print("  Rate limit hit, waiting 60 seconds before continuing...")
+                time.sleep(60)
+                # Try once more after the wait
+                try:
+                    batch_embeddings = generate_cohere_embeddings(batch_texts, cohere_api_key)
+                    all_embeddings.extend(batch_embeddings)
+                    print(f"  Generated {len(batch_embeddings)} embeddings after rate limit wait")
+                except Exception as retry_e:
+                    print(f"  Retry failed: {str(retry_e)}")
+                    # Add empty embeddings to maintain alignment
+                    for _ in batch_texts:
+                        all_embeddings.append([0.0] * 1024)  # Add zero vectors for failed embeddings
+            else:
+                # Add empty embeddings to maintain alignment for other errors too
+                for _ in batch_texts:
+                    all_embeddings.append([0.0] * 1024)  # Add zero vectors for failed embeddings
             continue
 
         # Add small delay to respect API rate limits
