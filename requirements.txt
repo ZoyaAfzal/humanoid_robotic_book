@@ -1,0 +1,8 @@
+requests==2.31.0
+beautifulsoup4==4.12.2
+cohere==5.2.4
+qdrant-client==1.7.0
+python-dotenv==1.0.0
+numpy==1.24.3
+fastapi
+uvicorn

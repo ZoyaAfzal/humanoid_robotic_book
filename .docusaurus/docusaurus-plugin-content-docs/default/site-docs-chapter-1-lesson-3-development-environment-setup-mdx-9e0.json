@@ -6,7 +6,7 @@
   "source": "@site/docs/chapter1/lesson3/development-environment-setup.mdx",
   "sourceDirName": "chapter1/lesson3",
   "slug": "/chapter1/lesson3/development-environment-setup",
-  "permalink": "/docs/chapter1/lesson3/development-environment-setup",
+  "permalink": "/humanoid_robotic_book/docs/chapter1/lesson3/development-environment-setup",
   "draft": false,
   "tags": [],
   "version": "current",
@@ -17,10 +17,10 @@
   "sidebar": "mySidebar",
   "previous": {
     "title": "physical-ai-embodied-intelligence",
-    "permalink": "/docs/chapter1/lesson2/physical-ai-embodied-intelligence"
+    "permalink": "/humanoid_robotic_book/docs/chapter1/lesson2/physical-ai-embodied-intelligence"
   },
   "next": {
     "title": "index",
-    "permalink": "/docs/chapter2/"
+    "permalink": "/humanoid_robotic_book/docs/chapter2/"
   }
 }

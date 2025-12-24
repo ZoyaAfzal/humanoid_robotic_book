@@ -1,0 +1,124 @@
+# API Contract: Retrieval-Aware AI Agent
+
+## Agent Query Endpoint
+
+### POST /api/agent/query
+
+**Description**: Submit a query to the retrieval-aware AI agent and receive a grounded response based on retrieved content.
+
+**Request**:
+```json
+{
+  "query": "What are the key principles of humanoid robot locomotion?",
+  "top_k": 5,
+  "min_score": 0.3,
+  "temperature": 0.7
+}
+```
+
+**Request Fields**:
+- `query` (string, required): The natural language query to process
+- `top_k` (integer, optional): Number of top results to retrieve (default: 5, min: 1, max: 20)
+- `min_score` (number, optional): Minimum similarity score threshold (default: 0.3, min: 0.0, max: 1.0)
+- `temperature` (number, optional): LLM temperature setting (default: 0.7, min: 0.0, max: 1.0)
+
+**Response (Success - 200 OK)**:
+```json
+{
+  "query": "What are the key principles of humanoid robot locomotion?",
+  "answer": "The key principles of humanoid robot locomotion include...",
+  "confidence": 0.85,
+  "retrieved_chunks": [
+    {
+      "score": 0.87,
+      "payload": {
+        "url": "https://example.com/humanoid-locomotion",
+        "title": "Humanoid Robot Locomotion Principles",
+        "content": "The key principles of humanoid robot locomotion include...",
+        "headings": ["Introduction", "Key Principles"],
+        "chunk_index": 0,
+        "source_document": "humanoid_robotics_textbook",
+        "metadata": {}
+      }
+    }
+  ],
+  "sources": [
+    "https://example.com/humanoid-locomotion"
+  ],
+  "processing_time": 1.23
+}
+```
+
+**Response Fields**:
+- `query` (string): The original query text
+- `answer` (string): The AI-generated answer based on retrieved context
+- `confidence` (number): Confidence score for the answer (0.0 to 1.0)
+- `retrieved_chunks` (array): List of retrieved content chunks used to generate the answer
+- `sources` (array): List of source URLs used in the response
+- `processing_time` (number): Total time for retrieval and generation in seconds
+
+**Error Response (400 Bad Request)**:
+```json
+{
+  "error": "Invalid query parameters",
+  "details": {
+    "query": "Query cannot be empty",
+    "top_k": "Must be between 1 and 20"
+  }
+}
+```
+
+**Error Response (500 Internal Server Error)**:
+```json
+{
+  "error": "Internal server error",
+  "message": "Failed to process query due to service unavailability"
+}
+```
+
+**Error Response (422 Unprocessable Entity)**:
+```json
+{
+  "error": "Insufficient context",
+  "message": "Unable to generate answer: no relevant content found for the given query"
+}
+```
+
+### GET /api/agent/health
+
+**Description**: Health check endpoint to verify the agent service is operational.
+
+**Response (Success - 200 OK)**:
+```json
+{
+  "status": "healthy",
+  "timestamp": "2025-12-17T16:30:00Z",
+  "services": {
+    "qdrant": "connected",
+    "gemini_api": "available",
+    "retrieval_pipeline": "operational"
+  }
+}
+```
+
+## Security & Authentication
+
+All endpoints require no authentication for this initial implementation. In production, authentication headers may be required.
+
+## Rate Limiting
+
+- Default rate limit: 100 requests per minute per IP
+- Exceeding rate limit returns 429 Too Many Requests
+
+## Performance Requirements
+
+- 90% of requests should complete within 5 seconds
+- Endpoint should handle at least 10 concurrent requests
+- Response time should scale linearly with content size up to 10,000 tokens
+
+## Error Handling
+
+- Invalid queries return 400 Bad Request with specific validation errors
+- Retrieval failures return 500 Internal Server Error
+- Insufficient context returns 422 Unprocessable Entity with appropriate message
+- API service unavailability returns 503 Service Unavailable

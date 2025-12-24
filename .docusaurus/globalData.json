@@ -1,155 +1,155 @@
 {
   "docusaurus-plugin-content-docs": {
     "default": {
-      "path": "/docs",
+      "path": "/humanoid_robotic_book/docs",
       "versions": [
         {
           "name": "current",
           "label": "Next",
           "isLast": true,
-          "path": "/docs",
+          "path": "/humanoid_robotic_book/docs",
           "mainDocId": "intro",
           "docs": [
             {
               "id": "adr/adr-004",
-              "path": "/docs/adr/adr-004",
+              "path": "/humanoid_robotic_book/docs/adr/adr-004",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter1/index",
-              "path": "/docs/chapter1/",
+              "path": "/humanoid_robotic_book/docs/chapter1/",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter1/lesson1/spec-kit-plus-workflow",
-              "path": "/docs/chapter1/lesson1/spec-kit-plus-workflow",
+              "path": "/humanoid_robotic_book/docs/chapter1/lesson1/spec-kit-plus-workflow",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter1/lesson2/physical-ai-embodied-intelligence",
-              "path": "/docs/chapter1/lesson2/physical-ai-embodied-intelligence",
+              "path": "/humanoid_robotic_book/docs/chapter1/lesson2/physical-ai-embodied-intelligence",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter1/lesson3/development-environment-setup",
-              "path": "/docs/chapter1/lesson3/development-environment-setup",
+              "path": "/humanoid_robotic_book/docs/chapter1/lesson3/development-environment-setup",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter2/index",
-              "path": "/docs/chapter2/",
+              "path": "/humanoid_robotic_book/docs/chapter2/",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter2/lesson1/ros2-architecture",
-              "path": "/docs/chapter2/lesson1/ros2-architecture",
+              "path": "/humanoid_robotic_book/docs/chapter2/lesson1/ros2-architecture",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter2/lesson2/humanoid-robot-modeling",
-              "path": "/docs/chapter2/lesson2/humanoid-robot-modeling",
+              "path": "/humanoid_robotic_book/docs/chapter2/lesson2/humanoid-robot-modeling",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter2/lesson3/bridging-ai-agents",
-              "path": "/docs/chapter2/lesson3/bridging-ai-agents",
+              "path": "/humanoid_robotic_book/docs/chapter2/lesson3/bridging-ai-agents",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter3/index",
-              "path": "/docs/chapter3/",
+              "path": "/humanoid_robotic_book/docs/chapter3/",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter3/lesson1/gazebo-environment-setup",
-              "path": "/docs/chapter3/lesson1/gazebo-environment-setup",
+              "path": "/humanoid_robotic_book/docs/chapter3/lesson1/gazebo-environment-setup",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter3/lesson2/simulating-physics-collisions",
-              "path": "/docs/chapter3/lesson2/simulating-physics-collisions",
+              "path": "/humanoid_robotic_book/docs/chapter3/lesson2/simulating-physics-collisions",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter3/lesson3/sensor-simulation",
-              "path": "/docs/chapter3/lesson3/sensor-simulation",
+              "path": "/humanoid_robotic_book/docs/chapter3/lesson3/sensor-simulation",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter4/index",
-              "path": "/docs/chapter4/",
+              "path": "/humanoid_robotic_book/docs/chapter4/",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter4/lesson1/isaac-sim-synthetic-data",
-              "path": "/docs/chapter4/lesson1/isaac-sim-synthetic-data",
+              "path": "/humanoid_robotic_book/docs/chapter4/lesson1/isaac-sim-synthetic-data",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter4/lesson2/hardware-accelerated-navigation",
-              "path": "/docs/chapter4/lesson2/hardware-accelerated-navigation",
+              "path": "/humanoid_robotic_book/docs/chapter4/lesson2/hardware-accelerated-navigation",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter4/lesson3/bipedal-path-planning",
-              "path": "/docs/chapter4/lesson3/bipedal-path-planning",
+              "path": "/humanoid_robotic_book/docs/chapter4/lesson3/bipedal-path-planning",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter5/index",
-              "path": "/docs/chapter5/",
+              "path": "/humanoid_robotic_book/docs/chapter5/",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter5/lesson1/voice-to-action",
-              "path": "/docs/chapter5/lesson1/voice-to-action",
+              "path": "/humanoid_robotic_book/docs/chapter5/lesson1/voice-to-action",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter5/lesson2/cognitive-planning",
-              "path": "/docs/chapter5/lesson2/cognitive-planning",
+              "path": "/humanoid_robotic_book/docs/chapter5/lesson2/cognitive-planning",
               "sidebar": "mySidebar"
             },
             {
               "id": "chapter5/lesson3/capstone-project-execution",
-              "path": "/docs/chapter5/lesson3/capstone-project-execution",
+              "path": "/humanoid_robotic_book/docs/chapter5/lesson3/capstone-project-execution",
               "sidebar": "mySidebar"
             },
             {
               "id": "COMPLETION_SUMMARY",
-              "path": "/docs/COMPLETION_SUMMARY"
+              "path": "/humanoid_robotic_book/docs/COMPLETION_SUMMARY"
             },
             {
               "id": "COURSE_COMPLETION_CERTIFICATE",
-              "path": "/docs/COURSE_COMPLETION_CERTIFICATE"
+              "path": "/humanoid_robotic_book/docs/COURSE_COMPLETION_CERTIFICATE"
             },
             {
               "id": "intro",
-              "path": "/docs/intro",
+              "path": "/humanoid_robotic_book/docs/intro",
               "sidebar": "mySidebar"
             },
             {
               "id": "module1/introduction-to-humanoid-robotics",
-              "path": "/docs/module1/introduction-to-humanoid-robotics"
+              "path": "/humanoid_robotic_book/docs/module1/introduction-to-humanoid-robotics"
             },
             {
               "id": "module1/kinematics-and-dynamics",
-              "path": "/docs/module1/kinematics-and-dynamics"
+              "path": "/humanoid_robotic_book/docs/module1/kinematics-and-dynamics"
             },
             {
               "id": "module1/sensors-and-perception",
-              "path": "/docs/module1/sensors-and-perception"
+              "path": "/humanoid_robotic_book/docs/module1/sensors-and-perception"
             },
             {
               "id": "module1/summary",
-              "path": "/docs/module1/summary"
+              "path": "/humanoid_robotic_book/docs/module1/summary"
             }
           ],
           "draftIds": [],
           "sidebars": {
             "mySidebar": {
               "link": {
-                "path": "/docs/intro",
+                "path": "/humanoid_robotic_book/docs/intro",
                 "label": "intro"
               }
             }

@@ -1,0 +1,29 @@
+[
+  {
+    "url": "https://zoyaafzal.github.io/humanoid_robotic_book/",
+    "title": "Physical AI & Humanoid Robotics Textbook",
+    "content": "Physical AI & Humanoid Robotics Textbook\nLearn Humanoid Robotics Step by Step\nThis comprehensive guide takes you from robotics fundamentals to advanced AI integration, covering everything from ROS 2 architecture to NVIDIA Isaac platforms.\nMaster humanoid robotics development through hands-on projects, industry-standard tools, and cutting-edge Vision-Language-Action systems.\n🎓\nComprehensive Curriculum\n🚀\nHands-on Projects\n🔧\nIndustry Tools\nCourse Chapters\nExplore comprehensive chapters designed to take you from beginner to expert\n1\nSpec-Kit Plus & Robotics Foundation\nLearn the fundamentals of humanoid robotics and the Spec-Kit Plus platform.\nLessons:\n•\nSpec-Kit Plus Workflow\n•\nPhysical AI & Embodied Intelligence\n•\nDevelopment Environment Setup\n2\nThe Robotic Nervous System (ROS 2)\nExplore ROS 2 architecture and how it serves as the nervous system for robots.\nLessons:\n•\nROS 2 Architecture (Nodes, Topics, Services)\n•\nModeling the Humanoid Robot (URDF)\n•\nBridging AI Agents (rclpy)\n3\nThe Digital Twin (Simulation)\nUnderstand digital twin technology and simulation environments.\nLessons:\n•\nGazebo Environment Setup\n•\nSimulating Physics & Collisions\n•\nSensor Simulation (LiDAR/IMU)\n4\nThe AI-Robot Brain (NVIDIA Isaac™)\nDiscover AI integration and the NVIDIA Isaac platform for robot brains.\nLessons:\n•\nIsaac Sim & Synthetic Data\n•\nHardware-Accelerated Navigation (Isaac ROS)\n•\nBipedal Path Planning (Nav2)\n5\nVision-Language-Action (VLA) & Capstone\nMaster Vision-Language-Action systems and complete your capstone project.\nLessons:\n•\nVoice-to-Action (Whisper Integration)\n•\nCognitive Planning (LLM to ROS Action Sequence)\n•\nCapstone Project Execution\nWhat You'll Master\nComprehensive skills to excel in humanoid robotics development\n🤖 Humanoid Robotics\nMaster the fundamentals of building and controlling humanoid robots\nLearn More\n🧠 AI Integration\nLearn how to integrate artificial intelligence with robotic systems\nLearn More\n🛠️ Practical Skills\nGain hands-on experience with real robotics platforms and tools\nLearn More\n🏗️ Industry Standards\nLearn industry-standard tools and frameworks used in robotics\nLearn More\nReady to Start Your Journey?\nJoin thousands of learners mastering humanoid robotics with our comprehensive curriculum.",
+    "headings": [
+      "Physical AI & Humanoid Robotics Textbook",
+      "Course Chapters",
+      "Spec-Kit Plus & Robotics Foundation",
+      "Lessons:",
+      "The Robotic Nervous System (ROS 2)",
+      "Lessons:",
+      "The Digital Twin (Simulation)",
+      "Lessons:",
+      "The AI-Robot Brain (NVIDIA Isaac™)",
+      "Lessons:",
+      "Vision-Language-Action (VLA) & Capstone",
+      "Lessons:",
+      "What You'll Master",
+      "🤖 Humanoid Robotics",
+      "🧠 AI Integration",
+      "🛠️ Practical Skills",
+      "🏗️ Industry Standards",
+      "Ready to Start Your Journey?"
+    ],
+    "chunk_index": 0,
+    "source_document": ""
+  }
+]

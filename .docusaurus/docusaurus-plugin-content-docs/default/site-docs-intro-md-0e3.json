@@ -6,7 +6,7 @@
   "source": "@site/docs/intro.md",
   "sourceDirName": ".",
   "slug": "/intro",
-  "permalink": "/docs/intro",
+  "permalink": "/humanoid_robotic_book/docs/intro",
   "draft": false,
   "tags": [],
   "version": "current",
@@ -17,6 +17,6 @@
   "sidebar": "mySidebar",
   "next": {
     "title": "index",
-    "permalink": "/docs/chapter1/"
+    "permalink": "/humanoid_robotic_book/docs/chapter1/"
   }
 }

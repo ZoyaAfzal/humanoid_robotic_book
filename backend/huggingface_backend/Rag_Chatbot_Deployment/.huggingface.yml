@@ -1,0 +1,14 @@
+runtime:
+  cpu: 2
+  memory: 8GiB
+  accelerator: cpu
+  concurrency: 1
+  timeout: 300
+secrets:
+  - QDRANT_URL
+  - QDRANT_API_KEY
+  - COHERE_API_KEY
+  - GEMINI_API_KEY
+variables:
+  QDRANT_COLLECTION_NAME: "robotic_book_embedding"
+  BOOK_BASE_URL: "https://zoyaafzal.github.io/humanoid_robotic_book"
