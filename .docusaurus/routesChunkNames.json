@@ -1,171 +1,128 @@
 {
-  "/humanoid_robotic_book/__docusaurus/debug-7dc": {
-    "__comp": "__comp---theme-debug-config-23-a-2ff",
-    "__context": {
-      "plugin": "plugin---humanoid-robotic-book-docusaurus-debug-3-c-6-c72"
-    }
-  },
-  "/humanoid_robotic_book/__docusaurus/debug/config-5d1": {
-    "__comp": "__comp---theme-debug-config-23-a-2ff",
-    "__context": {
-      "plugin": "plugin---humanoid-robotic-book-docusaurus-debug-3-c-6-c72"
-    }
-  },
-  "/humanoid_robotic_book/__docusaurus/debug/content-006": {
-    "__comp": "__comp---theme-debug-contentba-8-ce7",
-    "__context": {
-      "plugin": "plugin---humanoid-robotic-book-docusaurus-debug-3-c-6-c72"
-    },
-    "allContent": "allContent---humanoid-robotic-book-docusaurus-debug-content-246-b1a"
-  },
-  "/humanoid_robotic_book/__docusaurus/debug/globalData-5ec": {
-    "__comp": "__comp---theme-debug-global-dataede-0fa",
-    "__context": {
-      "plugin": "plugin---humanoid-robotic-book-docusaurus-debug-3-c-6-c72"
-    }
-  },
-  "/humanoid_robotic_book/__docusaurus/debug/metadata-26d": {
-    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
-    "__context": {
-      "plugin": "plugin---humanoid-robotic-book-docusaurus-debug-3-c-6-c72"
-    }
-  },
-  "/humanoid_robotic_book/__docusaurus/debug/registry-420": {
-    "__comp": "__comp---theme-debug-registry-679-501",
-    "__context": {
-      "plugin": "plugin---humanoid-robotic-book-docusaurus-debug-3-c-6-c72"
-    }
-  },
-  "/humanoid_robotic_book/__docusaurus/debug/routes-28a": {
-    "__comp": "__comp---theme-debug-routes-946-699",
-    "__context": {
-      "plugin": "plugin---humanoid-robotic-book-docusaurus-debug-3-c-6-c72"
-    }
-  },
   "/humanoid_robotic_book/docs-dca": {
-    "__comp": "__comp---theme-doc-page-1-be-9be",
+    "__comp": "1be78505",
     "__context": {
-      "plugin": "plugin---humanoid-robotic-book-docs-5-c-0-45e"
+      "plugin": "5c0f28ac"
     },
-    "versionMetadata": "versionMetadata---humanoid-robotic-book-docs-935-620"
+    "versionMetadata": "935f2afb"
   },
   "/humanoid_robotic_book/docs/adr/adr-004-2e0": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-adr-adr-0045-d-0-24e"
+    "__comp": "17896441",
+    "content": "5d008f10"
   },
   "/humanoid_robotic_book/docs/chapter1-bdf": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-1805-1a0"
+    "__comp": "17896441",
+    "content": "805c52e8"
   },
   "/humanoid_robotic_book/docs/chapter1/lesson1/spec-kit-plus-workflow-0d7": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-1-lesson-1-spec-kit-plus-workflow-061-849"
+    "__comp": "17896441",
+    "content": "06124ace"
   },
   "/humanoid_robotic_book/docs/chapter1/lesson2/physical-ai-embodied-intelligence-051": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-1-lesson-2-physical-ai-embodied-intelligencee-5-d-d8e"
+    "__comp": "17896441",
+    "content": "e5d83ab2"
   },
   "/humanoid_robotic_book/docs/chapter1/lesson3/development-environment-setup-97b": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-1-lesson-3-development-environment-setup-9-e-0-880"
+    "__comp": "17896441",
+    "content": "9e0a9513"
   },
   "/humanoid_robotic_book/docs/chapter2-d79": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-2-c-9-e-c46"
+    "__comp": "17896441",
+    "content": "c9e4750c"
   },
   "/humanoid_robotic_book/docs/chapter2/lesson1/ros2-architecture-513": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-2-lesson-1-ros-2-architecture-59-b-4a7"
+    "__comp": "17896441",
+    "content": "59bb191c"
   },
   "/humanoid_robotic_book/docs/chapter2/lesson2/humanoid-robot-modeling-752": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-2-lesson-2-humanoid-robot-modelingfef-1ef"
+    "__comp": "17896441",
+    "content": "feff9f79"
   },
   "/humanoid_robotic_book/docs/chapter2/lesson3/bridging-ai-agents-302": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-2-lesson-3-bridging-ai-agents-67-e-c42"
+    "__comp": "17896441",
+    "content": "67e9fcf7"
   },
   "/humanoid_robotic_book/docs/chapter3-22c": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-3-bff-ef9"
+    "__comp": "17896441",
+    "content": "bff1330b"
   },
   "/humanoid_robotic_book/docs/chapter3/lesson1/gazebo-environment-setup-226": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-3-lesson-1-gazebo-environment-setup-164-3b9"
+    "__comp": "17896441",
+    "content": "1649a533"
   },
   "/humanoid_robotic_book/docs/chapter3/lesson2/simulating-physics-collisions-aad": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-3-lesson-2-simulating-physics-collisions-818-41e"
+    "__comp": "17896441",
+    "content": "818e1e3e"
   },
   "/humanoid_robotic_book/docs/chapter3/lesson3/sensor-simulation-1a6": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-3-lesson-3-sensor-simulation-66-e-77a"
+    "__comp": "17896441",
+    "content": "66ed0248"
   },
   "/humanoid_robotic_book/docs/chapter4-679": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-43-b-0-904"
+    "__comp": "17896441",
+    "content": "3b0341b6"
   },
   "/humanoid_robotic_book/docs/chapter4/lesson1/isaac-sim-synthetic-data-ad6": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-4-lesson-1-isaac-sim-synthetic-data-386-3b1"
+    "__comp": "17896441",
+    "content": "386583ed"
   },
   "/humanoid_robotic_book/docs/chapter4/lesson2/hardware-accelerated-navigation-635": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-4-lesson-2-hardware-accelerated-navigation-88-d-d8b"
+    "__comp": "17896441",
+    "content": "88dc4359"
   },
   "/humanoid_robotic_book/docs/chapter4/lesson3/bipedal-path-planning-383": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-4-lesson-3-bipedal-path-planning-286-d55"
+    "__comp": "17896441",
+    "content": "2867ef93"
   },
   "/humanoid_robotic_book/docs/chapter5-587": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-5-fd-4-8fb"
+    "__comp": "17896441",
+    "content": "fd4009e4"
   },
   "/humanoid_robotic_book/docs/chapter5/lesson1/voice-to-action-839": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-5-lesson-1-voice-to-action-088-069"
+    "__comp": "17896441",
+    "content": "088a8631"
   },
   "/humanoid_robotic_book/docs/chapter5/lesson2/cognitive-planning-c13": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-5-lesson-2-cognitive-planning-634-389"
+    "__comp": "17896441",
+    "content": "634295d9"
   },
   "/humanoid_robotic_book/docs/chapter5/lesson3/capstone-project-execution-3a8": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-chapter-5-lesson-3-capstone-project-execution-3-d-0-f26"
+    "__comp": "17896441",
+    "content": "3d0e234f"
   },
   "/humanoid_robotic_book/docs/COMPLETION_SUMMARY-3d9": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-completion-summar-yf-5-e-c0a"
+    "__comp": "17896441",
+    "content": "f5ebdaa5"
   },
   "/humanoid_robotic_book/docs/COURSE_COMPLETION_CERTIFICATE-983": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-course-completion-certificat-ee-2-e-53b"
+    "__comp": "17896441",
+    "content": "e2eacfbe"
   },
   "/humanoid_robotic_book/docs/intro-178": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-intro-0-e-3-e69"
+    "__comp": "17896441",
+    "content": "0e384e19"
   },
   "/humanoid_robotic_book/docs/module1/introduction-to-humanoid-robotics-156": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-module-1-introduction-to-humanoid-robotics-91-a-c36"
+    "__comp": "17896441",
+    "content": "91a57dfd"
   },
   "/humanoid_robotic_book/docs/module1/kinematics-and-dynamics-cbf": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-module-1-kinematics-and-dynamicsf-5-e-742"
+    "__comp": "17896441",
+    "content": "f5ee04fb"
   },
   "/humanoid_robotic_book/docs/module1/sensors-and-perception-5a0": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-module-1-sensors-and-perception-75-b-e85"
+    "__comp": "17896441",
+    "content": "75b6efa4"
   },
   "/humanoid_robotic_book/docs/module1/summary-307": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---humanoid-robotic-book-docs-module-1-summary-51-a-06e"
+    "__comp": "17896441",
+    "content": "51ae6e7f"
   },
   "/humanoid_robotic_book/-ea7": {
-    "__comp": "__comp---site-src-pages-index-jsc-4-f-f99",
+    "__comp": "c4f5d8e4",
     "__context": {
-      "plugin": "plugin---humanoid-robotic-book-6-ea-5bf"
+      "plugin": "6ea42d4e"
     },
-    "config": "config---humanoid-robotic-book-5-e-9-738"
+    "config": "5e9f5e1a"
   }
 }

@@ -9,7 +9,7 @@ const Root = ({ children }) => {
   useEffect(() => {
     const loadChatComponent = async () => {
       try {
-        const { default: ChatInterface } = await import('./components/ChatInterface');
+        const { default: ChatInterface } = await import('../components/ChatInterface');
         setChatLoaded(ChatInterface);
       } catch (error) {
         console.error('Failed to load chat component:', error);
