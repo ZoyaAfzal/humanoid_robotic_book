@@ -1,4 +1,4 @@
-name: Deploy Documentation and Backend
+name: Deploy Documentation to GitHub Pages
 
 on:
   push:
@@ -28,34 +28,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
           publish_branch: gh-pages
-
-  deploy-backend:
-    name: Deploy Backend to Hugging Face Spaces
-    runs-on: ubuntu-latest
-    needs: deploy-frontend
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          cd Rag_Chatbot_Deployment
-          pip install -r requirements.txt
-
-      - name: Deploy to Hugging Face Spaces
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
-          cd Rag_Chatbot_Deployment
-          pip install huggingface-hub
-
-          # The Hugging Face Space should be configured separately in the Hugging Face Hub
-          # This project is already set up for Hugging Face Spaces with the Dockerfile and app.py
-          # The deployment happens automatically when you push to a Hugging Face Space repository
-          echo "Backend configured for Hugging Face Spaces deployment"
-          echo "To deploy, push this repository to your Hugging Face Space or use the Hugging Face CLI"
