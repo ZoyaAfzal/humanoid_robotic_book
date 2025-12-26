@@ -19,3 +19,11 @@ __pycache__/
 .env*
 .pytest_cache/
 .coverage
+# Additional ignores for backend and book_embedding directories
+backend/.venv/
+backend/venv/
+backend/__pycache__/
+book_embedding/venv/
+book_embedding/__pycache__/
+*.lock
+uv.lock
