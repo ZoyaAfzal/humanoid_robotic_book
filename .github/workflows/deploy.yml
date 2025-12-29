@@ -20,16 +20,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Setup environment variables
+      - name: Install dependencies with legacy peer deps
         run: |
-          echo "NODE_OPTIONS=--experimental-global-webcrypto" >> $GITHUB_ENV
+          npm install --legacy-peer-deps
 
       - name: Build website
         run: |
-          node --experimental-global-webcrypto -e "global.File = function() {}; global.Blob = function() {}; console.log('Global File/Blob polyfills set');"
           npm run build
 
       - name: Deploy to GitHub Pages
