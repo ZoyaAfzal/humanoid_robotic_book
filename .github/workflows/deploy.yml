@@ -32,9 +32,18 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
+      - name: Check Node and NPM versions
+        run: |
+          node --version
+          npm --version
+
       - name: Install dependencies
         run: |
           npm install
+
+      - name: Check installed Docusaurus packages
+        run: |
+          npm list @docusaurus/core @docusaurus/preset-classic
 
       - name: Build website
         run: |
