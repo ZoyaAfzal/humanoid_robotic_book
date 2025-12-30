@@ -1,3 +1,16 @@
+// Add polyfills for File and Blob in Node.js environment
+if (typeof window === 'undefined') {
+  global.File = class File extends Blob {
+    constructor(fileBits, fileName, options = {}) {
+      super(fileBits, options);
+      this.name = fileName;
+      this.lastModified = options.lastModified || Date.now();
+    }
+  };
+
+  global.Blob = global.Blob || require('buffer').Blob;
+}
+
 module.exports = {
   title: 'Physical AI & Humanoid Robotics Textbook',
   tagline: 'Learn Humanoid Robotics Step by Step',
