@@ -12,7 +12,7 @@
       {
         "type": "link",
         "label": "intro",
-        "href": "/docs/intro",
+        "href": "/humanoid_robotic_book/docs/intro",
         "docId": "intro"
       },
       {
@@ -22,25 +22,25 @@
           {
             "type": "link",
             "label": "index",
-            "href": "/docs/chapter1/",
+            "href": "/humanoid_robotic_book/docs/chapter1/",
             "docId": "chapter1/index"
           },
           {
             "type": "link",
             "label": "spec-kit-plus-workflow",
-            "href": "/docs/chapter1/lesson1/spec-kit-plus-workflow",
+            "href": "/humanoid_robotic_book/docs/chapter1/lesson1/spec-kit-plus-workflow",
             "docId": "chapter1/lesson1/spec-kit-plus-workflow"
           },
           {
             "type": "link",
             "label": "physical-ai-embodied-intelligence",
-            "href": "/docs/chapter1/lesson2/physical-ai-embodied-intelligence",
+            "href": "/humanoid_robotic_book/docs/chapter1/lesson2/physical-ai-embodied-intelligence",
             "docId": "chapter1/lesson2/physical-ai-embodied-intelligence"
           },
           {
             "type": "link",
             "label": "development-environment-setup",
-            "href": "/docs/chapter1/lesson3/development-environment-setup",
+            "href": "/humanoid_robotic_book/docs/chapter1/lesson3/development-environment-setup",
             "docId": "chapter1/lesson3/development-environment-setup"
           }
         ],
@@ -54,25 +54,25 @@
           {
             "type": "link",
             "label": "index",
-            "href": "/docs/chapter2/",
+            "href": "/humanoid_robotic_book/docs/chapter2/",
             "docId": "chapter2/index"
           },
           {
             "type": "link",
             "label": "ros2-architecture",
-            "href": "/docs/chapter2/lesson1/ros2-architecture",
+            "href": "/humanoid_robotic_book/docs/chapter2/lesson1/ros2-architecture",
             "docId": "chapter2/lesson1/ros2-architecture"
           },
           {
             "type": "link",
             "label": "humanoid-robot-modeling",
-            "href": "/docs/chapter2/lesson2/humanoid-robot-modeling",
+            "href": "/humanoid_robotic_book/docs/chapter2/lesson2/humanoid-robot-modeling",
             "docId": "chapter2/lesson2/humanoid-robot-modeling"
           },
           {
             "type": "link",
             "label": "bridging-ai-agents",
-            "href": "/docs/chapter2/lesson3/bridging-ai-agents",
+            "href": "/humanoid_robotic_book/docs/chapter2/lesson3/bridging-ai-agents",
             "docId": "chapter2/lesson3/bridging-ai-agents"
           }
         ],
@@ -86,25 +86,25 @@
           {
             "type": "link",
             "label": "index",
-            "href": "/docs/chapter3/",
+            "href": "/humanoid_robotic_book/docs/chapter3/",
             "docId": "chapter3/index"
           },
           {
             "type": "link",
             "label": "gazebo-environment-setup",
-            "href": "/docs/chapter3/lesson1/gazebo-environment-setup",
+            "href": "/humanoid_robotic_book/docs/chapter3/lesson1/gazebo-environment-setup",
             "docId": "chapter3/lesson1/gazebo-environment-setup"
           },
           {
             "type": "link",
             "label": "simulating-physics-collisions",
-            "href": "/docs/chapter3/lesson2/simulating-physics-collisions",
+            "href": "/humanoid_robotic_book/docs/chapter3/lesson2/simulating-physics-collisions",
             "docId": "chapter3/lesson2/simulating-physics-collisions"
           },
           {
             "type": "link",
             "label": "sensor-simulation",
-            "href": "/docs/chapter3/lesson3/sensor-simulation",
+            "href": "/humanoid_robotic_book/docs/chapter3/lesson3/sensor-simulation",
             "docId": "chapter3/lesson3/sensor-simulation"
           }
         ],
@@ -118,25 +118,25 @@
           {
             "type": "link",
             "label": "index",
-            "href": "/docs/chapter4/",
+            "href": "/humanoid_robotic_book/docs/chapter4/",
             "docId": "chapter4/index"
           },
           {
             "type": "link",
             "label": "isaac-sim-synthetic-data",
-            "href": "/docs/chapter4/lesson1/isaac-sim-synthetic-data",
+            "href": "/humanoid_robotic_book/docs/chapter4/lesson1/isaac-sim-synthetic-data",
             "docId": "chapter4/lesson1/isaac-sim-synthetic-data"
           },
           {
             "type": "link",
             "label": "hardware-accelerated-navigation",
-            "href": "/docs/chapter4/lesson2/hardware-accelerated-navigation",
+            "href": "/humanoid_robotic_book/docs/chapter4/lesson2/hardware-accelerated-navigation",
             "docId": "chapter4/lesson2/hardware-accelerated-navigation"
           },
           {
             "type": "link",
             "label": "bipedal-path-planning",
-            "href": "/docs/chapter4/lesson3/bipedal-path-planning",
+            "href": "/humanoid_robotic_book/docs/chapter4/lesson3/bipedal-path-planning",
             "docId": "chapter4/lesson3/bipedal-path-planning"
           }
         ],
@@ -150,25 +150,25 @@
           {
             "type": "link",
             "label": "index",
-            "href": "/docs/chapter5/",
+            "href": "/humanoid_robotic_book/docs/chapter5/",
             "docId": "chapter5/index"
           },
           {
             "type": "link",
             "label": "voice-to-action",
-            "href": "/docs/chapter5/lesson1/voice-to-action",
+            "href": "/humanoid_robotic_book/docs/chapter5/lesson1/voice-to-action",
             "docId": "chapter5/lesson1/voice-to-action"
           },
           {
             "type": "link",
             "label": "cognitive-planning",
-            "href": "/docs/chapter5/lesson2/cognitive-planning",
+            "href": "/humanoid_robotic_book/docs/chapter5/lesson2/cognitive-planning",
             "docId": "chapter5/lesson2/cognitive-planning"
           },
           {
             "type": "link",
             "label": "capstone-project-execution",
-            "href": "/docs/chapter5/lesson3/capstone-project-execution",
+            "href": "/humanoid_robotic_book/docs/chapter5/lesson3/capstone-project-execution",
             "docId": "chapter5/lesson3/capstone-project-execution"
           }
         ],
@@ -182,7 +182,7 @@
           {
             "type": "link",
             "label": "ADR 004: Context 7 Feedback Integration",
-            "href": "/docs/adr/adr-004",
+            "href": "/humanoid_robotic_book/docs/adr/adr-004",
             "docId": "adr/adr-004"
           }
         ],

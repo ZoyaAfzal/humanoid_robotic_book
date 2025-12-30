@@ -1,0 +1,139 @@
+Metadata-Version: 2.4
+Name: humanoid-robotics-rag
+Version: 0.1.0
+Summary: RAG pipeline for Humanoid Robotics Textbook - Extracts content, generates embeddings, and stores in Qdrant
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: cohere>=5.0.0
+Requires-Dist: qdrant-client>=1.7.0
+Requires-Dist: beautifulsoup4>=4.12.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: lxml>=4.9.0
+Requires-Dist: trafilatura>=1.6.0
+
+# Humanoid Robotics RAG Pipeline
+
+This backend service processes the Humanoid Robotics textbook content, generates embeddings, and stores them in Qdrant for semantic search capabilities.
+
+## Overview
+
+The RAG (Retrieval-Augmented Generation) pipeline consists of three main components:
+
+1. **Content Extraction** (`src/extraction/`) - Discovers and extracts clean content from deployed Docusaurus URLs
+2. **Embedding Generation** (`src/embeddings/`) - Chunks content and generates vector embeddings using Cohere
+3. **Vector Storage** (`src/storage/`) - Stores embeddings with metadata in Qdrant vector database
+
+## Prerequisites
+
+- Python 3.12+
+- [uv](https://github.com/astral-sh/uv) package manager
+- Cohere API key for embedding generation
+- Qdrant Cloud account for vector storage
+
+## Setup
+
+1. **Install dependencies**:
+   ```bash
+   cd backend
+   uv sync
+   ```
+
+2. **Configure environment variables**:
+   ```bash
+   cp .env .env.local
+   # Edit .env.local with your actual API keys and configuration
+   ```
+
+3. **Environment Variables**:
+   - `COHERE_API_KEY`: Your Cohere API key
+   - `QDRANT_URL`: Your Qdrant Cloud cluster URL
+   - `QDRANT_API_KEY`: Your Qdrant API key
+   - `BOOK_BASE_URL`: Base URL of the deployed Docusaurus book (default: https://ZoyaAfzal.github.io/humanoid_robotic_book)
+   - `CHUNK_SIZE`: Maximum size of text chunks (default: 1000)
+   - `CHUNK_OVERLAP`: Overlap between chunks (default: 200)
+   - `BATCH_SIZE`: Batch size for embedding generation (default: 96)
+   - `QDRANT_COLLECTION_NAME`: Name of the Qdrant collection (default: humanoid_robotics_book)
+
+## Usage
+
+### Run the complete pipeline:
+
+```bash
+cd backend
+uv run src.main:main
+```
+
+Or using the defined script:
+
+```bash
+uv run process-book
+```
+
+### Run individual components:
+
+1. **Extract content only**:
+   ```bash
+   uv run extract-content
+   ```
+
+2. **Generate embeddings only** (requires extracted_content.json):
+   ```bash
+   uv run generate-embeddings
+   ```
+
+3. **Store vectors only** (requires embedded_chunks.json):
+   ```bash
+   uv run store-vectors
+   ```
+
+## Architecture
+
+### Content Extraction
+- Discovers URLs from sitemap.xml and known Docusaurus structure
+- Extracts clean text content, removing navigation, headers, footers
+- Preserves headings and document structure
+- Handles multiple URLs concurrently with rate limiting
+
+### Embedding Generation
+- Chunks content semantically with configurable size and overlap
+- Uses Cohere's `embed-english-v3.0` model optimized for search documents
+- Processes content in batches to respect API limits
+- Preserves metadata for each chunk
+
+### Vector Storage
+- Creates/uses Qdrant collection with appropriate vector dimensions (1024 for Cohere)
+- Stores vectors with rich metadata (URL, title, content, headings)
+- Implements proper error handling and verification
+
+## Data Schema
+
+Each stored vector contains:
+- `url`: Source URL of the content
+- `title`: Page title
+- `content`: Text content chunk
+- `headings`: List of headings found in the content
+- `chunk_index`: Position of the chunk in the original document
+- `source_document`: Reference to the original document
+- `metadata`: Additional metadata including original chunk index and text length
+
+## Configuration
+
+The pipeline is fully configurable through environment variables, allowing you to:
+- Adjust chunk size and overlap for optimal semantic preservation
+- Modify batch sizes for API efficiency
+- Change the target Qdrant collection
+- Update the source book URL
+
+## Output
+
+The pipeline generates the following statistics:
+- Count of discovered URLs
+- Count of content chunks created
+- Count of vectors stored in Qdrant
+- Verification of successful storage and retrieval
+
+## Reproducibility
+
+The pipeline is designed to be idempotent - running it multiple times will update the collection without creating duplicates. The Qdrant collection is recreated on each run to ensure consistency.

@@ -3,14 +3,6 @@
     "main"
   ],
   "origins": {
-    "292": [
-      504,
-      610,
-      815,
-      869,
-      911,
-      292
-    ],
     "774": [
       774
     ],
@@ -48,14 +40,6 @@
       869,
       774
     ],
-    "23abe487": [
-      292,
-      869,
-      911
-    ],
-    "246f2c6f": [
-      452
-    ],
     "2867ef93": [
       869,
       305
@@ -68,15 +52,9 @@
       869,
       30
     ],
-    "3b559284": [
-      139
-    ],
     "3d0e234f": [
       869,
       648
-    ],
-    "4aeef971": [
-      447
     ],
     "51ae6e7f": [
       869,
@@ -85,6 +63,9 @@
     "59bb191c": [
       869,
       191
+    ],
+    "5c0f28ac": [
+      871
     ],
     "5d008f10": [
       685
@@ -97,20 +78,12 @@
       869,
       170
     ],
-    "6794d4cd": [
-      869,
-      680
-    ],
     "67e9fcf7": [
       869,
       748
     ],
-    "68e633d4": [
-      869,
-      254
-    ],
-    "6e2e98a7": [
-      595
+    "6ea42d4e": [
+      764
     ],
     "75b6efa4": [
       709
@@ -134,19 +107,9 @@
     "935f2afb": [
       581
     ],
-    "946bd85a": [
-      292,
-      869,
-      610
-    ],
     "9e0a9513": [
       869,
       234
-    ],
-    "ba8b3534": [
-      292,
-      869,
-      815
     ],
     "bff1330b": [
       869,
@@ -166,11 +129,6 @@
     "e5d83ab2": [
       869,
       361
-    ],
-    "ede3a018": [
-      292,
-      869,
-      504
     ],
     "f5ebdaa5": [
       474
@@ -195,10 +153,8 @@
       191,
       234,
       249,
-      254,
       257,
       276,
-      292,
       305,
       354,
       361,
@@ -206,18 +162,13 @@
       443,
       448,
       480,
-      504,
-      610,
       634,
       648,
-      680,
       714,
       748,
       782,
       792,
-      815,
       833,
-      911,
       932,
       935,
       976,
@@ -229,315 +180,243 @@
     "29": {
       "js": [
         {
-          "file": "assets/js/805c52e8.a8eb3aa2.js",
-          "hash": "72805093454ee6e7",
-          "publicPath": "/assets/js/805c52e8.a8eb3aa2.js"
+          "file": "assets/js/805c52e8.7cd0e728.js",
+          "hash": "5815eae6f2ec5fa0",
+          "publicPath": "/humanoid_robotic_book/assets/js/805c52e8.7cd0e728.js"
         }
       ]
     },
     "30": {
       "js": [
         {
-          "file": "assets/js/3b0341b6.4760b471.js",
-          "hash": "6b14534f8d031723",
-          "publicPath": "/assets/js/3b0341b6.4760b471.js"
+          "file": "assets/js/3b0341b6.a48cc61c.js",
+          "hash": "7bf84577e75dc194",
+          "publicPath": "/humanoid_robotic_book/assets/js/3b0341b6.a48cc61c.js"
         }
       ]
     },
     "99": {
       "js": [
         {
-          "file": "assets/js/51ae6e7f.4ef55cef.js",
-          "hash": "58b7ebb6d45532f1",
-          "publicPath": "/assets/js/51ae6e7f.4ef55cef.js"
+          "file": "assets/js/51ae6e7f.38993750.js",
+          "hash": "5d4d7c75147c17d1",
+          "publicPath": "/humanoid_robotic_book/assets/js/51ae6e7f.38993750.js"
         }
       ]
     },
     "123": {
       "js": [
         {
-          "file": "assets/js/c9e4750c.91e24519.js",
-          "hash": "90a249c17c0569df",
-          "publicPath": "/assets/js/c9e4750c.91e24519.js"
-        }
-      ]
-    },
-    "139": {
-      "js": [
-        {
-          "file": "assets/js/3b559284.e69b9f93.js",
-          "hash": "6e027d2d87cb0ab1",
-          "publicPath": "/assets/js/3b559284.e69b9f93.js"
+          "file": "assets/js/c9e4750c.7dd7770a.js",
+          "hash": "bf389a1a81f3d099",
+          "publicPath": "/humanoid_robotic_book/assets/js/c9e4750c.7dd7770a.js"
         }
       ]
     },
     "170": {
       "js": [
         {
-          "file": "assets/js/66ed0248.70935523.js",
-          "hash": "cc271615d46f359f",
-          "publicPath": "/assets/js/66ed0248.70935523.js"
+          "file": "assets/js/66ed0248.70c4ef14.js",
+          "hash": "ac4894913532627d",
+          "publicPath": "/humanoid_robotic_book/assets/js/66ed0248.70c4ef14.js"
         }
       ]
     },
     "191": {
       "js": [
         {
-          "file": "assets/js/59bb191c.93b67d80.js",
-          "hash": "4a54030950dbcf0e",
-          "publicPath": "/assets/js/59bb191c.93b67d80.js"
+          "file": "assets/js/59bb191c.1e075767.js",
+          "hash": "91f004e4ceead973",
+          "publicPath": "/humanoid_robotic_book/assets/js/59bb191c.1e075767.js"
         }
       ]
     },
     "234": {
       "js": [
         {
-          "file": "assets/js/9e0a9513.64a16ec3.js",
-          "hash": "64f06db732011567",
-          "publicPath": "/assets/js/9e0a9513.64a16ec3.js"
+          "file": "assets/js/9e0a9513.bf122e1f.js",
+          "hash": "4fe2a93ef43d0306",
+          "publicPath": "/humanoid_robotic_book/assets/js/9e0a9513.bf122e1f.js"
         }
       ]
     },
     "249": {
       "js": [
         {
-          "file": "assets/js/818e1e3e.91eedb27.js",
-          "hash": "035cc620fe58a67a",
-          "publicPath": "/assets/js/818e1e3e.91eedb27.js"
-        }
-      ]
-    },
-    "254": {
-      "js": [
-        {
-          "file": "assets/js/68e633d4.689119f3.js",
-          "hash": "7f88420b35e1b4fb",
-          "publicPath": "/assets/js/68e633d4.689119f3.js"
+          "file": "assets/js/818e1e3e.5e26cc68.js",
+          "hash": "438f2ed9ad0fb815",
+          "publicPath": "/humanoid_robotic_book/assets/js/818e1e3e.5e26cc68.js"
         }
       ]
     },
     "257": {
       "js": [
         {
-          "file": "assets/js/386583ed.2b4e6552.js",
-          "hash": "91d230e6d4b8d739",
-          "publicPath": "/assets/js/386583ed.2b4e6552.js"
+          "file": "assets/js/386583ed.a0634482.js",
+          "hash": "e9d1717c08e9b8a7",
+          "publicPath": "/humanoid_robotic_book/assets/js/386583ed.a0634482.js"
         }
       ]
     },
     "276": {
       "js": [
         {
-          "file": "assets/js/bff1330b.59682277.js",
-          "hash": "7e8445324ed749bf",
-          "publicPath": "/assets/js/bff1330b.59682277.js"
-        }
-      ]
-    },
-    "292": {
-      "js": [
-        {
-          "file": "assets/js/292.711278ab.js",
-          "hash": "b5ed0dc7d3e9e329",
-          "publicPath": "/assets/js/292.711278ab.js"
+          "file": "assets/js/bff1330b.6a6fde55.js",
+          "hash": "09208d7515c15da7",
+          "publicPath": "/humanoid_robotic_book/assets/js/bff1330b.6a6fde55.js"
         }
       ]
     },
     "305": {
       "js": [
         {
-          "file": "assets/js/2867ef93.0cd73279.js",
-          "hash": "9b278884222a5368",
-          "publicPath": "/assets/js/2867ef93.0cd73279.js"
+          "file": "assets/js/2867ef93.5034a359.js",
+          "hash": "e7345b9b2afc1d0e",
+          "publicPath": "/humanoid_robotic_book/assets/js/2867ef93.5034a359.js"
         }
       ]
     },
     "354": {
       "js": [
         {
-          "file": "assets/js/runtime~main.f2d92637.js",
-          "hash": "1fa31dd750265784",
-          "publicPath": "/assets/js/runtime~main.f2d92637.js"
+          "file": "assets/js/runtime~main.bf664fa3.js",
+          "hash": "f4a0958eb2be88f5",
+          "publicPath": "/humanoid_robotic_book/assets/js/runtime~main.bf664fa3.js"
         }
       ]
     },
     "361": {
       "js": [
         {
-          "file": "assets/js/e5d83ab2.0f9d9cdf.js",
-          "hash": "b2bd94c9c99edb62",
-          "publicPath": "/assets/js/e5d83ab2.0f9d9cdf.js"
+          "file": "assets/js/e5d83ab2.2719fbb6.js",
+          "hash": "4a084a7c06858499",
+          "publicPath": "/humanoid_robotic_book/assets/js/e5d83ab2.2719fbb6.js"
         }
       ]
     },
     "401": {
       "js": [
         {
-          "file": "assets/js/17896441.f0534705.js",
-          "hash": "1ec0def7fa405b62",
-          "publicPath": "/assets/js/17896441.f0534705.js"
+          "file": "assets/js/17896441.4d863288.js",
+          "hash": "69b38152caa44f88",
+          "publicPath": "/humanoid_robotic_book/assets/js/17896441.4d863288.js"
         }
       ]
     },
     "443": {
       "js": [
         {
-          "file": "assets/js/1649a533.456406d9.js",
-          "hash": "85a7e178e0a07073",
-          "publicPath": "/assets/js/1649a533.456406d9.js"
-        }
-      ]
-    },
-    "447": {
-      "js": [
-        {
-          "file": "assets/js/4aeef971.ae004c6f.js",
-          "hash": "b10b326ae45e27b2",
-          "publicPath": "/assets/js/4aeef971.ae004c6f.js"
+          "file": "assets/js/1649a533.5ccfe0ab.js",
+          "hash": "4783a858163813bf",
+          "publicPath": "/humanoid_robotic_book/assets/js/1649a533.5ccfe0ab.js"
         }
       ]
     },
     "448": {
       "js": [
         {
-          "file": "assets/js/088a8631.9d26c8fc.js",
-          "hash": "313f2c1df2a12f42",
-          "publicPath": "/assets/js/088a8631.9d26c8fc.js"
-        }
-      ]
-    },
-    "452": {
-      "js": [
-        {
-          "file": "assets/js/246f2c6f.a3a098f5.js",
-          "hash": "68e400c1e32e3c4d",
-          "publicPath": "/assets/js/246f2c6f.a3a098f5.js"
+          "file": "assets/js/088a8631.133c81ac.js",
+          "hash": "f5fd9f56306bad91",
+          "publicPath": "/humanoid_robotic_book/assets/js/088a8631.133c81ac.js"
         }
       ]
     },
     "474": {
       "js": [
         {
-          "file": "assets/js/f5ebdaa5.c2254324.js",
-          "hash": "c84471cb8238c7fc",
-          "publicPath": "/assets/js/f5ebdaa5.c2254324.js"
+          "file": "assets/js/f5ebdaa5.efa4d0f9.js",
+          "hash": "5939af5450fd1843",
+          "publicPath": "/humanoid_robotic_book/assets/js/f5ebdaa5.efa4d0f9.js"
         }
       ]
     },
     "480": {
       "js": [
         {
-          "file": "assets/js/fd4009e4.1612d856.js",
-          "hash": "457cba8b64a251fe",
-          "publicPath": "/assets/js/fd4009e4.1612d856.js"
+          "file": "assets/js/fd4009e4.95f02717.js",
+          "hash": "38fd91429d22a7a7",
+          "publicPath": "/humanoid_robotic_book/assets/js/fd4009e4.95f02717.js"
         }
       ]
     },
     "496": {
       "js": [
         {
-          "file": "assets/js/e2eacfbe.a7956a0c.js",
-          "hash": "c105af21e4ee4c6f",
-          "publicPath": "/assets/js/e2eacfbe.a7956a0c.js"
-        }
-      ]
-    },
-    "504": {
-      "js": [
-        {
-          "file": "assets/js/ede3a018.c01e0398.js",
-          "hash": "323fbb9e65e28990",
-          "publicPath": "/assets/js/ede3a018.c01e0398.js"
+          "file": "assets/js/e2eacfbe.ff96129a.js",
+          "hash": "9499fa0e310efec1",
+          "publicPath": "/humanoid_robotic_book/assets/js/e2eacfbe.ff96129a.js"
         }
       ]
     },
     "581": {
       "js": [
         {
-          "file": "assets/js/935f2afb.6582f4eb.js",
-          "hash": "bfd0bcf5a29e02fe",
-          "publicPath": "/assets/js/935f2afb.6582f4eb.js"
-        }
-      ]
-    },
-    "595": {
-      "js": [
-        {
-          "file": "assets/js/6e2e98a7.21aead81.js",
-          "hash": "f93ab05b25b5d26e",
-          "publicPath": "/assets/js/6e2e98a7.21aead81.js"
-        }
-      ]
-    },
-    "610": {
-      "js": [
-        {
-          "file": "assets/js/946bd85a.707e2b34.js",
-          "hash": "2370e4612a998164",
-          "publicPath": "/assets/js/946bd85a.707e2b34.js"
+          "file": "assets/js/935f2afb.643f010b.js",
+          "hash": "7f1eeb6bd80f1f83",
+          "publicPath": "/humanoid_robotic_book/assets/js/935f2afb.643f010b.js"
         }
       ]
     },
     "634": {
       "js": [
         {
-          "file": "assets/js/c4f5d8e4.dc8aa712.js",
-          "hash": "62e5cbcf40544d31",
-          "publicPath": "/assets/js/c4f5d8e4.dc8aa712.js"
+          "file": "assets/js/c4f5d8e4.6dae5f5e.js",
+          "hash": "9803edfeb20690f9",
+          "publicPath": "/humanoid_robotic_book/assets/js/c4f5d8e4.6dae5f5e.js"
         }
       ]
     },
     "648": {
       "js": [
         {
-          "file": "assets/js/3d0e234f.11acf711.js",
-          "hash": "e19f88235ab681be",
-          "publicPath": "/assets/js/3d0e234f.11acf711.js"
-        }
-      ]
-    },
-    "680": {
-      "js": [
-        {
-          "file": "assets/js/6794d4cd.e9cda126.js",
-          "hash": "10425283fe13d632",
-          "publicPath": "/assets/js/6794d4cd.e9cda126.js"
+          "file": "assets/js/3d0e234f.dc0bcb8b.js",
+          "hash": "37f7177540f818aa",
+          "publicPath": "/humanoid_robotic_book/assets/js/3d0e234f.dc0bcb8b.js"
         }
       ]
     },
     "685": {
       "js": [
         {
-          "file": "assets/js/5d008f10.192a2961.js",
-          "hash": "55e37d4caaa372a5",
-          "publicPath": "/assets/js/5d008f10.192a2961.js"
+          "file": "assets/js/5d008f10.bb345759.js",
+          "hash": "18443604071eb433",
+          "publicPath": "/humanoid_robotic_book/assets/js/5d008f10.bb345759.js"
         }
       ]
     },
     "706": {
       "js": [
         {
-          "file": "assets/js/f5ee04fb.e18b70ee.js",
-          "hash": "b023f9f25b2faea7",
-          "publicPath": "/assets/js/f5ee04fb.e18b70ee.js"
+          "file": "assets/js/f5ee04fb.bbb92b7e.js",
+          "hash": "c4ec65da36131140",
+          "publicPath": "/humanoid_robotic_book/assets/js/f5ee04fb.bbb92b7e.js"
         }
       ]
     },
     "709": {
       "js": [
         {
-          "file": "assets/js/75b6efa4.8c2fa046.js",
-          "hash": "8d1834019d9ce0d4",
-          "publicPath": "/assets/js/75b6efa4.8c2fa046.js"
+          "file": "assets/js/75b6efa4.a7237b33.js",
+          "hash": "380706959eb568f6",
+          "publicPath": "/humanoid_robotic_book/assets/js/75b6efa4.a7237b33.js"
         }
       ]
     },
     "748": {
       "js": [
         {
-          "file": "assets/js/67e9fcf7.b7ca83b1.js",
-          "hash": "f615cd56f29bcb57",
-          "publicPath": "/assets/js/67e9fcf7.b7ca83b1.js"
+          "file": "assets/js/67e9fcf7.ed734a2b.js",
+          "hash": "797ba25f24262abd",
+          "publicPath": "/humanoid_robotic_book/assets/js/67e9fcf7.ed734a2b.js"
+        }
+      ]
+    },
+    "764": {
+      "js": [
+        {
+          "file": "assets/js/6ea42d4e.1aa9707b.js",
+          "hash": "652b09428be1b308",
+          "publicPath": "/humanoid_robotic_book/assets/js/6ea42d4e.1aa9707b.js"
         }
       ]
     },
@@ -546,102 +425,93 @@
         {
           "file": "assets/js/774.94b7aafb.js",
           "hash": "c840d7733e684011",
-          "publicPath": "/assets/js/774.94b7aafb.js"
+          "publicPath": "/humanoid_robotic_book/assets/js/774.94b7aafb.js"
         },
         {
-          "file": "assets/js/1be78505.16a86052.js",
-          "hash": "df7eb28afbb10a93",
-          "publicPath": "/assets/js/1be78505.16a86052.js"
+          "file": "assets/js/1be78505.08f2fab4.js",
+          "hash": "b713766080b24984",
+          "publicPath": "/humanoid_robotic_book/assets/js/1be78505.08f2fab4.js"
         }
       ]
     },
     "782": {
       "js": [
         {
-          "file": "assets/js/88dc4359.27dac257.js",
-          "hash": "728eb05075131235",
-          "publicPath": "/assets/js/88dc4359.27dac257.js"
+          "file": "assets/js/88dc4359.6fab2d68.js",
+          "hash": "5c6a4499e7cde862",
+          "publicPath": "/humanoid_robotic_book/assets/js/88dc4359.6fab2d68.js"
         }
       ]
     },
     "792": {
       "js": [
         {
-          "file": "assets/js/main.f3e9b21a.js",
-          "hash": "5e3175deabbe29b4",
-          "publicPath": "/assets/js/main.f3e9b21a.js"
-        }
-      ]
-    },
-    "815": {
-      "js": [
-        {
-          "file": "assets/js/ba8b3534.5697a729.js",
-          "hash": "15c31be7a1b62707",
-          "publicPath": "/assets/js/ba8b3534.5697a729.js"
+          "file": "assets/js/main.9be0ec7d.js",
+          "hash": "47fbde7ba6198331",
+          "publicPath": "/humanoid_robotic_book/assets/js/main.9be0ec7d.js"
         }
       ]
     },
     "833": {
       "js": [
         {
-          "file": "assets/js/feff9f79.69909a26.js",
-          "hash": "7333300507aed31c",
-          "publicPath": "/assets/js/feff9f79.69909a26.js"
+          "file": "assets/js/feff9f79.d62b456a.js",
+          "hash": "b9b7392b13f597f0",
+          "publicPath": "/humanoid_robotic_book/assets/js/feff9f79.d62b456a.js"
         }
       ]
     },
     "869": {
       "css": [
         {
-          "file": "assets/css/styles.2ac6db31.css",
-          "hash": "97a5bda8e789fa44",
-          "publicPath": "/assets/css/styles.2ac6db31.css"
+          "file": "assets/css/styles.993f50d6.css",
+          "hash": "2b9bddf6685c0999",
+          "publicPath": "/humanoid_robotic_book/assets/css/styles.993f50d6.css"
         }
       ]
     },
-    "911": {
+    "871": {
       "js": [
         {
-          "file": "assets/js/23abe487.a36156c0.js",
-          "hash": "451bc11a18a9eed3",
-          "publicPath": "/assets/js/23abe487.a36156c0.js"
+          "file": "assets/js/5c0f28ac.08bb8a72.js",
+          "hash": "786491c74d8117d9",
+          "publicPath": "/humanoid_robotic_book/assets/js/5c0f28ac.08bb8a72.js"
         }
       ]
     },
     "932": {
       "js": [
         {
-          "file": "assets/js/91a57dfd.93e5a1c0.js",
-          "hash": "dc103b0d29c5c99d",
-          "publicPath": "/assets/js/91a57dfd.93e5a1c0.js"
+          "file": "assets/js/91a57dfd.9353e48f.js",
+          "hash": "f6e16e4b9ede6a23",
+          "publicPath": "/humanoid_robotic_book/assets/js/91a57dfd.9353e48f.js"
         }
       ]
     },
     "935": {
       "js": [
         {
-          "file": "assets/js/634295d9.215c4e6a.js",
-          "hash": "815bd758cf3156be",
-          "publicPath": "/assets/js/634295d9.215c4e6a.js"
+          "file": "assets/js/634295d9.2ff7474f.js",
+          "hash": "63e5a266da5c1826",
+          "publicPath": "/humanoid_robotic_book/assets/js/634295d9.2ff7474f.js"
         }
       ]
     },
     "976": {
       "js": [
         {
-          "file": "assets/js/0e384e19.e218de80.js",
-          "hash": "a30bca30aa0279db",
-          "publicPath": "/assets/js/0e384e19.e218de80.js"
+          "file": "assets/js/0e384e19.a6ebb9b3.js",
+          "hash": "02d644ae2d71027c",
+          "publicPath": "/humanoid_robotic_book/assets/js/0e384e19.a6ebb9b3.js"
         }
       ]
     },
     "989": {
       "js": [
         {
-          "file": "assets/js/06124ace.5c16dfe8.js",
-          "hash": "eeee9230a5ba2570",
-          "publicPath": "/assets/js/06124ace.5c16dfe8.js"
+          "file": "assets/js/06124ace.273ddf90.js",
+          "hash": "c92bc1e072def1d8",
+          "publicPath": "/humanoid_robotic_book/assets/js/06124ace.273ddf90.js"
         }
       ]
     }

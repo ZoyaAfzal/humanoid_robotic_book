@@ -6,7 +6,7 @@
   "source": "@site/docs/chapter4/index.md",
   "sourceDirName": "chapter4",
   "slug": "/chapter4/",
-  "permalink": "/docs/chapter4/",
+  "permalink": "/humanoid_robotic_book/docs/chapter4/",
   "draft": false,
   "tags": [],
   "version": "current",
@@ -17,10 +17,10 @@
   "sidebar": "mySidebar",
   "previous": {
     "title": "sensor-simulation",
-    "permalink": "/docs/chapter3/lesson3/sensor-simulation"
+    "permalink": "/humanoid_robotic_book/docs/chapter3/lesson3/sensor-simulation"
   },
   "next": {
     "title": "isaac-sim-synthetic-data",
-    "permalink": "/docs/chapter4/lesson1/isaac-sim-synthetic-data"
+    "permalink": "/humanoid_robotic_book/docs/chapter4/lesson1/isaac-sim-synthetic-data"
   }
 }

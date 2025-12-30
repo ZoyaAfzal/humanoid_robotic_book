@@ -1,0 +1,5 @@
+[console_scripts]
+extract-content = src.extraction.content_extractor:main
+generate-embeddings = src.embeddings.embedding_generator:main
+process-book = src.main:main
+store-vectors = src.storage.vector_storage:main
