@@ -24,7 +24,7 @@ app = FastAPI(
 # Add CORS middleware to allow requests from Hugging Face Spaces and other origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins
+    allow_origins=["https://zoyaafzal.github.io"],  # In production, replace with specific origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
