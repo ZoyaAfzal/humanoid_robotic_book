@@ -51,17 +51,39 @@ class ApiService {
     } catch (error) {
       console.error('API call failed:', error);
 
-      // Check if it's a network error (backend not running) or 404 (endpoint not found)
-      if (error.message.includes('404')) {
-        // Endpoint not found - this suggests the backend might be deployed differently
-        // or the Hugging Face Space is sleeping and not routing properly
-        console.warn('Query endpoint not found - using mock response');
-        return {
-          answer: "The backend service is currently unavailable. This usually happens when the Hugging Face Space is sleeping (free tier limitation). Please try accessing your Hugging Face Space directly at: https://zoya4242-rag-chatbot-deployment.hf.space to wake it up, then come back and try again!",
-          sources: [],
-          confidence: 0.9,
-          processing_time: 0.1
-        };
+      // Check if it's an HTTP error
+      if (error.message.includes('HTTP error! status:')) {
+        const status = parseInt(error.message.match(/status: (\d+)/)[1]);
+
+        if (status === 500) {
+          // Server error - likely due to CORS or backend issue
+          console.warn('Server error (500) - using mock response');
+          return {
+            answer: "The backend server encountered an error. This could be due to CORS restrictions when connecting from GitHub Pages, or the Hugging Face Space may be sleeping. Please try accessing your Hugging Face Space directly at: https://zoya4242-rag-chatbot-deployment.hf.space to wake it up, then come back and try again.",
+            sources: [],
+            confidence: 0.7,
+            processing_time: 0.1
+          };
+        } else if (status === 404) {
+          // Endpoint not found - this suggests the backend might be deployed differently
+          // or the Hugging Face Space is sleeping and not routing properly
+          console.warn('Query endpoint not found - using mock response');
+          return {
+            answer: "The backend service is currently unavailable. This usually happens when the Hugging Face Space is sleeping (free tier limitation). Please try accessing your Hugging Face Space directly at: https://zoya4242-rag-chatbot-deployment.hf.space to wake it up, then come back and try again!",
+            sources: [],
+            confidence: 0.9,
+            processing_time: 0.1
+          };
+        } else {
+          // Other HTTP errors
+          console.warn(`HTTP error ${status} - using mock response`);
+          return {
+            answer: `The backend returned an error (status: ${status}). Please check if your Hugging Face Space is running at: https://zoya4242-rag-chatbot-deployment.hf.space`,
+            sources: [],
+            confidence: 0.7,
+            processing_time: 0.1
+          };
+        }
       } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
         // Network error - backend is not accessible (probably sleeping)
         console.warn('Backend not accessible - using mock response');
@@ -73,6 +95,7 @@ class ApiService {
         };
       }
 
+      // Re-throw unexpected errors
       throw error;
     }
   }
