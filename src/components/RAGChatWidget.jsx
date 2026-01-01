@@ -139,9 +139,12 @@ const RAGChatWidget = ({ position = 'bottom-right' }) => {
         </button>
       ) : (
         <div
+          className="chat-widget-container"
           style={{
             width: '400px',
             height: '500px',
+            maxWidth: '95vw',
+            maxHeight: '80vh',
             backgroundColor: isDarkMode ? '#121212' : 'white',
             border: isDarkMode ? '1px solid #444' : '1px solid #e9ecef', // Subtle border to match theme
             borderRadius: '16px',

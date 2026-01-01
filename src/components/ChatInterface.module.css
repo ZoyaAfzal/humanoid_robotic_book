@@ -552,23 +552,664 @@
   color: #f88;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
+/* Responsive design for chat widget container */
+.chat-widget-container {
+  width: 400px;
+  height: 500px;
+}
+
+@media (max-width: 1024px) {
+  /* Tablet styles */
   .chat-interface {
-    height: 400px;
+    height: 450px;
+    width: 350px;
+  }
+
+  .chat-widget-container {
+    width: 350px;
+    height: 450px;
   }
 
   .message {
+    max-width: 85%;
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .chat-input {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .send-button {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .welcome-message p {
+    font-size: 13px;
     max-width: 90%;
   }
 
+  .welcome-description {
+    font-size: 12px;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile styles */
+  .chat-widget-container {
+    width: 300px;
+    height: 400px;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 12px;
+  }
+
+  .chat-interface {
+    height: 400px;
+    width: 300px;
+    margin: 0 auto;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 12px;
+  }
+
+  .message {
+    max-width: 88%;
+    padding: 10px 14px;
+    font-size: 12px;
+    margin: 6px 0;
+  }
+
+  .message.user {
+    max-width: 85%;
+  }
+
   .chat-header {
+    padding: 12px;
     flex-direction: column;
     gap: 8px;
     text-align: center;
   }
 
+  .chat-header h3 {
+    font-size: 14px;
+    margin: 0;
+  }
+
   .context-button {
     align-self: center;
+    font-size: 11px;
+    padding: 4px 10px;
+    margin-top: 4px;
+  }
+
+  .chat-messages {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .chat-input-form {
+    padding: 12px;
+  }
+
+  .chat-input {
+    padding: 10px 14px;
+    font-size: 12px;
+    margin-right: 8px;
+  }
+
+  .send-button {
+    padding: 8px 12px;
+    font-size: 12px;
+    margin-left: 4px;
+  }
+
+  .welcome-message {
+    padding: 12px;
+  }
+
+  .welcome-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .welcome-title {
+    font-size: 16px;
+  }
+
+  .welcome-subtitle {
+    font-size: 13px;
+    max-width: 90%;
+  }
+
+  .welcome-description {
+    font-size: 11px;
+    max-width: 90%;
+    margin-top: 6px;
+  }
+
+  .agent-avatar, .user-avatar {
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 14px;
+  }
+
+  .sources {
+    font-size: 11px;
+  }
+
+  .sources ul {
+    padding-left: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Small mobile styles */
+  .chat-widget-container {
+    width: 280px;
+    height: 350px;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+  }
+
+  .chat-interface {
+    height: 350px;
+    width: 280px;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+  }
+
+  .message {
+    max-width: 85%;
+    padding: 8px 12px;
+    font-size: 11px;
+    margin: 4px 0;
+  }
+
+  .message.user {
+    max-width: 82%;
+  }
+
+  .chat-header {
+    padding: 10px;
+  }
+
+  .chat-header h3 {
+    font-size: 13px;
+  }
+
+  .context-button {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .chat-messages {
+    padding: 10px;
+    gap: 6px;
+  }
+
+  .chat-input-form {
+    padding: 10px;
+    flex-direction: row;
+  }
+
+  .chat-input {
+    padding: 8px 12px;
+    font-size: 11px;
+    margin-right: 6px;
+  }
+
+  .send-button {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .welcome-message {
+    padding: 8px;
+  }
+
+  .welcome-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+
+  .welcome-title {
+    font-size: 15px;
+  }
+
+  .welcome-subtitle {
+    font-size: 12px;
+    max-width: 95%;
+  }
+
+  .welcome-description {
+    font-size: 10px;
+    max-width: 95%;
+    margin-top: 4px;
+  }
+
+  .agent-avatar, .user-avatar {
+    min-width: 24px;
+    min-height: 24px;
+    font-size: 12px;
+  }
+
+  .sources {
+    font-size: 10px;
+  }
+
+  .sources ul {
+    padding-left: 10px;
+  }
+
+  .typing-text {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  /* Very small mobile styles */
+  .chat-widget-container {
+    width: 260px;
+    height: 320px;
+    bottom: 10px;
+  }
+
+  .chat-interface {
+    height: 320px;
+    width: 260px;
+    bottom: 10px;
+  }
+
+  .message {
+    max-width: 82%;
+    padding: 6px 10px;
+    font-size: 10px;
+    margin: 3px 0;
+  }
+
+  .message.user {
+    max-width: 79%;
+  }
+
+  .chat-header {
+    padding: 8px;
+  }
+
+  .chat-header h3 {
+    font-size: 12px;
+  }
+
+  .context-button {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .chat-messages {
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .chat-input-form {
+    padding: 8px;
+  }
+
+  .chat-input {
+    padding: 6px 10px;
+    font-size: 10px;
+    margin-right: 4px;
+  }
+
+  .send-button {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .welcome-message {
+    padding: 6px;
+  }
+
+  .welcome-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .welcome-title {
+    font-size: 14px;
+  }
+
+  .welcome-subtitle {
+    font-size: 11px;
+    max-width: 100%;
+  }
+
+  .welcome-description {
+    font-size: 9px;
+    max-width: 100%;
+    margin-top: 2px;
+  }
+
+  .agent-avatar, .user-avatar {
+    min-width: 20px;
+    min-height: 20px;
+    font-size: 10px;
+  }
+
+  .sources {
+    font-size: 9px;
+  }
+
+  .typing-text {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile styles */
+  .chat-interface {
+    height: 400px;
+    width: 300px;
+    margin: 0 auto;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 12px;
+  }
+
+  .message {
+    max-width: 88%;
+    padding: 10px 14px;
+    font-size: 12px;
+    margin: 6px 0;
+  }
+
+  .message.user {
+    max-width: 85%;
+  }
+
+  .chat-header {
+    padding: 12px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .chat-header h3 {
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .context-button {
+    align-self: center;
+    font-size: 11px;
+    padding: 4px 10px;
+    margin-top: 4px;
+  }
+
+  .chat-messages {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .chat-input-form {
+    padding: 12px;
+  }
+
+  .chat-input {
+    padding: 10px 14px;
+    font-size: 12px;
+    margin-right: 8px;
+  }
+
+  .send-button {
+    padding: 8px 12px;
+    font-size: 12px;
+    margin-left: 4px;
+  }
+
+  .welcome-message {
+    padding: 12px;
+  }
+
+  .welcome-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .welcome-title {
+    font-size: 16px;
+  }
+
+  .welcome-subtitle {
+    font-size: 13px;
+    max-width: 90%;
+  }
+
+  .welcome-description {
+    font-size: 11px;
+    max-width: 90%;
+    margin-top: 6px;
+  }
+
+  .agent-avatar, .user-avatar {
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 14px;
+  }
+
+  .sources {
+    font-size: 11px;
+  }
+
+  .sources ul {
+    padding-left: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Small mobile styles */
+  .chat-interface {
+    height: 350px;
+    width: 280px;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+  }
+
+  .message {
+    max-width: 85%;
+    padding: 8px 12px;
+    font-size: 11px;
+    margin: 4px 0;
+  }
+
+  .message.user {
+    max-width: 82%;
+  }
+
+  .chat-header {
+    padding: 10px;
+  }
+
+  .chat-header h3 {
+    font-size: 13px;
+  }
+
+  .context-button {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .chat-messages {
+    padding: 10px;
+    gap: 6px;
+  }
+
+  .chat-input-form {
+    padding: 10px;
+    flex-direction: row;
+  }
+
+  .chat-input {
+    padding: 8px 12px;
+    font-size: 11px;
+    margin-right: 6px;
+  }
+
+  .send-button {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .welcome-message {
+    padding: 8px;
+  }
+
+  .welcome-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+
+  .welcome-title {
+    font-size: 15px;
+  }
+
+  .welcome-subtitle {
+    font-size: 12px;
+    max-width: 95%;
+  }
+
+  .welcome-description {
+    font-size: 10px;
+    max-width: 95%;
+    margin-top: 4px;
+  }
+
+  .agent-avatar, .user-avatar {
+    min-width: 24px;
+    min-height: 24px;
+    font-size: 12px;
+  }
+
+  .sources {
+    font-size: 10px;
+  }
+
+  .sources ul {
+    padding-left: 10px;
+  }
+
+  .typing-text {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  /* Very small mobile styles */
+  .chat-interface {
+    height: 320px;
+    width: 260px;
+    bottom: 10px;
+  }
+
+  .message {
+    max-width: 82%;
+    padding: 6px 10px;
+    font-size: 10px;
+    margin: 3px 0;
+  }
+
+  .message.user {
+    max-width: 79%;
+  }
+
+  .chat-header {
+    padding: 8px;
+  }
+
+  .chat-header h3 {
+    font-size: 12px;
+  }
+
+  .context-button {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .chat-messages {
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .chat-input-form {
+    padding: 8px;
+  }
+
+  .chat-input {
+    padding: 6px 10px;
+    font-size: 10px;
+    margin-right: 4px;
+  }
+
+  .send-button {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .welcome-message {
+    padding: 6px;
+  }
+
+  .welcome-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .welcome-title {
+    font-size: 14px;
+  }
+
+  .welcome-subtitle {
+    font-size: 11px;
+    max-width: 100%;
+  }
+
+  .welcome-description {
+    font-size: 9px;
+    max-width: 100%;
+    margin-top: 2px;
+  }
+
+  .agent-avatar, .user-avatar {
+    min-width: 20px;
+    min-height: 20px;
+    font-size: 10px;
+  }
+
+  .sources {
+    font-size: 9px;
+  }
+
+  .typing-text {
+    font-size: 11px;
   }
 }
