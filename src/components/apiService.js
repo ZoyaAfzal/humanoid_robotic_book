@@ -59,7 +59,7 @@ class ApiService {
           // Server error - likely due to CORS or backend issue
           console.warn('Server error (500) - using mock response');
           return {
-            answer: "The backend server encountered an error. This could be due to CORS restrictions when connecting from GitHub Pages, or the Hugging Face Space may be sleeping. Please try accessing your Hugging Face Space directly at: https://zoya4242-rag-chatbot-deployment.hf.space to wake it up, then come back and try again.",
+            answer: "The backend server encountered an error. This could be due to CORS restrictions when connecting from GitHub Pages. Your Hugging Face Space might need CORS configuration. If you have access to the backend, ensure it allows requests from GitHub Pages domains.",
             sources: [],
             confidence: 0.7,
             processing_time: 0.1
