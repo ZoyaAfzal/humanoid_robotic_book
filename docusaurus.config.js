@@ -135,5 +135,5 @@ module.exports = {
     //   // Optional: path for search page that enabled by default
     //   searchPagePath: 'search',
     // },
-  },
+  }
 };
